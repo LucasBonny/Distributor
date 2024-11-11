@@ -1,0 +1,95 @@
+package br.com.gunthercloud.project.entities;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_product")
+public class Product implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long barCode;
+	private String name;
+	private double price;
+	private int inStock;
+	private String imgUrl;
+	
+	public Product() {
+		
+	}
+
+	public Product(Long barCode, String name, double price, int inStock, String imgUrl) {
+		this.barCode = barCode;
+		this.name = name;
+		this.price = price;
+		this.inStock = inStock;
+		this.imgUrl = imgUrl;
+	}
+
+	public Long getBarCode() {
+		return barCode;
+	}
+
+	public void setBarCode(Long barCode) {
+		this.barCode = barCode;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getInStock() {
+		return inStock;
+	}
+
+	public void setInStock(int inStock) {
+		this.inStock = inStock;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(barCode);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(barCode, other.barCode);
+	}
+	
+}
