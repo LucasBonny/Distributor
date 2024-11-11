@@ -1,6 +1,7 @@
 package br.com.gunthercloud.project.entities;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import br.com.gunthercloud.project.entities.enums.PaymentMethod;
 import br.com.gunthercloud.project.entities.enums.PaymentStatus;
@@ -21,4 +22,47 @@ public class Payment {
 	private PaymentStatus paymentStatus;
 	private PaymentMethod paymentMethod;
 	
+	public Payment() {
+		
+	}
+	public Payment(Long id, Instant moment, PaymentStatus paymentStatus, PaymentMethod paymentMethod) {
+		this.id = id;
+		this.moment = moment;
+		this.paymentStatus = paymentStatus;
+		this.paymentMethod = paymentMethod;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Instant getMoment() {
+		return moment;
+	}
+	public void setMoment(Instant moment) {
+		this.moment = moment;
+	}
+	public PaymentStatus getPaymentStatus() {
+		return paymentStatus;
+	}
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Payment other = (Payment) obj;
+		return Objects.equals(id, other.id);
+	}
+		
 }
