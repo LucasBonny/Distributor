@@ -18,6 +18,16 @@ public class DeliveryGoodsPK {
 	@ManyToOne
 	@JoinColumn(name = "tb_product")
 	private Product product;
+	
+	public DeliveryGoodsPK() {
+		
+	}
+
+	public DeliveryGoodsPK(Supplier supplier, Product product) {
+		this.supplier = supplier;
+		this.product = product;
+	}
+
 
 	public Supplier getSupplier() {
 		return supplier;

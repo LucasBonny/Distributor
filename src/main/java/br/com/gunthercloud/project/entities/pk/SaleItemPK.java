@@ -19,6 +19,15 @@ public class SaleItemPK {
 	@JoinColumn(name = "sale_id")
 	private Sale sale;
 
+	public SaleItemPK() {
+		
+	}
+		
+	public SaleItemPK(Product product, Sale sale) {
+		this.product = product;
+		this.sale = sale;
+	}
+
 	public Product getProduct() {
 		return product;
 	}
