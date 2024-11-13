@@ -24,7 +24,7 @@ public class Supplier implements Serializable{
 	private Long phoneNumber;
 	
 	@OneToMany(mappedBy = "id.supplier")
-	private List<DeliveryGoods> items;
+	private List<DeliveryGoods> product;
 	
 	public Supplier(){
 		
@@ -51,6 +51,9 @@ public class Supplier implements Serializable{
 	}
 	public void setPhoneNumber(Long phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	public List<DeliveryGoods> getProduct(){
+		return product;
 	}
 	@Override
 	public int hashCode() {

@@ -1,6 +1,7 @@
 package br.com.gunthercloud.project.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +27,10 @@ public class Product implements Serializable{
 	private String imgUrl;
 
 	@OneToMany(mappedBy = "id.product")
-	private List<DeliveryGoods> items;	
+	private List<DeliveryGoods> supplier = new ArrayList<>();	
+	
+	@OneToMany(mappedBy = "id.product")
+	private List<SaleItem> sale = new ArrayList<>();
 	
 	public Product() {
 		
@@ -78,6 +82,13 @@ public class Product implements Serializable{
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public List<SaleItem> getProduct() {
+		return sale;
+	}
+	public List<DeliveryGoods> getDeliveryGoods() {
+		return supplier;
 	}
 
 	@Override
