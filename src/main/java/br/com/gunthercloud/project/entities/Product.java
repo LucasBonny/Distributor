@@ -22,7 +22,7 @@ public class Product implements Serializable{
 	private Long barCode;
 	private String name;
 	private double price;
-	private int inStock;
+	private int stock;
 	private String imgUrl;
 
 	@OneToMany(mappedBy = "id.product")
@@ -32,11 +32,11 @@ public class Product implements Serializable{
 		
 	}
 
-	public Product(Long barCode, String name, double price, int inStock, String imgUrl) {
+	public Product(Long barCode, String name, double price, int stock, String imgUrl) {
 		this.barCode = barCode;
 		this.name = name;
 		this.price = price;
-		this.inStock = inStock;
+		this.stock = stock;
 		this.imgUrl = imgUrl;
 	}
 
@@ -64,12 +64,12 @@ public class Product implements Serializable{
 		this.price = price;
 	}
 
-	public int getInStock() {
-		return inStock;
+	public int getStock() {
+		return stock;
 	}
 
-	public void setInStock(int inStock) {
-		this.inStock = inStock;
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 	public String getImgUrl() {

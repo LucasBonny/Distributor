@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +23,10 @@ public class Payment {
 	private Instant moment;
 	private PaymentStatus paymentStatus;
 	private PaymentMethod paymentMethod;
+	
+	@ManyToOne
+	@JoinColumn(name = "sale_id")
+	private Sale sale;
 	
 	public Payment() {
 		
@@ -40,6 +46,7 @@ public class Payment {
 	public Instant getMoment() {
 		return moment;
 	}
+	
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
