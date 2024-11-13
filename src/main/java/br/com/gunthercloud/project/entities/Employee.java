@@ -27,6 +27,7 @@ public class Employee implements Serializable{
 	private String name;
 	private String email;
 	private String password;
+	private Long cpf;
 	private LocalDate birthDate;
 	private Long phoneNumber;
 	
@@ -38,14 +39,29 @@ public class Employee implements Serializable{
 		
 	}
 
-	public Employee(Long id, String name, String email, String password, LocalDate birthDate) {
+	public Employee(Long id, String name, String email, String password, Long cpf, LocalDate birthDate,
+			Long phoneNumber) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.cpf = cpf;
 		this.birthDate = birthDate;
+		this.phoneNumber = phoneNumber;
 	}
+
 	
+	public Long getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
+
+	public List<Sale> getSale(){
+		return sale;
+	}
 	public Long getId() {
 		return id;
 	}
