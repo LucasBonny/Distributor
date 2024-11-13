@@ -1,12 +1,14 @@
 package br.com.gunthercloud.project.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +22,9 @@ public class Supplier implements Serializable{
 	private Long id;
 	private String address;
 	private Long phoneNumber;
+	
+	@OneToMany(mappedBy = "id.supplier")
+	private List<DeliveryGoods> items;
 	
 	public Supplier(){
 		
