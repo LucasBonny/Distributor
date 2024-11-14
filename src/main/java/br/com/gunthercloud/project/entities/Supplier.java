@@ -20,7 +20,10 @@ public class Supplier implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String name;
+	private Long cnpj;
 	private String address;
+	private int cep;
 	private Long phoneNumber;
 	
 	@OneToMany(mappedBy = "id.supplier")
@@ -29,11 +32,40 @@ public class Supplier implements Serializable{
 	public Supplier(){
 		
 	}
-	public Supplier(Long id, String address, Long phoneNumber) {
+	
+	public Supplier(Long id, String name, Long cnpj, String address, int cep, Long phoneNumber) {
 		this.id = id;
+		this.name = name;
+		this.cnpj = cnpj;
 		this.address = address;
+		this.cep = cep;
 		this.phoneNumber = phoneNumber;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(Long cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public int getCep() {
+		return cep;
+	}
+
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
+
 	public Long getId() {
 		return id;
 	}
