@@ -12,8 +12,8 @@ INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('2', '2', CU
 INSERT INTO tb_payments (payment_status, payment_method, sale_id, moment) VALUES ('1', '1', '1', CURRENT_TIMESTAMP);
 INSERT INTO tb_payments (payment_status, payment_method, sale_id, moment) VALUES ('2' ,'2', '2', CURRENT_TIMESTAMP);
 
-INSERT INTO tb_product (bar_code, name, price, img_url, stock) VALUES ('845116286','Energético Monster Energy 473ml', '11.00', 'https://raw.githubcontent.com/lucasbonny/Distributor/11465.png', '23');
-INSERT INTO tb_product (bar_code, name, price, img_url, stock) VALUES ('823124633','Coca-Cola Original 350ml', '3.50', 'https://raw.githubcontent.com/lucasbonny/Distributor/11464.png', '54');
+INSERT INTO tb_product (bar_code, name, price, img_url, stock) VALUES ('845116286','Energético Monster Energy 473ml', '11.00', 'https://raw.githubusercontent.com/LucasBonny/Distributor/e404470b56559931b6d677bf0a8956adbfb758b6/src/main/11465.png?token=A5KWRKHP7CLGN5DME5VDRA3HGXDVG', '23');
+INSERT INTO tb_product (bar_code, name, price, img_url, stock) VALUES ('823124633','Coca-Cola Original 350ml', '3.50', 'https://raw.githubusercontent.com/LucasBonny/Distributor/e404470b56559931b6d677bf0a8956adbfb758b6/src/main/11464.png?token=A5KWRKBSSXVSZNG2YUH6GP3HGXDVG', '54');
 
 INSERT INTO  tb_sale_item (price, quantity, product_id, sale_id) VALUES ('151.00','6','823124633','1');
 INSERT INTO  tb_sale_item (price, quantity, product_id, sale_id) VALUES ('842.00','4','845116286','2');
