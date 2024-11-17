@@ -12,7 +12,7 @@ import br.com.gunthercloud.project.entities.dto.PaymentDTO;
 import br.com.gunthercloud.project.services.PaymentService;
 
 @RestController
-@RequestMapping(value = "/payment")
+@RequestMapping(value = "/payments")
 public class PaymentResource {
 	
 	@Autowired

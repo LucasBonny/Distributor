@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -83,10 +85,11 @@ public class Product implements Serializable{
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
-
+	@Transactional
 	public List<SaleItem> getProduct() {
 		return sale;
 	}
+	@Transactional
 	public List<DeliveryGoods> getDeliveryGoods() {
 		return supplier;
 	}
