@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.project.entities.Product;
 import br.com.gunthercloud.project.entities.dto.ProductDTO;
 import br.com.gunthercloud.project.services.ProductService;
 
@@ -20,8 +19,8 @@ public class ProductResource {
 	private ProductService productService;
 	
 	@GetMapping
-	public List<Product> findAll(){
-		List<Product> list = productService.findAll();
+	public List<ProductDTO> findAll(){
+		List<ProductDTO> list = productService.findAll();
 		return list;
 	}
 	
