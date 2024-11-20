@@ -2,7 +2,7 @@ package br.com.gunthercloud.project.entities.dto;
 
 import br.com.gunthercloud.project.entities.Product;
 
-public class ProductDTO {
+public class ProductSupMinDTO {
 	
 	private Long barCode;
 	private String name;
@@ -10,16 +10,27 @@ public class ProductDTO {
 	private int stock;
 	private String imgUrl;
 	
-	public ProductDTO() {
+	private SupplierMinDTO supplier = new SupplierMinDTO();
+	
+	public ProductSupMinDTO() {
 		
 	}
 	
-	public ProductDTO(Product entity) {
+	public ProductSupMinDTO(Product entity) {
 		barCode = entity.getBarCode();
 		name = entity.getName();
 		price = entity.getPrice();
 		stock = entity.getStock();
 		imgUrl = entity.getImgUrl();
+	}
+
+	
+	public void setSupplier(SupplierMinDTO supplier) {
+		this.supplier = supplier;
+	}
+
+	public SupplierMinDTO getSupplier() {
+		return supplier;
 	}
 
 	public Long getBarCode() {

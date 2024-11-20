@@ -7,4 +7,6 @@ import br.com.gunthercloud.project.entities.pk.DeliveryGoodsPK;
 
 public interface DeliveryGoodsRepository extends JpaRepository<DeliveryGoods, DeliveryGoodsPK>{
 
+	//Optional<DeliveryGoods> findByIdProductId(Long productId);
+	
 }

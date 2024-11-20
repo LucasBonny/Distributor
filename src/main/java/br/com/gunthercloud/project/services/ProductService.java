@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import br.com.gunthercloud.project.entities.DeliveryGoods;
 import br.com.gunthercloud.project.entities.Product;
-import br.com.gunthercloud.project.entities.dto.ProductDTO;
+import br.com.gunthercloud.project.entities.Supplier;
+import br.com.gunthercloud.project.entities.dto.ProductSupMinDTO;
 import br.com.gunthercloud.project.entities.dto.ProductDeliveryDTO;
+import br.com.gunthercloud.project.entities.dto.ProductMinDTO;
 import br.com.gunthercloud.project.entities.dto.ProductSearchDTO;
+import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
 import br.com.gunthercloud.project.repository.DeliveryGoodsRepository;
 import br.com.gunthercloud.project.repository.ProductRepository;
 
@@ -23,13 +26,26 @@ public class ProductService {
 	@Autowired
 	private DeliveryGoodsRepository deliveryGoodsRepository;
 	
-	public List<ProductDTO> findAll(){
+	public List<ProductMinDTO> findAll(){
 		List<Product> list =  productRepository.findAll();
-		return list.stream().map(x -> new ProductDTO(x)).toList();
+		return list.stream().map(x -> new ProductMinDTO(x)).toList();
 	}
-	public ProductDTO findById(Long id) {
+	public ProductSupMinDTO findById(Long id) {
 		Product emp = productRepository.findById(id).get();
-		return new ProductDTO(emp);
+		
+		List<DeliveryGoods> del = deliveryGoodsRepository.findAll();
+		Supplier sup = new Supplier();
+		for(int i = 0; i < del.size(); i++) {
+			long supId = del.get(i).getProduct().getBarCode();
+			if(supId == id) {
+				System.out.println("Sim");
+				sup = new Supplier(del.get(i).getSupplier().getId(),del.get(i).getSupplier().getName(),del.get(i).getSupplier().getCnpj(),del.get(i).getSupplier().getAddress(),del.get(i).getSupplier().getCep(),del.get(i).getSupplier().getPhoneNumber());
+			}
+			else System.out.println(i);
+		}
+		ProductSupMinDTO dto = new ProductSupMinDTO(emp);
+		dto.setSupplier(new SupplierMinDTO(sup));
+		return dto;
 	}
 	//Busca todos os produtos da empresa 
 	public List<ProductSearchDTO> searchAll(Long id){
