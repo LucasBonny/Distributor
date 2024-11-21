@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gunthercloud.project.entities.SaleItem;
+import br.com.gunthercloud.project.entities.dto.SaleItemDTO;
 import br.com.gunthercloud.project.entities.pk.SaleItemPK;
 import br.com.gunthercloud.project.services.SaleItemService;
 
@@ -20,7 +21,7 @@ public class SaleItemResource {
 	private SaleItemService saleItemService;
 	
 	@GetMapping
-	public List<SaleItem> findAll(){
+	public List<SaleItemDTO> findAll(){
 		return saleItemService.findAll();
 	}
 	@GetMapping(value = "/{id}")

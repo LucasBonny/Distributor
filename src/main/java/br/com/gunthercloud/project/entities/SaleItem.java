@@ -69,4 +69,8 @@ public class SaleItem {
 		return Objects.equals(id, other.id);
 	}
 
+	public SaleItemPK getId() {
+		return id;
+	}
+
 }
