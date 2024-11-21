@@ -38,10 +38,13 @@ public class ProductService {
 		for(int i = 0; i < del.size(); i++) {
 			long supId = del.get(i).getProduct().getBarCode();
 			if(supId == id) {
-				System.out.println("Sim");
-				sup = new Supplier(del.get(i).getSupplier().getId(),del.get(i).getSupplier().getName(),del.get(i).getSupplier().getCnpj(),del.get(i).getSupplier().getAddress(),del.get(i).getSupplier().getCep(),del.get(i).getSupplier().getPhoneNumber());
+				sup = new Supplier(del.get(i).getSupplier().getId(),
+						del.get(i).getSupplier().getName(),
+						del.get(i).getSupplier().getCnpj(),
+						del.get(i).getSupplier().getAddress(),
+						del.get(i).getSupplier().getCep(),
+						del.get(i).getSupplier().getPhoneNumber());
 			}
-			else System.out.println(i);
 		}
 		ProductSupMinDTO dto = new ProductSupMinDTO(emp);
 		dto.setSupplier(new SupplierMinDTO(sup));

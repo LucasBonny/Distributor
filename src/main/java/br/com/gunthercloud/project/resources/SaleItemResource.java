@@ -1,0 +1,31 @@
+package br.com.gunthercloud.project.resources;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.gunthercloud.project.entities.SaleItem;
+import br.com.gunthercloud.project.entities.pk.SaleItemPK;
+import br.com.gunthercloud.project.services.SaleItemService;
+
+@RestController
+@RequestMapping(value = "/sale/item")
+public class SaleItemResource {
+	
+	@Autowired
+	private SaleItemService saleItemService;
+	
+	@GetMapping
+	public List<SaleItem> findAll(){
+		return saleItemService.findAll();
+	}
+	@GetMapping(value = "/{id}")
+	public SaleItem findById(@PathVariable SaleItemPK id) {
+		return saleItemService.findById(id);
+	}
+
+}
