@@ -91,32 +91,23 @@
     "id": 1,
     "name": "Lucas Bonifacio",
     "email": "lucasbonnyb8@gmail.com",
-    "password": "123456",
-    "cpf": 1178715745,
-    "birthDate": "2001-05-13",
     "phoneNumber": 61983333333
   },
   {
     "id": 2,
     "name": "Gabriel Souza",
     "email": "gabrielsouza@gmail.com",
-    "password": "123456",
-    "cpf": 9909909900,
-    "birthDate": "1994-08-01",
     "phoneNumber": 61940028922
   },
   {
     "id": 3,
     "name": "Nicoly Raissa",
     "email": "nicolyraissa@gmail.com",
-    "password": "123456",
-    "cpf": 45655413312,
-    "birthDate": "2006-03-17",
     "phoneNumber": 61999999999
   }
 ]
 ```
-- /product/{id} - Trás todos os dados do funcionário especificado pelo id.
+- /employee/{id} - Trás todos os dados do funcionário especificado pelo id.
 
 ```JSON
 {
@@ -128,4 +119,33 @@
   "birthDate": "2001-05-13",
   "phoneNumber": 61983333333
 }
+```
+
+### SaleItem Done
+
+- /sale/item - Trás todos os produtos registrados em algum pedido.
+
+```JSON
+[
+  {
+    "product": 823124633,
+    "sale": 1,
+    "quantity": 6,
+    "price": 151
+  },
+  {
+    "product": 845116286,
+    "sale": 2,
+    "quantity": 4,
+    "price": 842
+  }
+]
+```
+
+### Sale Done
+
+- /sale/{id} - Trás todas as informações da venda.
+
+```JSON
+
 ```

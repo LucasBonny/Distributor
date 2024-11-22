@@ -1,14 +1,12 @@
 package br.com.gunthercloud.project.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.gunthercloud.project.entities.SaleItem;
 import br.com.gunthercloud.project.entities.dto.SaleItemDTO;
-import br.com.gunthercloud.project.entities.pk.SaleItemPK;
 import br.com.gunthercloud.project.repository.SaleItemRepository;
 
 @Service
@@ -27,9 +25,15 @@ public class SaleItemService {
 		}
 		return emp.stream().map(x -> new SaleItemDTO(x)).toList();
 	}
-	public SaleItem findById(SaleItemPK id) {
-		Optional<SaleItem> emp = saleItemRepository.findById(id);
-		return emp.get();
+	public List<SaleItem> findBySale(Long id) {
+		List<SaleItem> list = saleItemRepository.findAll();
+//		List<SaleItem> emp = new ArrayList<>();
+//		for(int i = 0; i < list.size(); i++) {
+//			if(id.equals(list.get(i).getSale().getId())) {
+//				emp.add(list.get(i));
+//			}
+//		}
+		return list;
 	}
 	public List<SaleItem> searchById(Long id) {
 		return saleItemRepository.findAll();

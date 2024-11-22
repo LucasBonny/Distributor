@@ -1,7 +1,6 @@
 package br.com.gunthercloud.project.entities.dto;
 
 import br.com.gunthercloud.project.entities.SaleItem;
-import br.com.gunthercloud.project.entities.pk.SaleItemPK;
 
 public class SaleItemDTO {
 	
@@ -32,7 +31,5 @@ public class SaleItemDTO {
 	public double getPrice() {
 		return price;
 	}
-	
-	
 
 }

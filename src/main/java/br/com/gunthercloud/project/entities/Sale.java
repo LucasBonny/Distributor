@@ -31,6 +31,7 @@ public class Sale {
 	@OneToMany(mappedBy = "sale")
 	private List<Payment> payment;
 	
+	
 	public Sale() {
 		
 	}

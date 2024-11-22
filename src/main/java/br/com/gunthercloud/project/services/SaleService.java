@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.gunthercloud.project.entities.Sale;
+import br.com.gunthercloud.project.entities.dto.SaleMinDTO;
 import br.com.gunthercloud.project.repository.SaleRepository;
 
 @Service
@@ -15,15 +16,12 @@ public class SaleService {
 	@Autowired
 	private SaleRepository saleRepository;
 	
-	public List<Sale> findAll(){
+	public List<SaleMinDTO> findAll(){
 		List<Sale> emp = saleRepository.findAll();
-		return emp;
+		return emp.stream().map(x -> new SaleMinDTO(x)).toList();
 	}
 	public Sale findById(Long id) {
 		Optional<Sale> emp = saleRepository.findById(id);
 		return emp.get();
-	}
-	public List<Sale> searchById(Long id) {
-		return saleRepository.findAll();
 	}
 }

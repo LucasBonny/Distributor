@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gunthercloud.project.entities.SaleItem;
 import br.com.gunthercloud.project.entities.dto.SaleItemDTO;
-import br.com.gunthercloud.project.entities.pk.SaleItemPK;
 import br.com.gunthercloud.project.services.SaleItemService;
 
 @RestController
@@ -25,8 +24,8 @@ public class SaleItemResource {
 		return saleItemService.findAll();
 	}
 	@GetMapping(value = "/{id}")
-	public SaleItem findById(@PathVariable SaleItemPK id) {
-		return saleItemService.findById(id);
+	public List<SaleItem> findBySale(@PathVariable Long id) {
+		return saleItemService.findBySale(id);
 	}
 
 }

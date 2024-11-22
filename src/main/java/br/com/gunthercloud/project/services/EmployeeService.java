@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.gunthercloud.project.entities.Employee;
 import br.com.gunthercloud.project.entities.dto.EmployeeDTO;
+import br.com.gunthercloud.project.entities.dto.EmployeeMinDTO;
 import br.com.gunthercloud.project.repository.EmployeeRepository;
 
 @Service
@@ -15,9 +16,9 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	public List<EmployeeDTO> findAll(){
+	public List<EmployeeMinDTO> findAll(){
 		List<Employee> emp = employeeRepository.findAll();
-		return emp.stream().map(x -> new EmployeeDTO(x)).toList();
+		return emp.stream().map(x -> new EmployeeMinDTO(x)).toList();
 	}
 	public EmployeeDTO findById(Long id) {
 		Employee emp = employeeRepository.findById(id).get();

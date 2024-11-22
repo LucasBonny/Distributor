@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gunthercloud.project.entities.Sale;
 import br.com.gunthercloud.project.entities.dto.EmployeeDTO;
+import br.com.gunthercloud.project.entities.dto.EmployeeMinDTO;
 import br.com.gunthercloud.project.services.EmployeeService;
 import br.com.gunthercloud.project.services.SaleService;
 
@@ -24,7 +25,7 @@ public class EmployeeResource {
 	private SaleService saleService;
 	
 	@GetMapping
-	public List<EmployeeDTO> findAll(){
+	public List<EmployeeMinDTO> findAll(){
 		return employeeService.findAll();
 	}
 	@GetMapping(value = "/{id}")
