@@ -1,5 +1,6 @@
 package br.com.gunthercloud.project.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,16 @@ public class SaleItemService {
 		}
 		return emp.stream().map(x -> new SaleItemDTO(x)).toList();
 	}
-	public List<SaleItem> findBySale(Long id) {
+	public List<SaleItemDTO> findBySale(Long id) {
 		List<SaleItem> list = saleItemRepository.findAll();
-//		List<SaleItem> emp = new ArrayList<>();
-//		for(int i = 0; i < list.size(); i++) {
-//			if(id.equals(list.get(i).getSale().getId())) {
-//				emp.add(list.get(i));
-//			}
-//		}
-		return list;
+		List<SaleItem> emp = new ArrayList<>();
+		for(int i = 0; i < list.size(); i++) {
+			long subId = list.get(i).getSale().getId();
+			if(id == subId) {
+				emp.add(list.get(i));
+			}
+		}
+		return emp.stream().map(x -> new SaleItemDTO(x)).toList();
 	}
 	public List<SaleItem> searchById(Long id) {
 		return saleItemRepository.findAll();

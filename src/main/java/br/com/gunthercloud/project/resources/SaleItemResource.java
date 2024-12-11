@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.project.entities.SaleItem;
 import br.com.gunthercloud.project.entities.dto.SaleItemDTO;
 import br.com.gunthercloud.project.services.SaleItemService;
 
@@ -24,7 +23,7 @@ public class SaleItemResource {
 		return saleItemService.findAll();
 	}
 	@GetMapping(value = "/{id}")
-	public List<SaleItem> findBySale(@PathVariable Long id) {
+	public List<SaleItemDTO> findBySale(@PathVariable Long id) {
 		return saleItemService.findBySale(id);
 	}
 

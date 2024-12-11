@@ -3,7 +3,7 @@
 ## Routes GET
 
 ### Supplier Done
-- /supplier/ - Trás todas as empresas registradas com informações parciais.
+- /supplier - Trás todas as empresas registradas com informações parciais.
 ```JSON
 [
     {
@@ -79,6 +79,31 @@
   }
 }
 ```
+### Sale Done
+- /sale - Trás todos as vendas registradas no sistema com dados parciais.
+
+```JSON
+[
+  {
+    "id": 1,
+    "saleMoment": "2024-12-11T08:38:36.089468Z",
+    "saleStatus": "WAITING"
+  },
+  {
+    "id": 2,
+    "saleMoment": "2024-12-11T08:38:36.091468Z",
+    "saleStatus": "CANCELED"
+  }
+]
+```
+- /sale/{id} - Trás todos os detalhes da venda registradas no sistema especificado pelo id.
+
+```JSON
+{
+  "Ainda não disponível": "Em breve"
+}
+```
+
 ### Employee Done
 - /employee - Trás todos os funcionários registrados no sistema.
 
@@ -117,10 +142,21 @@
   "phoneNumber": 61983333333
 }
 ```
+- /employee/{id}/sale - Trás todas as vendas abertas pelo funcionário especificado pelo id.
+
+```JSON
+{
+    "id": 2,
+    "saleMoment": "2024-12-11T09:11:37.491606Z",
+    "saleStatus": "CANCELED"
+}
+```
+
+
 
 ### SaleItem Done
 
-- /sale/item - Trás todos os produtos registrados em algum pedido.
+- /sale/item - Trás todos os produtos registrados nas vendas.
 
 ```JSON
 [
@@ -139,12 +175,15 @@
 ]
 ```
 
-### Sale Done
-
-- /sale/{id} - Trás todas as informações da venda.
+- /sale/item/{id} - Trás todos os produtos registrados em alguma venda especifíca.
 
 ```JSON
-
+    {
+        "product": 845116286,
+        "sale": 2,
+        "quantity": 4,
+        "price": 842.0
+    }
 ```
 
 ## Routes POST
@@ -162,3 +201,10 @@
     "phoneNumber": 6134037500
 }
 ```
+
+## Adicionar/Alterar
+
+- Colocar a posição na lista de SaleItem.
+- Fazer o sale/id.
+- Corrigir a inserção no banco de dados via POST.
+- Corrigir o /employee/{id}/sale - está sem id do funcionário.

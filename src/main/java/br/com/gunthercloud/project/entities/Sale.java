@@ -90,6 +90,12 @@ public class Sale {
 		Sale other = (Sale) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	@Override
+	public String toString() {
+		return "Sale [id=" + id + ", saleMoment=" + saleMoment + ", saleStatus=" + saleStatus + ", employee=" + employee
+				+ ", payment=" + payment + "]";
+	}
 	
 	
 }

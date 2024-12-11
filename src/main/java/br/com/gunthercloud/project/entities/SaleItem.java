@@ -73,4 +73,11 @@ public class SaleItem {
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return "SaleItem [id=" + id + ", quantity=" + quantity + ", price=" + price + "]";
+	}
+	
+	
+
 }

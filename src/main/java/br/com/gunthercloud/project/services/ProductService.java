@@ -52,13 +52,11 @@ public class ProductService {
 	}
 	//Busca todos os produtos da empresa 
 	public List<ProductSearchDTO> searchAll(Long id){
-		System.out.println("ID: " + id);
 		List<DeliveryGoods> search = deliveryGoodsRepository.findAll();
 		List<Product> list = new ArrayList<>();
 		for(DeliveryGoods e : search) {
 			long subId = e.getSupplier().getCnpj();
 			if(subId == id) {
-				System.out.println("OK");
 				list.add(e.getProduct());
 			}
 		}
@@ -72,7 +70,7 @@ public class ProductService {
 		List<DeliveryGoods> supplier = new ArrayList<>();
 		
 		for(DeliveryGoods e : list) {
-			if(id == e.getSupplier().getCnpj()) {
+			if(id == (long) e.getSupplier().getCnpj()) {
 				supplier.add(e);
 			}
 		}
