@@ -13,7 +13,6 @@ import br.com.gunthercloud.project.entities.dto.ProductDeliveryDTO;
 import br.com.gunthercloud.project.entities.dto.ProductMinDTO;
 import br.com.gunthercloud.project.entities.dto.ProductSearchDTO;
 import br.com.gunthercloud.project.entities.dto.ProductSupMinDTO;
-import br.com.gunthercloud.project.entities.dto.SupplierDTO;
 import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
 import br.com.gunthercloud.project.repository.DeliveryGoodsRepository;
 import br.com.gunthercloud.project.repository.ProductRepository;
@@ -40,8 +39,8 @@ public class ProductService {
 			long supId = del.get(i).getProduct().getBarCode();
 			if(supId == id) {
 				sup = new Supplier(
-						del.get(i).getSupplier().getName(),
 						del.get(i).getSupplier().getCnpj(),
+						del.get(i).getSupplier().getName(),
 						del.get(i).getSupplier().getAddress(),
 						del.get(i).getSupplier().getCep(),
 						del.get(i).getSupplier().getPhoneNumber());
@@ -53,10 +52,13 @@ public class ProductService {
 	}
 	//Busca todos os produtos da empresa 
 	public List<ProductSearchDTO> searchAll(Long id){
+		System.out.println("ID: " + id);
 		List<DeliveryGoods> search = deliveryGoodsRepository.findAll();
 		List<Product> list = new ArrayList<>();
 		for(DeliveryGoods e : search) {
-			if(e.getSupplier().getCnpj() == id) {
+			long subId = e.getSupplier().getCnpj();
+			if(subId == id) {
+				System.out.println("OK");
 				list.add(e.getProduct());
 			}
 		}

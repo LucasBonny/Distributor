@@ -29,9 +29,9 @@ public class Supplier implements Serializable{
 		
 	}
 	
-	public Supplier(String name, Long cnpj, String address, int cep, Long phoneNumber) {
-		this.name = name;
+	public Supplier(Long cnpj, String name, String address, int cep, Long phoneNumber) {
 		this.cnpj = cnpj;
+		this.name = name;
 		this.address = address;
 		this.cep = cep;
 		this.phoneNumber = phoneNumber;
