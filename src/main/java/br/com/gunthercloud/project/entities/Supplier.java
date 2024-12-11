@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -18,10 +16,8 @@ public class Supplier implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
 	private Long cnpj;
+	private String name;
 	private String address;
 	private int cep;
 	private Long phoneNumber;
@@ -33,8 +29,7 @@ public class Supplier implements Serializable{
 		
 	}
 	
-	public Supplier(Long id, String name, Long cnpj, String address, int cep, Long phoneNumber) {
-		this.id = id;
+	public Supplier(String name, Long cnpj, String address, int cep, Long phoneNumber) {
 		this.name = name;
 		this.cnpj = cnpj;
 		this.address = address;
@@ -66,12 +61,6 @@ public class Supplier implements Serializable{
 		this.cep = cep;
 	}
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getAddress() {
 		return address;
 	}
@@ -87,10 +76,12 @@ public class Supplier implements Serializable{
 	public List<DeliveryGoods> getProduct(){
 		return product;
 	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(cnpj);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -100,9 +91,13 @@ public class Supplier implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Supplier other = (Supplier) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(cnpj, other.cnpj);
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Supplier [cnpj=" + cnpj + ", name=" + name + ", address=" + address + ", cep=" + cep + ", phoneNumber="
+				+ phoneNumber + ", product=" + product + "]";
+	}
 
 }

@@ -24,4 +24,8 @@ public class SupplierService {
 		Supplier emp = supplierRepository.findById(id).get();
 		return new SupplierDTO(emp);
 	}
+	//POST
+	public Supplier createSupplier(Supplier supplier) {
+		return supplierRepository.save(supplier);
+	}
 }

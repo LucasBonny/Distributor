@@ -38,16 +38,16 @@ INSERT INTO TB_PRODUCT (price, stock, bar_code, img_url, name) VALUES (10.0, 22,
 INSERT INTO  tb_sale_item (price, quantity, product_id, sale_id) VALUES ('151.00','6','823124633','1');
 INSERT INTO  tb_sale_item (price, quantity, product_id, sale_id) VALUES ('842.00','4','845116286','2');
 
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('200.00', '23', CURRENT_TIMESTAMP, '845116286', '1');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('320.00', '54', CURRENT_TIMESTAMP, '823124633', '1');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('480.00', '18', CURRENT_TIMESTAMP, '675123490', '2');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('120.00', '45', CURRENT_TIMESTAMP, '734567890', '2');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('700.00', '25', CURRENT_TIMESTAMP, '735612098', '2');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('70.00', '30', CURRENT_TIMESTAMP, '812345678', '3');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('60.00', '60', CURRENT_TIMESTAMP, '812678345', '4');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('90.00', '15', CURRENT_TIMESTAMP, '874562314', '4');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('170.00', '22', CURRENT_TIMESTAMP, '945612347', '5');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('80.00', '20', CURRENT_TIMESTAMP, '945678123', '5');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('280.00', '32', CURRENT_TIMESTAMP, '956341278', '5');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('230.00', '40', CURRENT_TIMESTAMP, '982341245', '5');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('200.00', '23', CURRENT_TIMESTAMP, '845116286', '45997418001710');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('320.00', '54', CURRENT_TIMESTAMP, '823124633', '45997418001710');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('480.00', '18', CURRENT_TIMESTAMP, '675123490', '7526557000100');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('120.00', '45', CURRENT_TIMESTAMP, '734567890', '7526557000100');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('700.00', '25', CURRENT_TIMESTAMP, '735612098', '7526557000100');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('70.00', '30', CURRENT_TIMESTAMP, '812345678', '9248114000120');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('60.00', '60', CURRENT_TIMESTAMP, '812678345', '12345678000199');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('90.00', '15', CURRENT_TIMESTAMP, '874562314', '12345678000199');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('170.00', '22', CURRENT_TIMESTAMP, '945612347', '98765432000188');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('80.00', '20', CURRENT_TIMESTAMP, '945678123', '98765432000188');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('280.00', '32', CURRENT_TIMESTAMP, '956341278', '98765432000188');
+INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('230.00', '40', CURRENT_TIMESTAMP, '982341245', '98765432000188');
 

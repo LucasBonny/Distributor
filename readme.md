@@ -1,18 +1,16 @@
 # Distributor Project
 
-## Routes
+## Routes GET
 
 ### Supplier Done
 - /supplier/ - Trás todas as empresas registradas com informações parciais.
 ```JSON
 [
     {
-        "id": 1,
         "name": "Coca-Cola",
         "cnpj": 45997418001710
     },
     {
-        "id": 2,
         "name": "Ambev S.A.",
         "cnpj": 7526557000100
     }
@@ -21,7 +19,6 @@
 - /supplier/{id} - Trás todos os dados de uma empresa especificada.
 ```JSON
 {
-    "id": 1,
     "name": "Coca-Cola",
     "cnpj": 45997418001710,
     "address": "St. de Habitações Individuais Sul QL 14 - Lago Sul, Brasília - DF",
@@ -148,4 +145,20 @@
 
 ```JSON
 
+```
+
+## Routes POST
+
+### Sale Done
+
+- /supplier/create - Cria uma nova empresa passando os parâmetros.
+
+```JSON
+{
+    "name": "Bunge Alimentos",
+    "cnpj": 84046101037194,
+    "address": "Setor de Industria e Abastecimento - Trecho 05 - Lote 01 Setor Industrial, Sia",
+    "cep": 71205050,
+    "phoneNumber": 6134037500
+}
 ```

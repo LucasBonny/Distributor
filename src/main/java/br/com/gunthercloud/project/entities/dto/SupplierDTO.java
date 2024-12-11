@@ -4,9 +4,8 @@ import br.com.gunthercloud.project.entities.Supplier;
 
 public class SupplierDTO {
 	
-	private Long id;
-	private String name;
 	private Long cnpj;
+	private String name;
 	private String address;
 	private int cep;
 	private Long phoneNumber;
@@ -15,15 +14,11 @@ public class SupplierDTO {
 		
 	}
 	public SupplierDTO(Supplier entity) {
-		id = entity.getId();
-		name = entity.getName();
 		cnpj = entity.getCnpj();
+		name = entity.getName();
 		address = entity.getAddress();
 		cep = entity.getCep();
 		phoneNumber = entity.getPhoneNumber();
-	}
-	public Long getId() {
-		return id;
 	}
 	public String getAddress() {
 		return address;

@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 import br.com.gunthercloud.project.entities.DeliveryGoods;
 import br.com.gunthercloud.project.entities.Product;
 import br.com.gunthercloud.project.entities.Supplier;
-import br.com.gunthercloud.project.entities.dto.ProductSupMinDTO;
 import br.com.gunthercloud.project.entities.dto.ProductDeliveryDTO;
 import br.com.gunthercloud.project.entities.dto.ProductMinDTO;
 import br.com.gunthercloud.project.entities.dto.ProductSearchDTO;
+import br.com.gunthercloud.project.entities.dto.ProductSupMinDTO;
+import br.com.gunthercloud.project.entities.dto.SupplierDTO;
 import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
 import br.com.gunthercloud.project.repository.DeliveryGoodsRepository;
 import br.com.gunthercloud.project.repository.ProductRepository;
@@ -38,7 +39,7 @@ public class ProductService {
 		for(int i = 0; i < del.size(); i++) {
 			long supId = del.get(i).getProduct().getBarCode();
 			if(supId == id) {
-				sup = new Supplier(del.get(i).getSupplier().getId(),
+				sup = new Supplier(
 						del.get(i).getSupplier().getName(),
 						del.get(i).getSupplier().getCnpj(),
 						del.get(i).getSupplier().getAddress(),
@@ -55,7 +56,7 @@ public class ProductService {
 		List<DeliveryGoods> search = deliveryGoodsRepository.findAll();
 		List<Product> list = new ArrayList<>();
 		for(DeliveryGoods e : search) {
-			if(e.getSupplier().getId() == id) {
+			if(e.getSupplier().getCnpj() == id) {
 				list.add(e.getProduct());
 			}
 		}
@@ -69,11 +70,10 @@ public class ProductService {
 		List<DeliveryGoods> supplier = new ArrayList<>();
 		
 		for(DeliveryGoods e : list) {
-			if(id == e.getSupplier().getId()) {
+			if(id == e.getSupplier().getCnpj()) {
 				supplier.add(e);
 			}
 		}
  		return supplier.stream().map(x -> new ProductDeliveryDTO(x)).toList();
 	}
-	
 }
