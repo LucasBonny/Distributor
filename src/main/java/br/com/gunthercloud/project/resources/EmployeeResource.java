@@ -3,6 +3,7 @@ package br.com.gunthercloud.project.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import br.com.gunthercloud.project.services.SaleService;
 
 @RestController
 @RequestMapping(value = "/employee")
+@CrossOrigin
 public class EmployeeResource {
 	
 	@Autowired
@@ -36,5 +38,4 @@ public class EmployeeResource {
 	public SaleDTO findByEmployee(@PathVariable Long id) {
 		return saleService.findById(id);
 	}
-
 }

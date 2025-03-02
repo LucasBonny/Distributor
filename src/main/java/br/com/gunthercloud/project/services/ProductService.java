@@ -2,6 +2,7 @@ package br.com.gunthercloud.project.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,14 @@ public class ProductService {
 		for(int i = 0; i < del.size(); i++) {
 			long supId = del.get(i).getProduct().getBarCode();
 			if(supId == id) {
-				sup = new Supplier(
-						del.get(i).getSupplier().getCnpj(),
-						del.get(i).getSupplier().getName(),
-						del.get(i).getSupplier().getAddress(),
-						del.get(i).getSupplier().getCep(),
-						del.get(i).getSupplier().getPhoneNumber());
+				var sup1 = del.get(i).getSupplier();
+				sup1 = new Supplier(
+						sup1.getId(),
+						sup1.getCnpj(),
+						sup1.getName(),
+						sup1.getAddress(),
+						sup1.getCep(),
+						sup1.getPhoneNumber());
 			}
 		}
 		ProductSupMinDTO dto = new ProductSupMinDTO(emp);
@@ -51,12 +54,12 @@ public class ProductService {
 		return dto;
 	}
 	//Busca todos os produtos da empresa 
-	public List<ProductSearchDTO> searchAll(Long id){
+	public List<ProductSearchDTO> findAllProductsBySupplierId(UUID id){
 		List<DeliveryGoods> search = deliveryGoodsRepository.findAll();
 		List<Product> list = new ArrayList<>();
 		for(DeliveryGoods e : search) {
-			long subId = e.getSupplier().getCnpj();
-			if(subId == id) {
+			UUID subId = e.getSupplier().getId();
+			if(subId.equals(id)) {
 				list.add(e.getProduct());
 			}
 		}
@@ -64,13 +67,13 @@ public class ProductService {
 	}
 	
 	//Buscar todas as entregas da empresa específicada - OK
-	public List<ProductDeliveryDTO> deliveryAll(Long id){
+	public List<ProductDeliveryDTO> findDeliveriesBySupplierId(UUID id){
 		
 		List<DeliveryGoods> list = deliveryGoodsRepository.findAll();
 		List<DeliveryGoods> supplier = new ArrayList<>();
 		
 		for(DeliveryGoods e : list) {
-			if(id == (long) e.getSupplier().getCnpj()) {
+			if(e.getSupplier().getId().equals(id)) {
 				supplier.add(e);
 			}
 		}

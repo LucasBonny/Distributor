@@ -1,31 +1,71 @@
 package br.com.gunthercloud.project.services;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import br.com.gunthercloud.project.entities.Supplier;
 import br.com.gunthercloud.project.entities.dto.SupplierDTO;
 import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
 import br.com.gunthercloud.project.repository.SupplierRepository;
+import br.com.gunthercloud.project.services.exceptions.DatabaseExecption;
+import br.com.gunthercloud.project.services.exceptions.NotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
-public class SupplierService {
+public class SupplierService implements ServiceModel<SupplierDTO, SupplierMinDTO> {
 	
 	@Autowired
-	private SupplierRepository supplierRepository;
+	private SupplierRepository repository;
 	
-	public List<SupplierMinDTO> findAll(){
-		List<Supplier> emp = supplierRepository.findAll();
-		return emp.stream().map(x -> new SupplierMinDTO(x)).toList();
+	@Transactional
+	public Page<SupplierMinDTO> findAllPaged(Pageable pageable){
+		Page<Supplier> emp = repository.findAll(pageable);
+		return emp.map(x -> new SupplierMinDTO(x));
 	}
-	public SupplierDTO findById(Long id) {
-		Supplier emp = supplierRepository.findById(id).get();
-		return new SupplierDTO(emp);
+	
+	@Transactional
+	public SupplierDTO findById(UUID id) {
+		Optional<Supplier> emp = repository.findById(id);
+		if(emp.isEmpty())
+			throw new NotFoundException("O id " + id + " não existe.");
+		return new SupplierDTO(emp.get());
 	}
-	//POST
-	public Supplier createSupplier(Supplier supplier) {
-		return supplierRepository.save(supplier);
+
+	@Transactional
+	public SupplierDTO create(SupplierDTO obj) {
+		Supplier entity = new Supplier(obj);
+		entity = repository.save(entity);
+		return new SupplierDTO(entity);
+	}
+	
+	@Transactional
+	public SupplierDTO update(UUID id, SupplierDTO obj) {
+		Supplier entity = repository.getReferenceById(id);
+		if(entity == null)
+			throw new NotFoundException("O id " + id + " não existe.");
+		entity = new Supplier(obj);
+		entity.setId(id);
+		return new SupplierDTO(repository.save(entity));
+	}
+
+	@Transactional
+	public void delete(UUID id) {
+		try {
+			if(repository.getReferenceById(id) == null)
+				throw new NotFoundException("O id " + id + " não existe.");
+			repository.deleteById(id);			
+		}
+		catch(MethodArgumentTypeMismatchException e) {
+			throw new DatabaseExecption("Essa empresa tem produtos vinculados a ela.");
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 }

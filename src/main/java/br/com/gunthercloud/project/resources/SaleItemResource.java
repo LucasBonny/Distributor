@@ -3,6 +3,7 @@ package br.com.gunthercloud.project.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import br.com.gunthercloud.project.services.SaleItemService;
 
 @RestController
 @RequestMapping(value = "/sale/item")
+@CrossOrigin
 public class SaleItemResource {
 	
 	@Autowired
