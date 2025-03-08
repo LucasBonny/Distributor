@@ -3,33 +3,48 @@ package br.com.gunthercloud.project.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_employee")
-public class Employee implements Serializable{
-	
+public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+
+	@Column(nullable = false, unique = false)
 	private String email;
+	
+	@Column(nullable = false)
 	private String password;
+	
+	@Column(nullable = false, unique = false)
 	private Long cpf;
 	private LocalDate birthDate;
 	private Long phoneNumber;
+	
+	@ManyToMany
+	@JoinTable(name = "tb_employee_role", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "employee")
@@ -91,6 +106,22 @@ public class Employee implements Serializable{
 	}
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void addRole(Role role) {
+		roles.add(role);
+	}
+	
+	public boolean hasRole(String role) {
+		for(Role r : roles) {
+			if(role.equals(r.getAuthority())){
+				return true;
+			};
+		}
+		return false;
 	}
 	@Override
 	public int hashCode() {
