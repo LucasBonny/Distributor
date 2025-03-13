@@ -27,7 +27,7 @@ import br.com.gunthercloud.project.services.SupplierService;
 @RestController
 @RequestMapping(value = "/supplier")
 @CrossOrigin
-public class SupplierResource implements ResourceModel<SupplierDTO, SupplierMinDTO> {
+public class SupplierResource implements ResourceModel<SupplierDTO, SupplierMinDTO, UUID> {
 
 	@Autowired
 	private SupplierService service;

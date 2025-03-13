@@ -2,16 +2,16 @@ INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
 INSERT INTO tb_role (authority) VALUES ('ROLE_SELLER');
 
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Lucas Bonifacio','lucasbonnyb8@gmail.com','$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '01178715745','2001-05-13','61983333333');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Gabriel Souza','gabrielsouza@gmail.com','$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '09909909900','1994-08-01','61940028922');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Nicoly Raissa','nicolyraissa@gmail.com','$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '45655413312','2006-03-17','61999999999');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Mariana Silva', 'marianasilva@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '32165498700', '1990-12-22', '61985554433');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('João Pedro', 'joaopedro@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '78965412322', '1985-07-10', '61991112233');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Ana Paula', 'anapaula@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '65498732111', '1998-04-05', '61982223344');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Roberto Lima', 'robertolima@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '99887766555', '1979-11-18', '61993334455');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Camila Costa', 'camilacosta@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '22334455677', '1995-02-25', '61984445566');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Fernando Oliveira', 'fernandooliveira@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '55667788990', '1987-09-30', '61985556677');
-INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number) VALUES ('Bianca Rocha', 'biancarocha@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '11223344556', '2003-06-08', '61986667788');
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Lucas Bonifacio','lucasbonnyb8@gmail.com','$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '01178715745','2001-05-13','61983333333', 0);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Gabriel Souza','gabrielsouza@gmail.com','$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '09909909900','1994-08-01','61940028922', 2);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Nicoly Raissa','nicolyraissa@gmail.com','$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '45655413312','2006-03-17','61999999999', 1);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Mariana Silva', 'marianasilva@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '32165498700', '1990-12-22', '61985554433', 3);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('João Pedro', 'joaopedro@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '78965412322', '1985-07-10', '61991112233', 0);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Ana Paula', 'anapaula@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '65498732111', '1998-04-05', '61982223344', 0);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Roberto Lima', 'robertolima@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '99887766555', '1979-11-18', '61993334455', 0);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Camila Costa', 'camilacosta@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '22334455677', '1995-02-25', '61984445566', 2);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Fernando Oliveira', 'fernandooliveira@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '55667788990', '1987-09-30', '61985556677', 1);
+INSERT INTO tb_employee (name, email, password, cpf, birth_date, phone_number, status) VALUES ('Bianca Rocha', 'biancarocha@gmail.com', '$2a$10$fIIy2bG74RvnvSlHQ3HTYea0HSglL6aT.foYjitRC/EGafZQr.gNy', '11223344556', '2003-06-08', '61986667788', 0);
 
 INSERT INTO tb_employee_role (employee_id, role_id) VALUES (1, 1);
 INSERT INTO tb_employee_role (employee_id, role_id) VALUES (1, 2);

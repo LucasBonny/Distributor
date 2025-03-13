@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import br.com.gunthercloud.project.entities.Supplier;
@@ -15,21 +16,20 @@ import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
 import br.com.gunthercloud.project.repository.SupplierRepository;
 import br.com.gunthercloud.project.services.exceptions.DatabaseExecption;
 import br.com.gunthercloud.project.services.exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
-public class SupplierService implements ServiceModel<SupplierDTO, SupplierMinDTO> {
+public class SupplierService implements ServiceModel<SupplierDTO, SupplierMinDTO, UUID> {
 	
 	@Autowired
 	private SupplierRepository repository;
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Page<SupplierMinDTO> findAllPaged(Pageable pageable){
 		Page<Supplier> emp = repository.findAll(pageable);
 		return emp.map(x -> new SupplierMinDTO(x));
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public SupplierDTO findById(UUID id) {
 		Optional<Supplier> emp = repository.findById(id);
 		if(emp.isEmpty())

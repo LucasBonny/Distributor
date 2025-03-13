@@ -3,6 +3,8 @@ package br.com.gunthercloud.project.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.gunthercloud.project.entities.Sale;
@@ -24,11 +26,11 @@ public class SaleService {
 		return new SaleDTO(saleRepository.findById(id).get());
 	}
 	//Trás todas as vendas abertas pelo funcionário especificado pelo id.
-	public List<SaleDTO> findByEmployee(Long id) {
-		List<Sale> list = saleRepository.findAll();
+	public Page<SaleDTO> findSalesByEmployee(Long id, Pageable pageable) {
+		Page<Sale> list = saleRepository.findByEmployeeId(id, pageable);
 		for (Sale e : list) {
 			System.out.println(e);
 		}
-		return list.stream().map(x -> new SaleDTO(x)).toList();
+		return list.map(SaleDTO::new);
 	}
 }

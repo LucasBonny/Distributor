@@ -3,41 +3,25 @@ package br.com.gunthercloud.project.entities.dto;
 import java.time.LocalDate;
 
 import br.com.gunthercloud.project.entities.Employee;
+import br.com.gunthercloud.project.entities.enums.EmployeeStatus;
 
-public class EmployeeDTO {
+public class EmployeeDTO extends EmployeeMinDTO {
 	
-	private Long id;
-	private String name;
-	private String email;
 	private String password;
 	private Long cpf;
 	private LocalDate birthDate;
-	private Long phoneNumber;
+	private EmployeeStatus status;
 	
 	public EmployeeDTO() {
 		
 	}
 
 	public EmployeeDTO(Employee entity) {
-		id = entity.getId();
-		name = entity.getName();
-		email = entity.getEmail();
+		super(entity);
 		password = entity.getPassword();
 		cpf = entity.getCpf();
 		birthDate = entity.getBirthDate();
-		phoneNumber = entity.getPhoneNumber();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getEmail() {
-		return email;
+		status = entity.getStatus();
 	}
 
 	public String getPassword() {
@@ -52,9 +36,8 @@ public class EmployeeDTO {
 		return birthDate;
 	}
 
-	public Long getPhoneNumber() {
-		return phoneNumber;
+	public EmployeeStatus getStatus() {
+		return status;
 	}
-	
 
 }

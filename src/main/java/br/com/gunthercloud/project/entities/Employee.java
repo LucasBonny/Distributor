@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.beans.BeanUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.gunthercloud.project.entities.dto.EmployeeDTO;
+import br.com.gunthercloud.project.entities.enums.EmployeeStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,18 +33,27 @@ public class Employee implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false, unique = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable = false, unique = false)
+	@Column(nullable = false, unique = true)
 	private Long cpf;
+	
+	@Column(nullable = false)
 	private LocalDate birthDate;
+	
+	@Column(nullable = false)
 	private Long phoneNumber;
+	
+	@Column(nullable = false)
+	private EmployeeStatus status;
 	
 	@ManyToMany
 	@JoinTable(name = "tb_employee_role", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -53,19 +66,11 @@ public class Employee implements Serializable {
 	public Employee() {
 		
 	}
-
-	public Employee(Long id, String name, String email, String password, Long cpf, LocalDate birthDate,
-			Long phoneNumber) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.cpf = cpf;
-		this.birthDate = birthDate;
-		this.phoneNumber = phoneNumber;
+	
+	public Employee(EmployeeDTO obj) {
+		BeanUtils.copyProperties(obj, this);
 	}
 
-	
 	public Long getCpf() {
 		return cpf;
 	}
@@ -107,6 +112,15 @@ public class Employee implements Serializable {
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public EmployeeStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EmployeeStatus status) {
+		this.status = status;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}

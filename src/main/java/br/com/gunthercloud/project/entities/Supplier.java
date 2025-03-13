@@ -24,11 +24,15 @@ public class Supplier implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private Long cnpj;
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private String address;
+	@Column(nullable = false)
 	private int cep;
+	@Column(nullable = false)
 	private Long phoneNumber;
 	
 	@OneToMany(mappedBy = "id.supplier")

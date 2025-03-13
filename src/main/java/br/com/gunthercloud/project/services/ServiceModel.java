@@ -1,14 +1,12 @@
 package br.com.gunthercloud.project.services;
 
-import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ServiceModel<T, R> {
-	Page<R> findAllPaged(Pageable pageable);
-	T findById(UUID uuid);
-	T create(T obj);
-	T update(UUID id, T obj);
-	void delete(UUID id);
+public interface ServiceModel<DTO, MinDTO, ID> {
+	Page<MinDTO> findAllPaged(Pageable pageable);
+	DTO findById(ID uuid);
+	DTO create(DTO obj);
+	DTO update(ID id, DTO obj);
+	void delete(ID id);
 }
