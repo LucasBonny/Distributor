@@ -1,6 +1,5 @@
 package br.com.gunthercloud.project.resources;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +16,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.project.entities.dto.ProductDeliveryDTO;
-import br.com.gunthercloud.project.entities.dto.ProductSearchDTO;
 import br.com.gunthercloud.project.entities.dto.SupplierDTO;
 import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
-import br.com.gunthercloud.project.services.ProductService;
 import br.com.gunthercloud.project.services.SupplierService;
 
 @RestController
-@RequestMapping(value = "/supplier")
+@RequestMapping(value = "/suppliers")
 @CrossOrigin
 public class SupplierResource implements ResourceModel<SupplierDTO, SupplierMinDTO, UUID> {
 
 	@Autowired
 	private SupplierService service;
 
-	@Autowired
-	private ProductService productService;
+//	@Autowired
+//	private ProductService productService;
 
 	@GetMapping
 	public ResponseEntity<Page<SupplierMinDTO>> findAllPaged(Pageable pageable) {
@@ -61,15 +57,15 @@ public class SupplierResource implements ResourceModel<SupplierDTO, SupplierMinD
 		return ResponseEntity.noContent().build();
 	}
 	
-	// Buscar todos os produtos entregues pela empresa
-	@GetMapping(value = "/{id}/products")
-	public List<ProductSearchDTO> findAllProductsBySupplierId(@PathVariable UUID id) {
-		return productService.findAllProductsBySupplierId(id);
-	}
-
-	// Buscar todas as entregas feita pela empresa tal
-	@GetMapping(value = "/{id}/deliveries")
-	public List<ProductDeliveryDTO> findDeliveriesBySupplierId(@PathVariable UUID id) {
-		return productService.findDeliveriesBySupplierId(id);
-	}
+//	// Buscar todos os produtos entregues pela empresa
+//	@GetMapping(value = "/{id}/products")
+//	public List<ProductSearchDTO> findAllProductsBySupplierId(@PathVariable UUID id) {
+//		return productService.findAllProductsBySupplierId(id);
+//	}
+//
+//	// Buscar todas as entregas feita pela empresa tal
+//	@GetMapping(value = "/{id}/deliveries")
+//	public List<ProductDeliveryDTO> findDeliveriesBySupplierId(@PathVariable UUID id) {
+//		return productService.findDeliveriesBySupplierId(id);
+//	}
 }

@@ -14,7 +14,7 @@ import br.com.gunthercloud.project.entities.dto.SaleMinDTO;
 import br.com.gunthercloud.project.services.SaleService;
 
 @RestController
-@RequestMapping(value = "/sale")
+@RequestMapping(value = "/sales")
 @CrossOrigin
 public class SaleResource {
 	

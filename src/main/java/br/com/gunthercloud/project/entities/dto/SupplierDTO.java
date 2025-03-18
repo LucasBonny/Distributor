@@ -9,7 +9,7 @@ public class SupplierDTO extends SupplierMinDTO {
 	private Long phoneNumber;
 	
 	public SupplierDTO() {
-		
+		super();
 	}
 	
 	public SupplierDTO(Supplier entity) {

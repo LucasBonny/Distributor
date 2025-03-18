@@ -1,82 +1,77 @@
 package br.com.gunthercloud.project.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import br.com.gunthercloud.project.entities.DeliveryGoods;
 import br.com.gunthercloud.project.entities.Product;
-import br.com.gunthercloud.project.entities.Supplier;
-import br.com.gunthercloud.project.entities.dto.ProductDeliveryDTO;
+import br.com.gunthercloud.project.entities.dto.ProductDTO;
 import br.com.gunthercloud.project.entities.dto.ProductMinDTO;
-import br.com.gunthercloud.project.entities.dto.ProductSearchDTO;
-import br.com.gunthercloud.project.entities.dto.ProductSupMinDTO;
-import br.com.gunthercloud.project.entities.dto.SupplierMinDTO;
-import br.com.gunthercloud.project.repository.DeliveryGoodsRepository;
 import br.com.gunthercloud.project.repository.ProductRepository;
+import br.com.gunthercloud.project.services.exceptions.DatabaseException;
+import br.com.gunthercloud.project.services.exceptions.NotFoundException;
 
 @Service
-public class ProductService {
+@Transactional
+public class ProductService implements ServiceModel<ProductDTO, ProductMinDTO, Long>{
 
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductRepository repository;
 	
-	@Autowired
-	private DeliveryGoodsRepository deliveryGoodsRepository;
-	
-	public List<ProductMinDTO> findAll(){
-		List<Product> list =  productRepository.findAll();
-		return list.stream().map(x -> new ProductMinDTO(x)).toList();
-	}
-	public ProductSupMinDTO findById(Long id) {
-		Product emp = productRepository.findById(id).get();
-		
-		List<DeliveryGoods> del = deliveryGoodsRepository.findAll();
-		Supplier sup = new Supplier();
-		for(int i = 0; i < del.size(); i++) {
-			long supId = del.get(i).getProduct().getBarCode();
-			if(supId == id) {
-				var sup1 = del.get(i).getSupplier();
-				sup1 = new Supplier(
-						sup1.getId(),
-						sup1.getCnpj(),
-						sup1.getName(),
-						sup1.getAddress(),
-						sup1.getCep(),
-						sup1.getPhoneNumber());
-			}
-		}
-		ProductSupMinDTO dto = new ProductSupMinDTO(emp);
-		dto.setSupplier(new SupplierMinDTO(sup));
-		return dto;
-	}
-	//Busca todos os produtos da empresa 
-	public List<ProductSearchDTO> findAllProductsBySupplierId(UUID id){
-		List<DeliveryGoods> search = deliveryGoodsRepository.findAll();
-		List<Product> list = new ArrayList<>();
-		for(DeliveryGoods e : search) {
-			UUID subId = e.getSupplier().getId();
-			if(subId.equals(id)) {
-				list.add(e.getProduct());
-			}
-		}
- 		return list.stream().map(x -> new ProductSearchDTO(x)).toList();
+	@Override
+	@Transactional(readOnly = true)
+	public Page<ProductMinDTO> findAllPaged(Pageable pageable){
+		Page<Product> list =  repository.findAll(pageable);
+		return list.map(x -> new ProductMinDTO(x));
 	}
 	
-	//Buscar todas as entregas da empresa específicada - OK
-	public List<ProductDeliveryDTO> findDeliveriesBySupplierId(UUID id){
-		
-		List<DeliveryGoods> list = deliveryGoodsRepository.findAll();
-		List<DeliveryGoods> supplier = new ArrayList<>();
-		
-		for(DeliveryGoods e : list) {
-			if(e.getSupplier().getId().equals(id)) {
-				supplier.add(e);
-			}
-		}
- 		return supplier.stream().map(x -> new ProductDeliveryDTO(x)).toList();
+	@Override
+	@Transactional(readOnly = true)
+	public ProductDTO findById(Long id) {
+		Product entity = repository.findById(id).orElseThrow(() -> 
+			new NotFoundException("O id " + id + " não existe!"));
+		return new ProductDTO(entity);
 	}
+
+	@Override
+	public ProductDTO create(ProductDTO obj) {
+		Product entity = new Product(obj);
+		entity.setId(null);
+		entity = repository.save(entity);
+		return new ProductDTO(entity);
+	}
+
+	@Override
+	public ProductDTO update(Long id, ProductDTO obj) {
+		repository.findById(id).orElseThrow(() -> 
+			new NotFoundException("O id " + id +  " não existe!"));
+		Product entity = new Product(obj);
+		entity.setId(id);
+		entity = repository.save(entity);
+		return new ProductDTO(entity);
+	}
+
+
+	@Override
+	public void delete(Long id) {
+		try {
+			Product entity = repository.findById(id).orElseThrow(() -> 
+				new NotFoundException("O id " + id + " não existe!"));
+			repository.delete(entity);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		
+	}
+	
+	//Busca todos os produtos da empresa X
+//	public List<ProductDTO> findAllProductsBySupplierId(UUID id){
+//		//busca todos os produtos entregue
+//		
+//	}
+	
 }

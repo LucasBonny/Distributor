@@ -2,9 +2,15 @@ package br.com.gunthercloud.project.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
+import org.springframework.beans.BeanUtils;
+
+import br.com.gunthercloud.project.entities.dto.ProductDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,19 +21,29 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_product")
 public class Product implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable = false, unique = true)
 	private Long barCode;
+	
+	@Column(nullable = false)
 	private String name;
+	
+	@Column(nullable = false)
 	private double price;
+	
+	@Column(nullable = false)
 	private int stock;
+	
+	@Column(nullable = false)
 	private String imgUrl;
 
-	@OneToMany(mappedBy = "id.product")
-	private List<DeliveryGoods> supplier = new ArrayList<>();	
+	@OneToMany(mappedBy = "id")
+	private Set<Delivery> delivery = new HashSet<>();	
 	
 	@OneToMany(mappedBy = "id.product")
 	private List<SaleItem> sale = new ArrayList<>();
@@ -36,12 +52,25 @@ public class Product implements Serializable {
 		
 	}
 
-	public Product(Long barCode, String name, double price, int stock, String imgUrl) {
+	public Product(Long id, Long barCode, String name, double price, int stock, String imgUrl) {
+		this.id = id;
 		this.barCode = barCode;
 		this.name = name;
 		this.price = price;
 		this.stock = stock;
 		this.imgUrl = imgUrl;
+	}
+	
+	public Product(ProductDTO obj) {
+		BeanUtils.copyProperties(obj, this);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Long getBarCode() {
@@ -72,8 +101,11 @@ public class Product implements Serializable {
 		return stock;
 	}
 
-	public void setStock(int stock) {
-		this.stock = stock;
+	public void increaseStock(int stock) {
+		this.stock += stock;
+	}
+	public void decreaseStock(int stock) {
+		this.stock -= stock;
 	}
 
 	public String getImgUrl() {
@@ -83,16 +115,18 @@ public class Product implements Serializable {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
-	public List<SaleItem> getProduct() {
-		return sale;
+
+	public Set<Delivery> getDelivery() {
+		return delivery;
 	}
-	public List<DeliveryGoods> getDeliveryGoods() {
-		return supplier;
+
+	public List<SaleItem> getSale() {
+		return sale;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(barCode);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -104,7 +138,7 @@ public class Product implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		return Objects.equals(barCode, other.barCode);
+		return Objects.equals(id, other.id);
 	}
-	
+
 }

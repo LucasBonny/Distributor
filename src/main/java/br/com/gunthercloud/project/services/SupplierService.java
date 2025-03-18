@@ -1,6 +1,5 @@
 package br.com.gunthercloud.project.services;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,25 +30,24 @@ public class SupplierService implements ServiceModel<SupplierDTO, SupplierMinDTO
 	
 	@Transactional(readOnly = true)
 	public SupplierDTO findById(UUID id) {
-		Optional<Supplier> emp = repository.findById(id);
-		if(emp.isEmpty())
-			throw new NotFoundException("O id " + id + " não existe.");
-		return new SupplierDTO(emp.get());
+		Supplier entity = repository.findById(id).orElseThrow(() -> 
+			new NotFoundException("O id " + id + " não existe."));
+		return new SupplierDTO(entity);
 	}
 
 	@Transactional
 	public SupplierDTO create(SupplierDTO obj) {
 		Supplier entity = new Supplier(obj);
+		entity.setId(null);
 		entity = repository.save(entity);
 		return new SupplierDTO(entity);
 	}
 	
 	@Transactional
 	public SupplierDTO update(UUID id, SupplierDTO obj) {
-		Supplier entity = repository.getReferenceById(id);
-		if(entity == null)
-			throw new NotFoundException("O id " + id + " não existe.");
-		entity = new Supplier(obj);
+		repository.findById(id).orElseThrow(() -> 
+			new NotFoundException("O id " + id + " não existe."));
+		Supplier entity = new Supplier(obj);
 		entity.setId(id);
 		return new SupplierDTO(repository.save(entity));
 	}
@@ -57,8 +55,8 @@ public class SupplierService implements ServiceModel<SupplierDTO, SupplierMinDTO
 	@Transactional
 	public void delete(UUID id) {
 		try {
-			if(repository.getReferenceById(id) == null)
-				throw new NotFoundException("O id " + id + " não existe.");
+			repository.findById(id).orElseThrow(() -> 
+				new NotFoundException("O id " + id + " não existe."));
 			repository.deleteById(id);			
 		}
 		catch(MethodArgumentTypeMismatchException e) {

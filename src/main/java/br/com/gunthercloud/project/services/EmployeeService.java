@@ -17,6 +17,7 @@ import br.com.gunthercloud.project.services.exceptions.DatabaseException;
 import br.com.gunthercloud.project.services.exceptions.NotFoundException;
 
 @Service
+@Transactional
 public class EmployeeService implements ServiceModel<EmployeeDTO, EmployeeMinDTO, Long>{
 	
 	@Autowired
@@ -41,9 +42,9 @@ public class EmployeeService implements ServiceModel<EmployeeDTO, EmployeeMinDTO
 	}
 	
 	@Override
-	@Transactional
 	public EmployeeDTO create(EmployeeDTO obj) {
 		Employee entity = new Employee(obj);
+		entity.setId(null);
 		entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 		entity.setStatus(EmployeeStatus.ATIVO);
 		entity = repository.save(entity);
@@ -51,7 +52,6 @@ public class EmployeeService implements ServiceModel<EmployeeDTO, EmployeeMinDTO
 	}
 	
 	@Override
-	@Transactional
 	public EmployeeDTO update(Long id, EmployeeDTO obj) {
 		Employee entity = new Employee(obj);
 		entity.setId(id);
@@ -62,7 +62,6 @@ public class EmployeeService implements ServiceModel<EmployeeDTO, EmployeeMinDTO
 	}
 	
 	@Override
-	@Transactional
 	public void delete(Long id) {
 		try {			
 			Employee entity = repository.findById(id).orElseThrow(() -> 

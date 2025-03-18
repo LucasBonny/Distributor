@@ -1,8 +1,8 @@
 package br.com.gunthercloud.project.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -35,8 +35,8 @@ public class Supplier implements Serializable {
 	@Column(nullable = false)
 	private Long phoneNumber;
 	
-	@OneToMany(mappedBy = "id.supplier")
-	private List<DeliveryGoods> product;
+	@OneToMany
+	private Set<Delivery> deliveries;
 	
 	public Supplier(){
 		
@@ -103,8 +103,8 @@ public class Supplier implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public List<DeliveryGoods> getProduct() {
-		return product;
+	public Set<Delivery> getDelivery() {
+		return deliveries;
 	}
 
 	@Override
