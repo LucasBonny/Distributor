@@ -1,5 +1,6 @@
 package br.com.gunthercloud.project.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,20 +8,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 
 import br.com.gunthercloud.project.entities.dto.ProductDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_product")
 public class Product implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -42,12 +38,11 @@ public class Product implements Serializable {
 	@Column(nullable = false)
 	private String imgUrl;
 
-	@OneToMany(mappedBy = "id")
+	@ManyToMany
+	@JoinTable(name = "tb_product_delivery", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns =
+	@JoinColumn(name = "delivery_id"))
 	private Set<Delivery> delivery = new HashSet<>();	
-	
-	@OneToMany(mappedBy = "id.product")
-	private List<SaleItem> sale = new ArrayList<>();
-	
+
 	public Product() {
 		
 	}
@@ -118,10 +113,6 @@ public class Product implements Serializable {
 
 	public Set<Delivery> getDelivery() {
 		return delivery;
-	}
-
-	public List<SaleItem> getSale() {
-		return sale;
 	}
 
 	@Override

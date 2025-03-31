@@ -1,24 +1,19 @@
 package br.com.gunthercloud.project.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 
 import br.com.gunthercloud.project.entities.dto.DeliveryDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_delivery")
 public class Delivery implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -26,11 +21,12 @@ public class Delivery implements Serializable {
 	private Long id;
 	private Instant dateTimeDelivery;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
-	
-	@ManyToMany
-	private List<Product> products;
+
+	@ManyToMany(mappedBy = "delivery")
+	private List<Product> products = new ArrayList<>();
 	
 	
 	public Delivery() {
@@ -45,6 +41,14 @@ public class Delivery implements Serializable {
 
 	public Delivery (DeliveryDTO object) {
 		BeanUtils.copyProperties(object, this);
+	}
+
+	public double total() {
+		double total = 0.0;
+		for(Product e : products) {
+			total += e.getPrice() * e.getStock();
+		}
+		return total;
 	}
 	
 	public Long getId() {

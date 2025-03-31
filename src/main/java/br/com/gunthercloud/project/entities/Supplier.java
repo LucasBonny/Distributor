@@ -1,6 +1,8 @@
 package br.com.gunthercloud.project.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +21,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_supplier")
 public class Supplier implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -35,8 +38,8 @@ public class Supplier implements Serializable {
 	@Column(nullable = false)
 	private Long phoneNumber;
 	
-	@OneToMany
-	private Set<Delivery> deliveries;
+	@OneToMany(mappedBy = "supplier")
+	private Set<Delivery> deliveries = new HashSet<>();
 	
 	public Supplier(){
 		
