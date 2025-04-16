@@ -1,0 +1,109 @@
+aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 260px;
+    background: #11101d;
+}
+aside .logoDetails {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+aside .logoDetails .logoIcon {
+    font-size: 30px;
+    color: #fff;
+    height: 30px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+}
+aside .logoDetails .logoName {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 600;
+}
+aside ul li .link {
+    display: flex;
+    color: #fff;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.7rem 1rem 0.7rem 2rem;
+}
+aside > ul {
+    height: 100%;
+    padding-top: 30px;
+}
+aside > ul li {
+    position: relative;
+    transition: all 0.4s ease;
+}
+aside > ul li:hover {
+    background-color: #1d1b31;
+}
+aside > ul li span {
+    font-size: 18px;
+    font-weight: 400;
+}
+.linkAbout {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 0 1rem;
+    justify-content: space-between;
+}
+.subMenu {
+    padding: 6px 6px 14px 80px;
+    margin-top: -10px;
+    background-color: #1d1b31;
+    transition: 1s;
+    /* display: none; */
+}
+.subMenu li {
+    color: #fff;
+    font-size: 15px;
+    padding: 5px 0;
+    white-space: nowrap;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+.subMenu li:hover {
+    opacity: 1;
+}
+aside.close li .subMenu {
+    position: absolute;
+    left: 100%;
+    top: -10px;
+    margin-top: 0;
+    padding: 10px 20px;
+    border-radius: 0 6px 6px 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+aside.close li:hover .subMenu {
+    top: 0;
+    opacity: 1;
+    pointer-events: auto;
+    
+}
+aside .subMenu .linkName {
+    display: none;
+}
+aside.close .subMenu .linkName {
+    font-size: 18px;
+    opacity: 1;
+    display: block;
+}
+
+aside.close {
+    width: 90px;
+}
+aside.close .linkAbout  {
+    display: none;
+}
+aside.close .logoName  {
+    display: none;
+}
