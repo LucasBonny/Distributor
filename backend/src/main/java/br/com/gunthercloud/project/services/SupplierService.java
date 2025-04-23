@@ -17,15 +17,15 @@ import br.com.gunthercloud.project.services.exceptions.DatabaseExecption;
 import br.com.gunthercloud.project.services.exceptions.NotFoundException;
 
 @Service
-public class SupplierService implements ServiceModel<SupplierDTO, SupplierMinDTO, UUID> {
+public class SupplierService {
 	
 	@Autowired
 	private SupplierRepository repository;
 	
 	@Transactional(readOnly = true)
-	public Page<SupplierMinDTO> findAllPaged(Pageable pageable){
+	public Page<SupplierDTO> findAllPaged(Pageable pageable){
 		Page<Supplier> emp = repository.findAll(pageable);
-		return emp.map(x -> new SupplierMinDTO(x));
+		return emp.map(SupplierDTO::new);
 	}
 	
 	@Transactional(readOnly = true)

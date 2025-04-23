@@ -1,10 +1,12 @@
 package br.com.gunthercloud.project.resources;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +25,7 @@ import br.com.gunthercloud.project.services.SupplierService;
 @RestController
 @RequestMapping(value = "/suppliers")
 @CrossOrigin
-public class SupplierResource implements ResourceModel<SupplierDTO, SupplierMinDTO, UUID> {
+public class SupplierResource {
 
 	@Autowired
 	private SupplierService service;
@@ -32,7 +34,7 @@ public class SupplierResource implements ResourceModel<SupplierDTO, SupplierMinD
 //	private ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<Page<SupplierMinDTO>> findAllPaged(Pageable pageable) {
+	public ResponseEntity<Page<SupplierDTO>> findAllPaged(@PageableDefault(size = 100) Pageable pageable) {
 		return ResponseEntity.ok().body(service.findAllPaged(pageable));
 	}
 

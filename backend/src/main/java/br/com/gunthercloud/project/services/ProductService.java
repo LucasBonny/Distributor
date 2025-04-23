@@ -16,27 +16,24 @@ import br.com.gunthercloud.project.services.exceptions.NotFoundException;
 
 @Service
 @Transactional
-public class ProductService implements ServiceModel<ProductDTO, ProductMinDTO, Long>{
+public class ProductService {
 
 	@Autowired
 	private ProductRepository repository;
-	
-	@Override
+
 	@Transactional(readOnly = true)
-	public Page<ProductMinDTO> findAllPaged(Pageable pageable){
+	public Page<ProductDTO> findAllPaged(Pageable pageable){
 		Page<Product> list =  repository.findAll(pageable);
-		return list.map(x -> new ProductMinDTO(x));
+		return list.map(ProductDTO::new);
 	}
 	
-	@Override
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
 		Product entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe!"));
 		return new ProductDTO(entity);
 	}
-
-	@Override
+	
 	public ProductDTO create(ProductDTO obj) {
 		Product entity = new Product(obj);
 		entity.setId(null);
@@ -44,7 +41,6 @@ public class ProductService implements ServiceModel<ProductDTO, ProductMinDTO, L
 		return new ProductDTO(entity);
 	}
 
-	@Override
 	public ProductDTO update(Long id, ProductDTO obj) {
 		repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id +  " não existe!"));
@@ -55,7 +51,6 @@ public class ProductService implements ServiceModel<ProductDTO, ProductMinDTO, L
 	}
 
 
-	@Override
 	public void delete(Long id) {
 		try {
 			Product entity = repository.findById(id).orElseThrow(() -> 
