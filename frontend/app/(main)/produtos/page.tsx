@@ -266,15 +266,7 @@ const Produto = () => {
         );
     };
 
-    const header = (
-        <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Gerenciar Produtos</h5>
-            <span className="block mt-2 md:mt-0 p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Buscar..." />
-            </span>
-        </div>
-    );
+  
 
     const produtoDialogFooter = (
         <>
@@ -314,10 +306,7 @@ const Produto = () => {
                         className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} produtos"
-                        globalFilter={globalFilter}
-                        emptyMessage="No produtos found."
-                        header={header}
-                        responsiveLayout="scroll"
+                       
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
                         <Column header="Produto" body={imgUrlBodyTemplate}></Column>
