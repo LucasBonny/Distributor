@@ -27,7 +27,6 @@ INSERT INTO tb_employee_role (employee_id, role_id) VALUES (8, 2);
 INSERT INTO tb_employee_role (employee_id, role_id) VALUES (9, 3);
 INSERT INTO tb_employee_role (employee_id, role_id) VALUES (10, 3);
 
-
 INSERT INTO tb_supplier (id, cep, cnpj, phone_number, address, name) VALUES ('550e8400-e29b-41d4-a716-446655440001', '71640085', '45997418001710', '61984481420', 'St. de Habitações Individuais Sul QL 14 - Lago Sul, Brasília - DF', 'Coca-Cola');
 INSERT INTO tb_supplier (id, cep, cnpj, phone_number, address, name) VALUES ('550e8400-e29b-41d4-a716-446655440002', '72444220', '7526557000100', '61998493891', 'Área Especial de Indústria 2 Ambev - Gama, Brasília - DF', 'Ambev S.A.');
 INSERT INTO tb_supplier (id, cep, cnpj, phone_number, address, name) VALUES ('550e8400-e29b-41d4-a716-446655440003', '38402324', '9248114000120', '3432283800', 'Av. José Andraus Gassani, 2795 - Distrito Industrial, Uberlândia - MG', 'Paratudo Bebidas');
@@ -37,9 +36,17 @@ INSERT INTO tb_supplier (id, cep, cnpj, phone_number, address, name) VALUES ('d2
 
 INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('1', '1', CURRENT_TIMESTAMP);
 INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('2', '2', CURRENT_TIMESTAMP);
+INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('1', '3', CURRENT_TIMESTAMP);
+INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('2', '4', CURRENT_TIMESTAMP);
+INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('1', '5', CURRENT_TIMESTAMP);
+INSERT INTO tb_sale (sale_status, employee_id, sale_moment) VALUES ('2', '6', CURRENT_TIMESTAMP);
 
 INSERT INTO tb_payment (payment_status, payment_method, sale_id, moment) VALUES ('1', '1', '1', CURRENT_TIMESTAMP);
 INSERT INTO tb_payment (payment_status, payment_method, sale_id, moment) VALUES ('2' ,'2', '2', CURRENT_TIMESTAMP);
+INSERT INTO tb_payment (payment_status, payment_method, sale_id, moment) VALUES ('1', '1', '3', CURRENT_TIMESTAMP);
+INSERT INTO tb_payment (payment_status, payment_method, sale_id, moment) VALUES ('2', '2', '4', CURRENT_TIMESTAMP);
+INSERT INTO tb_payment (payment_status, payment_method, sale_id, moment) VALUES ('1', '1', '5', CURRENT_TIMESTAMP);
+INSERT INTO tb_payment (payment_status, payment_method, sale_id, moment) VALUES ('2', '2', '6', CURRENT_TIMESTAMP);
 
 INSERT INTO TB_PRODUCT (bar_code, name, price, img_url, stock) VALUES ('845116286','Energético Monster Energy 473ml', '11.00', 'https://drogariasp.vteximg.com.br/arquivos/ids/435164-1000-1000/641693---energetico-monster-energy-473ml-spal.jpg?v=637496168469870000', '23');
 INSERT INTO TB_PRODUCT (bar_code, name, price, img_url, stock) VALUES ('823124633','Coca-Cola Original 350ml', '3.50', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRafBq8vt45nEcDZK3WBXpWw_2GC6qn9XmvhQ&s', '54');
@@ -54,18 +61,24 @@ INSERT INTO TB_PRODUCT (price, stock, bar_code, img_url, name) VALUES (14.0, 18,
 INSERT INTO TB_PRODUCT (price, stock, bar_code, img_url, name) VALUES (3.0, 60, '812678345', 'https://imgs.search.brave.com/rpSpSkoKtYV4j9C5pfmafNzQ93Pbjnyg2h7CuGqlaQE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/MzFKb0N1Skx3dkwu/anBn', 'Água Mineral com Gás 500ml');
 INSERT INTO TB_PRODUCT (price, stock, bar_code, img_url, name) VALUES (10.0, 22, '945612347', 'https://imgs.search.brave.com/Ve04XVruGlxi4ID81jGSaHFCi74tArQrscEP-nrJMAs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aW1pZ3JhbnRlc2Jl/YmlkYXMuY29tLmJy/L2ltZy9iZWJpZGEv/aW1hZ2VzL3Byb2R1/Y3RzL2Z1bGwvMjIz/LWNlcnZlamEtaGVp/bmVrZW4tNjAwbWwt/bmFvLXJldG9ybmF2/ZWwuMjAyNTAzMjAx/MDU4NDcuanBnP3A9/cHJvZHVjdF9yZWd1/bGFyJnM9ODY0MTU2/ZWFjY2IwYjg2YTVj/ZmE0ZGFmOWFiMDA3/ZGI', 'Cerveja Heineken Long Neck 330ml');
 
-INSERT INTO  tb_sale_item (price, quantity, product_id, sale_id) VALUES ('151.00','6','823124633','1');
-INSERT INTO  tb_sale_item (price, quantity, product_id, sale_id) VALUES ('842.00','4','845116286','2');
+INSERT INTO tb_sale_item (price, quantity, product_id, sale_id) VALUES ('151.00','6','1','1');
+INSERT INTO tb_sale_item (price, quantity, product_id, sale_id) VALUES ('842.00','4','2','2');
+INSERT INTO tb_sale_item (price, quantity, product_id, sale_id) VALUES ('120.00', '3', '3', '3');
+INSERT INTO tb_sale_item (price, quantity, product_id, sale_id) VALUES ('95.00', '2', '4', '4');
+INSERT INTO tb_sale_item (price, quantity, product_id, sale_id) VALUES ('200.00', '1', '5', '5');
+INSERT INTO tb_sale_item (price, quantity, product_id, sale_id) VALUES ('75.00', '5', '6', '6');
 
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('200.00', '23', CURRENT_TIMESTAMP, '845116286', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('320.00', '54', CURRENT_TIMESTAMP, '823124633', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('480.00', '18', CURRENT_TIMESTAMP, '675123490', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('120.00', '45', CURRENT_TIMESTAMP, '734567890', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('700.00', '25', CURRENT_TIMESTAMP, '735612098', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('70.00', '30', CURRENT_TIMESTAMP, '812345678', '550e8400-e29b-41d4-a716-446655440003');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('60.00', '60', CURRENT_TIMESTAMP, '812678345', '550e8400-e29b-41d4-a716-446655440004');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('90.00', '15', CURRENT_TIMESTAMP, '874562314', '550e8400-e29b-41d4-a716-446655440004');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('170.00', '22', CURRENT_TIMESTAMP, '945612347', '550e8400-e29b-41d4-a716-446655440005');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('80.00', '20', CURRENT_TIMESTAMP, '945678123', '550e8400-e29b-41d4-a716-446655440005');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('280.00', '32', CURRENT_TIMESTAMP, '956341278', '550e8400-e29b-41d4-a716-446655440005');
-INSERT INTO tb_supplier_product (price, quantity, date_delivery, tb_product, tb_supplier) VALUES ('230.00', '40', CURRENT_TIMESTAMP, '982341245', '550e8400-e29b-41d4-a716-446655440005');
+INSERT INTO tb_delivery (id, date_time_delivery, supplier_id) VALUES (1,'2025-05-06 14:30:00','550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO tb_delivery (id, date_time_delivery, supplier_id) VALUES (2,'2025-05-06 14:30:00','550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO tb_delivery (id, date_time_delivery, supplier_id) VALUES (3,'2025-05-06 14:30:00','550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO tb_delivery (id, date_time_delivery, supplier_id) VALUES (4, '2024-01-01 10:00:00', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO tb_delivery (id, date_time_delivery, supplier_id) VALUES (5, '2024-01-01 10:00:00', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO tb_delivery (id, date_time_delivery, supplier_id) VALUES (6, '2024-01-01 10:00:00', '550e8400-e29b-41d4-a716-446655440004');
+
+INSERT INTO tb_product_delivery (delivery_id, product_id) VALUES ('1','1');
+INSERT INTO tb_product_delivery (delivery_id, product_id) VALUES ('1','4');
+INSERT INTO tb_product_delivery (delivery_id, product_id) VALUES ('2','2');
+INSERT INTO tb_product_delivery (delivery_id, product_id) VALUES ('3','3');
+INSERT INTO tb_product_delivery (delivery_id, product_id) VALUES ('4', '5');
+INSERT INTO tb_product_delivery (delivery_id, product_id) VALUES ('5', '6');
+
