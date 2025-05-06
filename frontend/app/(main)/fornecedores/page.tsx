@@ -40,7 +40,7 @@ const Fornecedor = () => {
             fornecedorService.listarTodos()
                 .then((response) => {
                     setShouldReloadResources(false); 
-                    setFornecedores(response.data.content);
+                    setFornecedores(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -55,7 +55,7 @@ const Fornecedor = () => {
         if (shouldReloadResources || fornecedores.length === 0) {
             loadData();
         }
-    }, [fornecedorService, shouldReloadResources, fornecedores.length]);
+    }, [fornecedorService, fornecedores.length, shouldReloadResources]);
 
     const openNew = () => {
         setFornecedor(fornecedorVazio);
@@ -177,7 +177,7 @@ const Fornecedor = () => {
                 toast.current?.show({
                 severity: 'error',
                 summary: 'Erro!',
-                detail: error.response.data.content.message,
+                detail: error.response.data.message,
                 life: 5000
             });
             });
@@ -258,7 +258,7 @@ const Fornecedor = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Gerenciamento de fornecedores</h5>
+            <h5 className="m-0" style={{fontSize:25}}>Gerenciamento de fornecedores</h5>
         </div>
     );
 

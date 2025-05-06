@@ -13,22 +13,30 @@ import { Demo } from '@/types';
 import { ChartData, ChartOptions } from 'chart.js';
 
 const lineData: ChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
     datasets: [
         {
-            label: 'First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            label: 'No Pix',
+            data: [404, 356, 507, 375, 566],
             fill: false,
-            backgroundColor: '#2f4860',
-            borderColor: '#2f4860',
+            backgroundColor: '#22c55e',
+            borderColor: '#22c55e',
             tension: 0.4
         },
         {
-            label: 'Second Dataset',
-            data: [28, 48, 40, 19, 86, 27, 90],
+            label: 'No dinheiro',
+            data: [279, 180, 204, 250, 334],
             fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
+            backgroundColor: '#6366f1',
+            borderColor: '#6366f1',
+            tension: 0.4
+        },
+        {
+            label: 'No cartão',
+            data: [309, 280, 264, 220, 434],
+            fill: false,
+            backgroundColor: 'red',
+            borderColor: 'red',
             tension: 0.4
         }
     ]
@@ -126,136 +134,76 @@ const Dashboard = () => {
 
     return (
         <div className="grid">
-        <div className="col-12 lg:col-6 xl:col-3">
+        <div className="col-12 lg:col-6 xl:col-6">
             <div className="card mb-0">
                 <div className="flex justify-content-between mb-3">
                     <div>
-                        <span className="block text-500 font-medium mb-3">Orders</span>
-                        <div className="text-900 font-medium text-xl">152</div>
+                        <span className="block text-500 font-medium mb-3">Produtos</span>
+                        <div className="text-900 font-medium text-xl">74</div>
                     </div>
                     <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                         <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                     </div>
                 </div>
-                <span className="text-green-500 font-medium">24 new </span>
-                <span className="text-500">since last visit</span>
+                <span className="text-green-500 font-medium">6 novos </span>
+                <span className="text-500">no ultimo dia</span>
             </div>
         </div>
-            <div className="col-12 lg:col-6 xl:col-3">
+            <div className="col-12 lg:col-6 xl:col-6">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Orders</span>
-                            <div className="text-900 font-medium text-xl">152</div>
+                            <span className="block text-500 font-medium mb-3">Fornecedores</span>
+                            <div className="text-900 font-medium text-xl">13</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">24 new </span>
-                    <span className="text-500">since last visit</span>
+                    <span className="text-green-500 font-medium">2 novos </span>
+                    <span className="text-500">no ultimo dia</span>
                 </div>
             </div>
-            <div className="col-12 lg:col-6 xl:col-3">
+            <div className="col-12 lg:col-6 xl:col-6">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Orders</span>
-                            <div className="text-900 font-medium text-xl">152</div>
+                            <span className="block text-500 font-medium mb-3">Funcionários</span>
+                            <div className="text-900 font-medium text-xl">4</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">24 new </span>
-                    <span className="text-500">since last visit</span>
+                    <span className="text-green-500 font-medium">3 acessos </span>
+                    <span className="text-500">no ultimo dia</span>
                 </div>
             </div>
-            <div className="col-12 lg:col-6 xl:col-3">
+            <div className="col-12 lg:col-6 xl:col-6">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Orders</span>
-                            <div className="text-900 font-medium text-xl">152</div>
+                            <span className="block text-500 font-medium mb-3">Entregas</span>
+                            <div className="text-900 font-medium text-xl">17</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">24 new </span>
-                    <span className="text-500">since last visit</span>
+                    <span className="text-green-500 font-medium">5 novas </span>
+                    <span className="text-500">no ultimo dia</span>
                 </div>
             </div>
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                    <div className="flex justify-content-between mb-3">
-                        <div>
-                            <span className="block text-500 font-medium mb-3">Orders</span>
-                            <div className="text-900 font-medium text-xl">152</div>
-                        </div>
-                        <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-shopping-cart text-blue-500 text-xl" />
-                        </div>
-                    </div>
-                    <span className="text-green-500 font-medium">24 new </span>
-                    <span className="text-500">since last visit</span>
-                </div>
-            </div>
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                    <div className="flex justify-content-between mb-3">
-                        <div>
-                            <span className="block text-500 font-medium mb-3">Revenue</span>
-                            <div className="text-900 font-medium text-xl">R$2.100</div>
-                        </div>
-                        <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-map-marker text-orange-500 text-xl" />
-                        </div>
-                    </div>
-                    <span className="text-green-500 font-medium">%52+ </span>
-                    <span className="text-500">since last week</span>
-                </div>
-            </div>
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                    <div className="flex justify-content-between mb-3">
-                        <div>
-                            <span className="block text-500 font-medium mb-3">Customers</span>
-                            <div className="text-900 font-medium text-xl">28441</div>
-                        </div>
-                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-inbox text-cyan-500 text-xl" />
-                        </div>
-                    </div>
-                    <span className="text-green-500 font-medium">520 </span>
-                    <span className="text-500">newly registered</span>
-                </div>
-            </div>
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                    <div className="flex justify-content-between mb-3">
-                        <div>
-                            <span className="block text-500 font-medium mb-3">Comments</span>
-                            <div className="text-900 font-medium text-xl">152 Unread</div>
-                        </div>
-                        <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-comment text-purple-500 text-xl" />
-                        </div>
-                    </div>
-                    <span className="text-green-500 font-medium">85 </span>
-                    <span className="text-500">responded</span>
-                </div>
-            </div>
-
+            
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <h5>Vendas Recentes</h5>
-                    <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column header="Image" body={(data) => <img className="shadow-2" src={`/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
-                        <Column field="name" header="Name" sortable style={{ width: '35%' }} />
-                        <Column field="price" header="Price" sortable style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
+                    <DataTable value={products} rows={4} paginator responsiveLayout="scroll">
+                        <Column field="name" header="Funcionário" style={{ width: '35%' }} />
+                        {/* <Column field='' header="Horário" style={{ width: '35%' }} /> */}
+                        <Column field="price" header="Valor" style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
                         <Column
-                            header="View"
+                            header="Visualizar"
                             style={{ width: '15%' }}
                             body={() => (
                                 <>
@@ -269,7 +217,7 @@ const Dashboard = () => {
 
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Sales Overview</h5>
+                    <h5>Vendas</h5>
                     <Chart type="line" data={lineData} options={lineOptions} />
                 </div>
             </div>

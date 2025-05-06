@@ -45,7 +45,7 @@ const Produto = () => {
                 produtoService.listarTodos()
                     .then((response) => {
                         setShouldReloadResources(false); 
-                        setProdutos(response.data.content);
+                        setProdutos(response.data);
                         console.log(response);
                     })
                     .catch((error) => {
@@ -257,6 +257,12 @@ const Produto = () => {
         );
     };
 
+    const header = (
+        <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 className="m-2" style={{fontSize:25}}>Produtos Registrados</h5>
+        </div>
+    );
+
     const actionBodyTemplate = (rowData: Projeto.Produto) => {
         return (
             <>
@@ -301,6 +307,7 @@ const Produto = () => {
                         onSelectionChange={(e) => setSelectedProdutos(e.value as any)}
                         dataKey="id"
                         paginator
+                        header={header}
                         rows={10}
                         rowsPerPageOptions={[5, 10, 25]}
                         className="datatable-responsive"

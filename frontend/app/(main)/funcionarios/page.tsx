@@ -41,7 +41,7 @@ const Funcionario = () => {
             funcionarioService.listarTodos()
                 .then((response) => {
                     setShouldReloadResources(false); 
-                    setFuncionarios(response.data.content);
+                    setFuncionarios(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -195,7 +195,7 @@ const Funcionario = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Gerenciamento de Funcionários</h5>
+            <h5 className="m-0" style={{fontSize:25}}>Gerenciamento de Funcionários</h5>
         </div>
     );
 

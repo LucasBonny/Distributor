@@ -40,7 +40,7 @@ const Fornecedor = () => {
             fornecedorService.listarTodos()
                 .then((response) => {
                     setShouldReloadResources(false); 
-                    setFornecedores(response.data.content);
+                    setFornecedores(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -177,7 +177,7 @@ const Fornecedor = () => {
                 toast.current?.show({
                 severity: 'error',
                 summary: 'Erro!',
-                detail: error.response.data.content.message,
+                detail: error.response.data.message,
                 life: 5000
             });
             });
