@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         title: 'Frozen Throat',
         url: 'http://localhost:3000/',
         description: 'Projeto da faculdade.',
-        images: ['https://www.primefaces.org/static/social/sakai-react.png'],
+        images: ['/favicon.ico'],
         ttl: 604800
     },
     icons: {
