@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gunthercloud.distributor.entities.dto.EmployeeDTO;
 import br.com.gunthercloud.distributor.entities.dto.SaleDTO;
+import br.com.gunthercloud.distributor.entities.enums.EmployeeStatus;
 import br.com.gunthercloud.distributor.services.EmployeeService;
 import br.com.gunthercloud.distributor.services.SaleService;
 
@@ -38,6 +39,10 @@ public class EmployeeResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EmployeeDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
+	}
+	@GetMapping(value = "/status")
+	public ResponseEntity<List<EmployeeStatus>> findAllStatus() {
+		return ResponseEntity.ok(EmployeeStatus.findAll());
 	}
 	
 	@PostMapping

@@ -2,6 +2,7 @@ package br.com.gunthercloud.distributor.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -67,9 +68,17 @@ public class Employee implements Serializable {
 		
 	}
 	
-	public Employee(EmployeeDTO obj) {
-		BeanUtils.copyProperties(obj, this);
-	}
+	public Employee(EmployeeDTO entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.email = entity.getEmail();
+        this.password = entity.getPassword();
+        this.cpf = entity.getCpf();
+        DateTimeFormatter fm1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.birthDate = LocalDate.parse(entity.getBirthDate(), fm1);
+        this.phoneNumber = entity.getPhoneNumber();
+        this.status = entity.getStatus();
+    }
 
 	public Long getCpf() {
 		return cpf;

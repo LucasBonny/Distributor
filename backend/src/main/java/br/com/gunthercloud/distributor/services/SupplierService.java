@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -22,7 +23,7 @@ public class SupplierService {
 	
 	@Transactional(readOnly = true)
 	public List<SupplierDTO> findAll(){
-		List<Supplier> emp = repository.findAll();
+		List<Supplier> emp = repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
 		return emp.stream().map(SupplierDTO::new).toList();
 	}
 	

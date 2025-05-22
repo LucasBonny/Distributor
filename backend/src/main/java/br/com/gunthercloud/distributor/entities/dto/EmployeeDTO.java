@@ -1,6 +1,6 @@
 package br.com.gunthercloud.distributor.entities.dto;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import br.com.gunthercloud.distributor.entities.Employee;
 import br.com.gunthercloud.distributor.entities.enums.EmployeeStatus;
@@ -12,7 +12,7 @@ public class EmployeeDTO {
 	private String email;
 	private String password;
 	private Long cpf;
-	private LocalDate birthDate;
+	private String birthDate;
 	private Long phoneNumber;
 	private EmployeeStatus status;
 	
@@ -26,7 +26,8 @@ public class EmployeeDTO {
         this.email = entity.getEmail();
         this.password = entity.getPassword();
         this.cpf = entity.getCpf();
-        this.birthDate = entity.getBirthDate();
+        DateTimeFormatter fm1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.birthDate = entity.getBirthDate().format(fm1);
         this.phoneNumber = entity.getPhoneNumber();
         this.status = entity.getStatus();
     }
@@ -55,7 +56,7 @@ public class EmployeeDTO {
 		return cpf;
 	}
 
-	public LocalDate getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 

@@ -325,38 +325,37 @@ const Produto = () => {
 
                     <Dialog visible={produtoDialog} style={{ width: '450px' }} header="Detalhes do Produto" modal className="p-fluid" footer={produtoDialogFooter} onHide={hideDialog}>
                         {produto.imgUrl && <img src={produto.imgUrl} alt="Imagem do produto" width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
-                        <div className="field">
+                        <div className="field col">
                             <label htmlFor="name">Nome</label>
                             <InputText
                                 id="name"
                                 value={produto.name}
                                 onChange={(e) => onInputChange(e, 'name')}
-                                required
-                                autoFocus
-                                className={classNames({
-                                    'p-invalid': submitted && !produto.name
-                                })}
                             />
-                            {submitted && !produto.name && <small className="p-invalid">Name is required.</small>}
                         </div>
                         <div className="field col">
                             <label htmlFor="barCode">Código de barras</label>
-                            <InputText id="barCode" value={produto.barCode} onChange={(e) => onInputChange(e, 'barCode')} />
+                            <InputText 
+                                id="barCode" 
+                                value={produto.barCode} 
+                                onChange={(e) => onInputChange(e, 'barCode')} 
+                            />
                         </div>
 
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="price">Preço</label>
-                                <InputNumber id="price" value={produto.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="BRL" locale="pt-BR" />
-                            </div>
-                            <div className="field col">
-                                <label htmlFor="stock">Quantidade</label>
-                                <InputNumber id="stock" value={produto.stock} onValueChange={(e) => onInputNumberChange(e, 'stock')} />
-                            </div>
+                        <div className="field col">
+                            <label htmlFor="price">Preço</label>
+                            <InputNumber 
+                                id="price" 
+                                value={produto.price === 0 ? null : produto.price}
+                                onValueChange={(e) => onInputNumberChange(e, 'price')} 
+                                mode="currency" 
+                                currency="BRL" 
+                                locale="pt-BR" 
+                            />
                         </div>
                         <div className="field col">
-                            <label htmlFor="stock">Imagem do produto</label>
-                            <InputTextarea id="stock" value={produto.imgUrl} onChange={(e) => onInputChange(e, 'imgUrl')} rows={5} cols={30} />
+                            <label htmlFor="imgUrl">Imagem do produto</label>
+                            <InputTextarea id="imgUrl" value={produto.imgUrl} onChange={(e) => onInputChange(e, 'imgUrl')} rows={5} cols={30} />
                         </div>
                     </Dialog>
 

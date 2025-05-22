@@ -10,6 +10,8 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Projeto } from '@/types';
 import { FuncionarioService } from '@/service/FuncionarioService';
+import { CascadeSelect } from 'primereact/cascadeselect';
+import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 
 const Funcionario = () => {
     let funcionarioVazio: Projeto.Funcionario = {
@@ -35,7 +37,23 @@ const Funcionario = () => {
     const dt = useRef<DataTable<any>>(null);
     const funcionarioService = useMemo(() => new FuncionarioService(), []);
     const [shouldReloadResources, setShouldReloadResources] = useState(false);
+    const [status, setStatus] = useState([]);
 
+    useEffect(() => {
+        funcionarioService.status()
+            .then((response) => {
+                setStatus(response.data);
+        })
+        .catch((error) => {
+                console.log(error);
+                toast.current?.show({
+                    severity: 'error',
+                    summary: 'Erro',
+                    detail: 'Falha ao carregar status',
+                    life: 5000
+                });
+            })
+    }, [])
     useEffect(() => {
         const loadData = () => {
             funcionarioService.listarTodos()
@@ -178,6 +196,11 @@ const Funcionario = () => {
 
         setFuncionario(_funcionario);
     };
+    const setDropdownItem = (e: string) => {
+        let _funcionario = { ...funcionario };
+        _funcionario['status'] = e;
+        setFuncionario(_funcionario);
+    }
 
     const leftToolbarTemplate = () => (
         <div className="my-2">
@@ -243,7 +266,7 @@ const Funcionario = () => {
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column field="name" header="Nome" sortable></Column>
+                        <Column field="name"  header="Nome" sortable></Column>
                         <Column field="email" header="Email" sortable></Column>
                         <Column field="cpf" header="CPF" sortable></Column>
                         <Column field="birthDate" header="Data de Nascimento" sortable></Column>
@@ -282,7 +305,7 @@ const Funcionario = () => {
 
                         <div className="field">
                             <label htmlFor="status">Status</label>
-                            <InputText id="status" value={funcionario.status} onChange={(e) => onInputChange(e, 'status')} />
+                            <Dropdown id="status" value={funcionario.status} onChange={(e: DropdownChangeEvent) => setDropdownItem(e.value)} options={status} />
                         </div>
                     </Dialog>
                 </div>
