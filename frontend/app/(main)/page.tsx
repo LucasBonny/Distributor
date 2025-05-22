@@ -11,6 +11,23 @@ import Link from 'next/link';
 import { Demo } from '@/types';
 import { ChartData, ChartOptions } from 'chart.js';
 
+const salesData: any = [
+    {
+        employee: 'Lucas Bonifácio',
+        quantity: 26,
+        total: "R$ 1.236,59"
+    },
+    {
+        employee: 'João Pedro',
+        quantity: 12,
+        total: "R$ 970,59"
+    },
+    {
+        employee: 'Mariana Silva',
+        quantity: 18,
+        total: "R$ 800,59"
+    }
+]
 const lineData: ChartData = {
     labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
     datasets: [
@@ -193,10 +210,11 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <h5>Vendas Recentes</h5>
-                    <DataTable value={products} rows={4} paginator responsiveLayout="scroll">
-                        <Column field="name" header="Funcionário" style={{ width: '35%' }} />
+                    <DataTable value={salesData} rows={4} paginator responsiveLayout="scroll">
+                        <Column field="employee" header="Funcionário" style={{ width: '30%' }} />
+                        <Column field="quantity" header="Quantidade" style={{ width: '20%' }} />
                         {/* <Column field='' header="Horário" style={{ width: '35%' }} /> */}
-                        <Column field="price" header="Valor" style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
+                        <Column field="total" header="Valor Total" style={{ width: '35%' }}  />
                         <Column
                             header="Visualizar"
                             style={{ width: '15%' }}
