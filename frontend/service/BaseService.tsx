@@ -24,7 +24,7 @@ export class BaseService {
   alterar(objeto: any) {
     return axiosInstance.put(`${this.url}/${objeto.id}`, objeto)
   }
-  excluir(id: number) {
+  excluir(id: any) {
     return axiosInstance.delete(`${this.url}/${id}`)
   }
 }

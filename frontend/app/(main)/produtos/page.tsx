@@ -143,6 +143,7 @@ const Produto = () => {
     const deleteProduto = () => {
         let _produtos = (produtos as any)?.filter((val: any) => val.id !== produto.id);
         setProdutos(_produtos);
+        produtoService.excluir(produto.id)
         setDeleteProdutoDialog(false);
         setProduto(produtoVazio);
         toast.current?.show({
@@ -160,6 +161,7 @@ const Produto = () => {
     const deleteSelectedProdutos = () => {
         let _produtos = (produtos as any)?.filter((val: any) => !(selectedProdutos as any)?.includes(val));
         setProdutos(_produtos);
+        produtoService.excluir((selectedProdutos as any)?.map((val: any) => val.id))
         setDeleteProdutosDialog(false);
         setSelectedProdutos(null);
         toast.current?.show({
