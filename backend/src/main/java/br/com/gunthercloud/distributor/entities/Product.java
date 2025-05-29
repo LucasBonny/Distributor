@@ -6,18 +6,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 
 import br.com.gunthercloud.distributor.entities.dto.ProductDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_product")
@@ -47,19 +39,24 @@ public class Product implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "tb_product_delivery", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns =
 	@JoinColumn(name = "delivery_id"))
-	private Set<Delivery> delivery = new HashSet<>();	
+	private Set<Delivery> delivery = new HashSet<>();
+
+	@ManyToOne
+	@JoinColumn(name = "supplier_id", nullable = false)
+	private Supplier supplier;
 
 	public Product() {
 		
 	}
 
-	public Product(Long id, Long barCode, String name, double price, int stock, String imgUrl) {
+	public Product(Long id, Long barCode, String name, double price, int stock, String imgUrl, Supplier supplier) {
 		this.id = id;
 		this.barCode = barCode;
 		this.name = name;
 		this.price = price;
 		this.stock = stock;
 		this.imgUrl = imgUrl;
+		this.supplier = supplier;
 	}
 	
 	public Product(ProductDTO obj) {
@@ -119,6 +116,14 @@ public class Product implements Serializable {
 
 	public Set<Delivery> getDelivery() {
 		return delivery;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
 	}
 
 	@Override

@@ -40,6 +40,9 @@ public class Supplier implements Serializable {
 	
 	@OneToMany(mappedBy = "supplier")
 	private Set<Delivery> deliveries = new HashSet<>();
+
+	@OneToMany(mappedBy = "supplier")
+	private Set<Product> products = new HashSet<>();
 	
 	public Supplier(){
 		
@@ -108,6 +111,9 @@ public class Supplier implements Serializable {
 
 	public Set<Delivery> getDelivery() {
 		return deliveries;
+	}
+	public Set<Product> getProducts() {
+		return products;
 	}
 
 	@Override
