@@ -10,7 +10,7 @@ public class ProductDTO {
 	private double price;
 	private int stock;
 	private String imgUrl;
-	private SupplierDTO supplier;
+	private String supplier;
 	
 	public ProductDTO() {
 		super();
@@ -23,7 +23,7 @@ public class ProductDTO {
 		price = entity.getPrice();
 		stock = entity.getStock();
 		imgUrl = entity.getImgUrl();
-		supplier = new SupplierDTO(entity.getSupplier());
+		supplier = new SupplierDTO(entity.getSupplier()).getName();
 	}
 	
 	public Long getId() {
@@ -50,7 +50,7 @@ public class ProductDTO {
 		return imgUrl;
 	}
 
-	public SupplierDTO getSupplier() {
+	public String getSupplier() {
 		return supplier;
 	}
 	

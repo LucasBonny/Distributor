@@ -7,6 +7,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputNumber, InputNumberValueChangeEvent } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { ListBox } from "primereact/listbox";
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -20,12 +21,16 @@ const Produto = () => {
         price: 0,
         stock: 0,
         imgUrl: '',
+        supplier: ''
     };
 
     const [produtos, setProdutos] = useState<Projeto.Produto[]>([]);
     const [produtoDialog, setProdutoDialog] = useState(false);
+    const [fornecedorDialog, setFornecedorDialog] = useState(false);
     const [deleteProdutoDialog, setDeleteProdutoDialog] = useState(false);
     const [deleteProdutosDialog, setDeleteProdutosDialog] = useState(false);
+    const [fornecedor, setFornecedor] = useState(null);
+    const [fornecedores, setFornecedores] = useState([]);
     const [produto, setProduto] = useState<Projeto.Produto>(produtoVazio);
     const [selectedProdutos, setSelectedProdutos] = useState(null);
     const [submitted, setSubmitted] = useState(false);
@@ -34,29 +39,42 @@ const Produto = () => {
     const dt = useRef<DataTable<any>>(null);
     const [shouldReloadResources, setShouldReloadResources] = useState(false);
     
-
     useEffect(() => {
-            const loadData = () => {
-                produtoService.listarTodos()
-                    .then((response) => {
-                        setShouldReloadResources(false); 
-                        setProdutos(response.data);
-                        console.log(response);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        toast.current?.show({
-                            severity: 'error',
-                            summary: 'Erro',
-                            detail: 'Falha ao carregar produtos',
-                            life: 5000
-                        });
+        const loadData = () => {
+            produtoService.listarTodos()
+                .then((response) => {
+                    setShouldReloadResources(false); 
+                    setProdutos(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    toast.current?.show({
+                        severity: 'error',
+                        summary: 'Erro',
+                        detail: 'Falha ao carregar produtos',
+                        life: 5000
                     });
-            };
-            if (shouldReloadResources || produtos.length === 0) {
-                loadData();
-            }
-        }, [produtoService, shouldReloadResources, produtos.length]);
+                });
+        };
+        if (shouldReloadResources || produtos.length === 0) {
+            loadData();
+        }
+    }, [produtoService, shouldReloadResources, produtos.length]);
+
+    useEffect(() =>{
+    produtoService.listarForncecedores()
+        .then((response) => {
+            setFornecedores(response.data);
+        }).catch((error) => {
+            console.log(error);
+            toast.current?.show({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Falha ao carregar os fornecedores',
+                life: 5000
+            });
+        });
+    },[produtoService]);
 
     const formatCurrency = (value: number) => {
         return value.toLocaleString('pt-BR', {
@@ -74,6 +92,10 @@ const Produto = () => {
     const hideDialog = () => {
         setSubmitted(false);
         setProdutoDialog(false);
+    };
+    const hideFornecedorDialog = () => {
+        setSubmitted(false);
+        setFornecedorDialog(false);
     };
 
     const hideDeleteProdutoDialog = () => {
@@ -130,6 +152,11 @@ const Produto = () => {
         setProdutoDialog(true);
     };
 
+    const editFornecedor = (produto: Projeto.Produto) => {
+        setProduto({ ...produto });
+        setFornecedorDialog(true);
+    };
+
     const confirmDeleteProduto = (produto: Projeto.Produto) => {
         setProduto(produto);
         setDeleteProdutoDialog(true);
@@ -148,6 +175,19 @@ const Produto = () => {
             life: 3000
         });
     };
+
+    const saveFornecedor = () => {
+        produtoService.editarFornecedor(produto.id, {"supplier": fornecedor})
+            .then(() => {
+                toast.current?.show({
+                    severity: 'success',
+                    summary: 'Sucesso',
+                    detail: 'Fornecedor Alterado',
+                    life: 3000
+            });
+        });
+        hideFornecedorDialog();
+    }
 
     const confirmDeleteSelected = () => {
         setDeleteProdutosDialog(true);
@@ -236,6 +276,15 @@ const Produto = () => {
         );
     };
 
+    const supplierBodyTemplate = (rowData: Projeto.Produto) => {
+        return (
+            <>
+                <span className="p-column-title">Fornecedor</span>
+                {rowData.supplier}
+            </>
+        );
+    };
+
     const imgUrlBodyTemplate = (rowData: Projeto.Produto) => {
         return (
             <>
@@ -264,6 +313,7 @@ const Produto = () => {
         return (
             <>
                 <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => editProduto(rowData)} />
+                <Button icon="pi pi-users" rounded severity="info" className="mr-2" onClick={() => editFornecedor(rowData)} />
                 <Button icon="pi pi-trash" rounded severity="warning" onClick={() => confirmDeleteProduto(rowData)} />
             </>
         );
@@ -275,6 +325,12 @@ const Produto = () => {
         <>
             <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
             <Button label="Salvar" icon="pi pi-check" text onClick={saveProduto} />
+        </>
+    );
+    const fornecedorDialogFooter = (
+        <>
+            <Button label="Cancelar" icon="pi pi-times" text onClick={hideFornecedorDialog} />
+            <Button label="Salvar" icon="pi pi-check" text onClick={saveFornecedor} />
         </>
     );
     const deleteProdutoDialogFooter = (
@@ -316,6 +372,7 @@ const Produto = () => {
                         <Column header="Produto" body={imgUrlBodyTemplate}></Column>
                         <Column field="barCode" header="Código de barras" sortable body={barCodeBodyTemplate} headerStyle={{ minWidth: '3rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
+                        <Column field="supplier" header="Fornecedor" sortable body={supplierBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
                         <Column field="price" header="Preço" body={priceBodyTemplate} sortable></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
@@ -353,6 +410,19 @@ const Produto = () => {
                         <div className="field col">
                             <label htmlFor="imgUrl">Imagem do produto</label>
                             <InputTextarea id="imgUrl" value={produto.imgUrl} onChange={(e) => onInputChange(e, 'imgUrl')} rows={5} cols={30} />
+                        </div>
+                    </Dialog>
+
+                    <Dialog visible={fornecedorDialog} style={{ width: '450px' }} header="Editar Fornecedor" modal className="p-fluid" footer={fornecedorDialogFooter} onHide={hideFornecedorDialog}>
+                        <div className="field col">
+                            <label htmlFor="supplier" style={{ fontWeight: 'bold' }}>{produto.name}</label><hr />
+                            <label htmlFor="supplier">Escolha o fornecedor para esse produto</label>
+                            <ListBox
+                                value={produto.supplier}
+                                onChange={(e) => setFornecedor(e.value)}
+                                options={fornecedores}
+                                filter
+                            />
                         </div>
                     </Dialog>
 

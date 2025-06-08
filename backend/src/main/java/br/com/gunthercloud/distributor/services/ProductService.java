@@ -1,7 +1,10 @@
 package br.com.gunthercloud.distributor.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.gunthercloud.distributor.entities.Supplier;
+import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
@@ -21,6 +24,9 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
+	@Autowired
+	private SupplierRepository supplierRepository;
+
 	@Transactional(readOnly = true)
 	public List<ProductDTO> findAll(){
 		List<Product> list =  repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
@@ -38,6 +44,7 @@ public class ProductService {
 	public ProductDTO create(ProductDTO obj) {
 		Product entity = new Product(obj);
 		entity.setId(null);
+		entity.setSupplier(null);
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
 	}
@@ -48,6 +55,7 @@ public class ProductService {
 			new NotFoundException("O id " + id +  " não existe!"));
 		Product entity = new Product(obj);
 		entity.setId(id);
+		entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
 	}
@@ -64,7 +72,32 @@ public class ProductService {
 		}
 		
 	}
-	
+
+	@Transactional
+	public List<String> findAllSupplier() {
+		List<Supplier> supplier = supplierRepository.findAll();
+		List<String> list = new ArrayList<>();
+		for(Supplier e : supplier) {
+			list.add(e.getName());
+		}
+		return list;
+	}
+
+	@Transactional
+	public ProductDTO updateSupplier(Long id, String supplier) {
+		Supplier newSupplier;
+		try{
+			System.out.println(supplier);
+			newSupplier = supplierRepository.findByName(supplier);
+		}
+		catch (RuntimeException e) {
+			throw new NotFoundException("O nome informado não existe!");
+		}
+		Product product = repository.findById(id).orElseThrow(() -> new NotFoundException("O id " + id + " não existe!"));
+		product.setSupplier(newSupplier);
+		return new ProductDTO(product);
+	}
+
 	//Busca todos os produtos da empresa X
 //	public List<ProductDTO> findAllProductsBySupplierId(UUID id){
 //		//busca todos os produtos entregue

@@ -25,6 +25,7 @@ declare namespace Projeto {
         price: number;
         stock: number;
         imgUrl: string;
+        supplier: string;
       }
 
     type Recurso = {
