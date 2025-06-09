@@ -1,7 +1,7 @@
 'use client';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
+import { DataTable, DataTableExpandedRows, DataTableFilterMeta } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
@@ -10,93 +10,91 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Projeto } from '@/types';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { FornecedorService } from '@/service/FornecedorService';
+import { EntregaService } from '@/service/EntregaService';
 
-const Fornecedor = () => {
-    let fornecedorVazio: Projeto.Fornecedor = {
+const Entrega = () => {
+    let entregaVazia: Projeto.Entrega = {
         id: '',
-        name: '',
-        cnpj: '',
-        cep: '',
-        phoneNumber: '',
-        address: ''
+        dateTimeDelivery: '',
+        supplier: '',
+        products: []
     };
 
-    const [fornecedores, setFornecedores] = useState<Projeto.Fornecedor[]>([]);
-    const [fornecedorDialog, setFornecedorDialog] = useState(false);
-    const [deleteFornecedorDialog, setDeleteFornecedorDialog] = useState(false);
-    const [deleteFornecedoresDialog, setDeleteFornecedoresDialog] = useState(false);
-    const [fornecedor, setFornecedor] = useState<Projeto.Fornecedor>(fornecedorVazio);
-    const [selectedFornecedores, setSelectedFornecedores] = useState<Projeto.Fornecedor[]>([]);
+    const [entregas, setEntregas] = useState<Projeto.Entrega[]>([]);
+    const [entregaDialog, setEntregaDialog] = useState(false);
+    const [deleteEntregaDialog, setDeleteEntregaDialog] = useState(false);
+    const [deleteEntregasDialog, setDeleteEntregasDialog] = useState(false);
+    const [entrega, setEntrega] = useState<Projeto.Entrega>(entregaVazia);
+    const [selectedEntregas, setSelectedEntregas] = useState<Projeto.Entrega[]>([]);
+    const [expandedRows, setExpandedRows] = useState<any[] | DataTableExpandedRows>([]);
     const [submitted, setSubmitted] = useState(false);
-    const [globalFilter, setGlobalFilter] = useState('');
     const toast = useRef<Toast>(null);
     const dt = useRef<DataTable<any>>(null);
-    const fornecedorService = useMemo(() => new FornecedorService(), []);
+    const entregaService = useMemo(() => new EntregaService(), []);
     const [shouldReloadResources, setShouldReloadResources] = useState(false);
 
     useEffect(() => {
         const loadData = () => {
-            fornecedorService.listarTodos()
+            entregaService.listarTodos()
                 .then((response) => {
                     setShouldReloadResources(false); 
-                    setFornecedores(response.data);
+                    setEntregas(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
                     toast.current?.show({
                         severity: 'error',
                         summary: 'Erro',
-                        detail: 'Falha ao carregar fornecedores',
+                        detail: 'Falha ao carregar entregas',
                         life: 5000
                     });
                 });
         };
-        if (shouldReloadResources || fornecedores.length === 0) {
+        if (shouldReloadResources || entregas.length === 0) {
             loadData();
         }
-    }, [fornecedorService, shouldReloadResources, fornecedores.length]);
+    }, [entregaService, shouldReloadResources, entregas.length]);
 
     const openNew = () => {
-        setFornecedor(fornecedorVazio);
+        setEntrega(entregaVazia);
         setSubmitted(false);
-        setFornecedorDialog(true);
+        setEntregaDialog(true);
     };
 
     const hideDialog = () => {
         setSubmitted(false);
-        setFornecedorDialog(false);
+        setEntregaDialog(false);
     };
 
-    const hideDeleteFornecedorDialog = () => {
-        setDeleteFornecedorDialog(false);
+    const hideDeleteEntregaDialog = () => {
+        setDeleteEntregaDialog(false);
     };
 
-    const hideDeleteFornecedoresDialog = () => {
-        setDeleteFornecedoresDialog(false);
+    const hideDeleteEntregasDialog = () => {
+        setDeleteEntregasDialog(false);
     };
 
-    const saveFornecedor = () => {
+    const saveEntrega = () => {
         setSubmitted(true);
     
-        let _fornecedores = [...(fornecedores as any)];
+        let _entregas = [...(entregas as any)];
         
-        if (fornecedor.id != '') {
-            fornecedorService.alterar(fornecedor)
+        if (entrega.id != '') {
+            entregaService.alterar(entrega)
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: 'Fornecedor Atualizado',
+                detail: 'Entrega Atualizada',
                 life: 5000
             });
             setShouldReloadResources(true);
         } else {
-            fornecedorService.inserir(fornecedor)
+            entregaService.inserir(entrega)
                 .then(() => {
                     toast.current?.show({
                         severity: 'success',
                         summary: 'Sucesso',
-                        detail: 'Fornecedor Criado!',
+                        detail: 'Entrega Criada!',
                         life: 5000
                     });
                     setShouldReloadResources(true);
@@ -108,44 +106,44 @@ const Fornecedor = () => {
                         detail: error.response?.data?.message || 'Erro desconhecido',
                         life: 5000
                     });
-                    console.log(fornecedor)
+                    console.log(entrega)
                 });
         }
     
-        setFornecedores(_fornecedores as any);
-        setFornecedorDialog(false);
-        setFornecedor(fornecedorVazio);
+        setEntregas(_entregas as any);
+        setEntregaDialog(false);
+        setEntrega(entregaVazia);
     };
 
-    const editFornecedor = (fornecedor: Projeto.Fornecedor) => {
-        setFornecedor({ ...fornecedor });
-        setFornecedorDialog(true);
+    const editEntrega = (fornecedor: Projeto.Entrega) => {
+        setEntrega({ ...fornecedor });
+        setEntregaDialog(true);
     };
 
-    const confirmDeleteFornecedor = (fornecedor: Projeto.Fornecedor) => {
-        setFornecedor(fornecedor);
-        setDeleteFornecedorDialog(true);
+    const confirmDeleteEntrega = (entrega: Projeto.Entrega) => {
+        setEntrega(entrega);
+        setDeleteEntregaDialog(true);
     };
 
-    const deleteFornecedor = () => {
-        let _fornecedores = (fornecedores as any)?.filter((val: any) => val.id !== fornecedor.id);
-        setFornecedores(_fornecedores);
-        setDeleteFornecedorDialog(false);
-        setFornecedor(fornecedorVazio);
-        fornecedorService.excluir(fornecedor.id)
+    const deleteEntrega = () => {
+        let _entregas = (entregas as any)?.filter((val: any) => val.id !== entrega.id);
+        setEntregas(_entregas);
+        setDeleteEntregaDialog(false);
+        setEntrega(entregaVazia);
+        entregaService.excluir(entrega.id)
         .then(() => {
-            setFornecedores([]);
+            setEntregas([]);
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso!',
-                detail: 'Fornecedor Deletado',
+                detail: 'Entrega Deletada',
                 life: 5000
             });
         }).catch((error) => {
             toast.current?.show({
             severity: 'error',
             summary: 'Erro!',
-            detail: 'Erro ao deletar fornecedor',
+            detail: 'Erro ao deletar entrega',
             life: 5000
         });
         }
@@ -157,20 +155,20 @@ const Fornecedor = () => {
     };
 
     const confirmDeleteSelected = () => {
-        setDeleteFornecedoresDialog(true);
+        setDeleteEntregasDialog(true);
     };
 
-    const deleteSelectedFornecedores = () => {
-        selectedFornecedores.map((fornecedor) => {
-            let _fornecedores = (fornecedores as any)?.filter((val: any) => val.id !== fornecedor.id);
-            setFornecedores(_fornecedores);
-            fornecedorService.excluir(fornecedor.id)
+    const deleteSelectedEntregas = () => {
+        selectedEntregas.map((entrega) => {
+            let _entregas = (entregas as any)?.filter((val: any) => val.id !== entrega.id);
+            setEntregas(_entregas);
+            entregaService.excluir(entrega.id)
             .then(() => {
-                setFornecedores([]);
+                setEntregas([]);
                 toast.current?.show({
                     severity: 'success',
                     summary: 'Sucesso',
-                    detail: 'Fornecedor Deletado',
+                    detail: 'Entrega Deletada',
                     life: 5000
                 });
             }).catch((error) => {
@@ -182,15 +180,15 @@ const Fornecedor = () => {
             });
             });
         });
-        setDeleteFornecedoresDialog(false);
+        setDeleteEntregasDialog(false);
     };
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, nome: string) => {
         const val = (e.target && e.target.value) || '';
-        let _fornecedor = { ...fornecedor };
-        _fornecedor[`${nome}`] = val;
+        let _entrega = { ...entrega };
+        _entrega[`${nome}`] = val;
 
-        setFornecedor(_fornecedor);
+        setEntrega(_entrega);
     };
 
     const leftToolbarTemplate = () => {
@@ -198,7 +196,7 @@ const Fornecedor = () => {
             <React.Fragment>
                 <div className="my-2">
                     <Button label="Novo" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew} />
-                    <Button label="Excluir" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedFornecedores || !(selectedFornecedores as any).length} />
+                    <Button label="Excluir" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedEntregas || !(selectedEntregas as any).length} />
                 </div>
             </React.Fragment>
         );
@@ -211,7 +209,7 @@ const Fornecedor = () => {
         );
     };
 
-    const nameBodyTemplate = (rowData: Projeto.Fornecedor) => {
+    const nameBodyTemplate = (rowData: Projeto.Entrega) => {
         return (
             <>
                 <span className="p-column-title">Nome</span>
@@ -250,34 +248,34 @@ const Fornecedor = () => {
     const actionBodyTemplate = (rowData: Projeto.Fornecedor) => {
         return (
             <>
-                <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => editFornecedor(rowData)} />
-                <Button icon="pi pi-trash" rounded severity="warning" onClick={() => confirmDeleteFornecedor(rowData)} />
+                <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => editEntrega(rowData)} />
+                <Button icon="pi pi-trash" rounded severity="warning" onClick={() => confirmDeleteEntrega(rowData)} />
             </>
         );
     };
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Gerenciamento de fornecedores</h5>
+            <h5 className="m-0">Gerenciamento de entregas</h5>
         </div>
     );
 
-    const fornecedorDialogFooter = (
+    const entregaDialogFooter = (
         <>
             <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
-            <Button label="Salvar" icon="pi pi-check" text onClick={saveFornecedor} />
+            <Button label="Salvar" icon="pi pi-check" text onClick={saveEntrega} />
         </>
     );
-    const deleteFornecedorDialogFooter = (
+    const deleteEntregaDialogFooter = (
         <>
-            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteFornecedorDialog} />
-            <Button label="Sim" icon="pi pi-check" text onClick={deleteFornecedor} />
+            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntregaDialog} />
+            <Button label="Sim" icon="pi pi-check" text onClick={deleteEntrega} />
         </>
     );
-    const deleteFornecedoresDialogFooter = (
+    const deleteEntregasDialogFooter = (
         <>
-            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteFornecedoresDialog} />
-            <Button label="Sim" icon="pi pi-check" text onClick={deleteSelectedFornecedores} />
+            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntregasDialog} />
+            <Button label="Sim" icon="pi pi-check" text onClick={deleteSelectedEntregas} />
         </>
     );
 
@@ -288,136 +286,104 @@ const Fornecedor = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable
-                        ref={dt}
-                        value={fornecedores}
-                        selection={selectedFornecedores}
-                        onSelectionChange={(e) => setSelectedFornecedores(e.value as any)}
-                        dataKey="id"
-                        paginator
-                        rows={10}
-                        rowsPerPageOptions={[10, 25, 50, 100]}
-                        className="datatable-responsive"
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} de {last} com {totalRecords} fornecedores"
-                        globalFilter={globalFilter}
-                        emptyMessage="Sem fornecedores registrados."
-                        header={header}
-                        responsiveLayout="scroll"
-                    >
-                        <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
-                        <Column field="name" header="Nome" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="cnpj" header="CNPJ" sortable body={cnpjBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="cep" header="CEP" sortable body={cepBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="phoneNumber" header="Telefone" sortable body={phoneNumberBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                    <DataTable value={entregas} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll" dataKey="id" header={header}>
+                        <Column expander style={{ width: '3em' }} />
+                        <Column field="id" header="ID" sortable />
+                        <Column field="dateTimeDelivery" header="Horário" sortable />
+                        <Column field="supplier" header="Fornecedor" sortable />
                     </DataTable>
-                    {/* <div className="col-12">
-                        <div className="card">
-                            <h5>Row Expand</h5>
-                            <DataTable value={products} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll" rowExpansionTemplate={rowExpansionTemplate} dataKey="id" header={header}>
-                                <Column expander style={{ width: '3em' }} />
-                                <Column field="name" header="Name" sortable />
-                                <Column header="Image" body={imageBodyTemplate} />
-                                <Column field="price" header="Price" sortable body={priceBodyTemplate} />
-                                <Column field="category" header="Category" sortable />
-                                <Column field="rating" header="Reviews" sortable body={ratingBodyTemplate} />
-                                <Column field="inventoryStatus" header="Status" sortable body={statusBodyTemplate2} />
-                            </DataTable>
-                        </div>
-                    </div> */}
 
-                    <Dialog visible={fornecedorDialog} style={{ width: '450px' }} header="Detalhes do fornecedor" modal className="p-fluid" footer={fornecedorDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={entregaDialog} style={{ width: '450px' }} header="Detalhes da entrega" modal className="p-fluid" footer={entregaDialogFooter} onHide={hideDialog}>
                         <div className="field">
                             <label htmlFor="name">Nome</label>
                             <InputText
                                 id="name"
-                                value={fornecedor.name}
+                                value={entrega.name}
                                 onChange={(e) => onInputChange(e, 'name')}
                                 required
                                 autoFocus
                                 className={classNames({
-                                    'p-invalid': submitted && !fornecedor.name
+                                    'p-invalid': submitted && !entrega.name
                                 })}
                             />
-                            {submitted && !fornecedor.name && <small className="p-invalid">Nome é obrigatório.</small>}
+                            {submitted && !entrega.name && <small className="p-invalid">Nome é obrigatório.</small>}
                         </div>
 
                         <div className="field">
                             <label htmlFor="cnpj">CNPJ</label>
                             <InputText
                                 id="cnpj"
-                                value={fornecedor.cnpj}
+                                value={entrega.cnpj}
                                 onChange={(e) => onInputChange(e, 'cnpj')}
                                 required
                                 className={classNames({
-                                    'p-invalid': submitted && !fornecedor.cnpj
+                                    'p-invalid': submitted && !entrega.cnpj
                                 })}
                             />
-                            {submitted && !fornecedor.cnpj && <small className="p-invalid">CNPJ é obrigatório.</small>}
+                            {submitted && !entrega.cnpj && <small className="p-invalid">CNPJ é obrigatório.</small>}
                         </div>
 
                         <div className="field">
                             <label htmlFor="cep">CEP</label>
                             <InputText
                                 id="cep"
-                                value={fornecedor.cep}
+                                value={entrega.cep}
                                 onChange={(e) => onInputChange(e, 'cep')}
                                 required
                                 className={classNames({
-                                    'p-invalid': submitted && !fornecedor.cep
+                                    'p-invalid': submitted && !entrega.cep
                                 })}
                             />
-                            {submitted && !fornecedor.cep && <small className="p-invalid">CEP é obrigatório.</small>}
+                            {submitted && !entrega.cep && <small className="p-invalid">CEP é obrigatório.</small>}
                         </div>
 
                         <div className="field">
                             <label htmlFor="phoneNumber">Telefone</label>
                             <InputText
                                 id="phoneNumber"
-                                value={fornecedor.phoneNumber}
+                                value={entrega.phoneNumber}
                                 onChange={(e) => onInputChange(e, 'phoneNumber')}
                                 required
                                 className={classNames({
-                                    'p-invalid': submitted && !fornecedor.phoneNumber
+                                    'p-invalid': submitted && !entrega.phoneNumber
                                 })}
                             />
-                            {submitted && !fornecedor.phoneNumber && <small className="p-invalid">Telefone é obrigatório.</small>}
+                            {submitted && !entrega.phoneNumber && <small className="p-invalid">Telefone é obrigatório.</small>}
                         </div>
 
                         <div className="field">
                             <label htmlFor="address">Endereço</label>
                             <InputTextarea 
                                 id="address"
-                                value={fornecedor.address}
+                                value={entrega.address}
                                 onChange={(e) => onInputChange(e, 'address')}
                                 required
                                 rows={5} 
                                 cols={30}
                                 className={classNames({
-                                    'p-invalid': submitted && !fornecedor.address
+                                    'p-invalid': submitted && !entrega.address
                                 })}
                             />
-                            {submitted && !fornecedor.address && <small className="p-invalid">Endereço é obrigatório.</small>}
+                            {submitted && !entrega.address && <small className="p-invalid">Endereço é obrigatório.</small>}
                         </div>
 
                     </Dialog>
 
-                    <Dialog visible={deleteFornecedorDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteFornecedorDialogFooter} onHide={hideDeleteFornecedorDialog}>
+                    <Dialog visible={deleteEntregaDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntregaDialogFooter} onHide={hideDeleteEntregaDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {fornecedor && (
+                            {entrega && (
                                 <span>
-                                    Tem certeza de que deseja excluir <b>{fornecedor.name}</b>?
+                                    Tem certeza de que deseja excluir <b>{entrega.name}</b>?
                                 </span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteFornecedoresDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteFornecedoresDialogFooter} onHide={hideDeleteFornecedoresDialog}>
+                    <Dialog visible={deleteEntregasDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntregasDialogFooter} onHide={hideDeleteEntregasDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {fornecedor && <span>Tem certeza de que deseja excluir os fornecedores selecionados?</span>}
+                            {entrega && <span>Tem certeza de que deseja excluir os fornecedores selecionados?</span>}
                         </div>
                     </Dialog>
                 </div>
@@ -426,4 +392,4 @@ const Fornecedor = () => {
     );
 };
 
-export default Fornecedor;
+export default Entrega;

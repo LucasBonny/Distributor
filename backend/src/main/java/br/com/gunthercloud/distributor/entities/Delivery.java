@@ -28,7 +28,6 @@ public class Delivery implements Serializable {
 	@ManyToMany(mappedBy = "delivery")
 	private List<Product> products = new ArrayList<>();
 	
-	
 	public Delivery() {
 		
 	}
@@ -43,13 +42,6 @@ public class Delivery implements Serializable {
 		BeanUtils.copyProperties(object, this);
 	}
 
-	public double total() {
-		double total = 0.0;
-		for(Product e : products) {
-			total += e.getPrice() * e.getStock();
-		}
-		return total;
-	}
 	
 	public Long getId() {
 		return id;

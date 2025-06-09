@@ -18,6 +18,13 @@ declare namespace Projeto {
         phoneNumber: string;
     };
 
+    type Entrega = {
+        id?: string;
+        dateTimeDelivery: string;
+        supplier: string;
+        products: Produto[];
+    };
+
     type Produto = {
         id: string;
         barCode: string;

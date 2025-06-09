@@ -6,25 +6,20 @@ import java.util.List;
 
 import br.com.gunthercloud.distributor.entities.Delivery;
 import br.com.gunthercloud.distributor.entities.Product;
-import br.com.gunthercloud.distributor.entities.Supplier;
 
 public class DeliveryDTO {
 	
 	private Long id;
 	private Instant dateTimeDelivery;
-	private Supplier supplier;
+	private final String supplier;
 
-	private List<Product> products = new ArrayList<>();
-	
-	public DeliveryDTO () {
-		
-	}
-	
+	private final List<ProductDTO> products = new ArrayList<>();
+
 	public DeliveryDTO (Delivery object) {
 		id = object.getId();
 		dateTimeDelivery = object.getDateTimeDelivery();
-		supplier = object.getSupplier();
-		for(Product e : object.getProducts()) products.add(e);
+		supplier = object.getSupplier().getName();
+		for(Product e : object.getProducts()) products.add(new ProductDTO(e));
 	}
 
 	public Long getId() {
@@ -43,15 +38,11 @@ public class DeliveryDTO {
 		this.dateTimeDelivery = dateTimeDelivery;
 	}
 
-	public Supplier getSupplier() {
+	public String getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
-	public List<Product> getProducts() {
+	public List<ProductDTO> getProducts() {
 		return products;
 	}
 	
