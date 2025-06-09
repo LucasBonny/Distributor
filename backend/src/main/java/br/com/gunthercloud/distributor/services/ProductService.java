@@ -43,8 +43,8 @@ public class ProductService {
 	@Transactional
 	public ProductDTO create(ProductDTO obj) {
 		Product entity = new Product(obj);
+		entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
 		entity.setId(null);
-		entity.setSupplier(null);
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
 	}
@@ -81,21 +81,6 @@ public class ProductService {
 			list.add(e.getName());
 		}
 		return list;
-	}
-
-	@Transactional
-	public ProductDTO updateSupplier(Long id, String supplier) {
-		Supplier newSupplier;
-		try{
-			System.out.println(supplier);
-			newSupplier = supplierRepository.findByName(supplier);
-		}
-		catch (RuntimeException e) {
-			throw new NotFoundException("O nome informado não existe!");
-		}
-		Product product = repository.findById(id).orElseThrow(() -> new NotFoundException("O id " + id + " não existe!"));
-		product.setSupplier(newSupplier);
-		return new ProductDTO(product);
 	}
 
 	//Busca todos os produtos da empresa X

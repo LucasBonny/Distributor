@@ -26,10 +26,9 @@ const Produto = () => {
 
     const [produtos, setProdutos] = useState<Projeto.Produto[]>([]);
     const [produtoDialog, setProdutoDialog] = useState(false);
-    const [fornecedorDialog, setFornecedorDialog] = useState(false);
     const [deleteProdutoDialog, setDeleteProdutoDialog] = useState(false);
     const [deleteProdutosDialog, setDeleteProdutosDialog] = useState(false);
-    const [fornecedor, setFornecedor] = useState(null);
+    const [fornecedor, setFornecedor] = useState('');
     const [fornecedores, setFornecedores] = useState([]);
     const [produto, setProduto] = useState<Projeto.Produto>(produtoVazio);
     const [selectedProdutos, setSelectedProdutos] = useState(null);
@@ -93,11 +92,6 @@ const Produto = () => {
         setSubmitted(false);
         setProdutoDialog(false);
     };
-    const hideFornecedorDialog = () => {
-        setSubmitted(false);
-        setFornecedorDialog(false);
-    };
-
     const hideDeleteProdutoDialog = () => {
         setDeleteProdutoDialog(false);
     };
@@ -152,11 +146,6 @@ const Produto = () => {
         setProdutoDialog(true);
     };
 
-    const editFornecedor = (produto: Projeto.Produto) => {
-        setProduto({ ...produto });
-        setFornecedorDialog(true);
-    };
-
     const confirmDeleteProduto = (produto: Projeto.Produto) => {
         setProduto(produto);
         setDeleteProdutoDialog(true);
@@ -175,19 +164,6 @@ const Produto = () => {
             life: 3000
         });
     };
-
-    const saveFornecedor = () => {
-        produtoService.editarFornecedor(produto.id, {"supplier": fornecedor})
-            .then(() => {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'Sucesso',
-                    detail: 'Fornecedor Alterado',
-                    life: 3000
-            });
-        });
-        hideFornecedorDialog();
-    }
 
     const confirmDeleteSelected = () => {
         setDeleteProdutosDialog(true);
@@ -221,7 +197,9 @@ const Produto = () => {
           _produto[nome] = val as Projeto.Produto[typeof nome];
         }
       
+        _produto.supplier = fornecedor;
         setProduto(_produto);
+        console.log(_produto);
       };
       
 
@@ -313,7 +291,6 @@ const Produto = () => {
         return (
             <>
                 <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => editProduto(rowData)} />
-                <Button icon="pi pi-users" rounded severity="info" className="mr-2" onClick={() => editFornecedor(rowData)} />
                 <Button icon="pi pi-trash" rounded severity="warning" onClick={() => confirmDeleteProduto(rowData)} />
             </>
         );
@@ -325,12 +302,6 @@ const Produto = () => {
         <>
             <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
             <Button label="Salvar" icon="pi pi-check" text onClick={saveProduto} />
-        </>
-    );
-    const fornecedorDialogFooter = (
-        <>
-            <Button label="Cancelar" icon="pi pi-times" text onClick={hideFornecedorDialog} />
-            <Button label="Salvar" icon="pi pi-check" text onClick={saveFornecedor} />
         </>
     );
     const deleteProdutoDialogFooter = (
@@ -411,12 +382,8 @@ const Produto = () => {
                             <label htmlFor="imgUrl">Imagem do produto</label>
                             <InputTextarea id="imgUrl" value={produto.imgUrl} onChange={(e) => onInputChange(e, 'imgUrl')} rows={5} cols={30} />
                         </div>
-                    </Dialog>
-
-                    <Dialog visible={fornecedorDialog} style={{ width: '450px' }} header="Editar Fornecedor" modal className="p-fluid" footer={fornecedorDialogFooter} onHide={hideFornecedorDialog}>
                         <div className="field col">
-                            <label htmlFor="supplier" style={{ fontWeight: 'bold' }}>{produto.name}</label><hr />
-                            <label htmlFor="supplier">Escolha o fornecedor para esse produto</label>
+                            <label htmlFor="supplier">Fornecedor</label>
                             <ListBox
                                 value={produto.supplier}
                                 onChange={(e) => setFornecedor(e.value)}

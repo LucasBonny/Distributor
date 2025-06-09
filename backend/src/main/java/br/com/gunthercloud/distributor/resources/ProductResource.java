@@ -53,8 +53,4 @@ public class ProductResource {
 		return ResponseEntity.ok().body(service.findAllSupplier());
 	}
 
-	@PatchMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> updateSupplier(@PathVariable Long id, @RequestBody Map<String, String> supplier) {
-		return ResponseEntity.ok().body(service.updateSupplier(id, supplier.get("supplier")));
-	}
 }
