@@ -1,10 +1,10 @@
-package br.com.gunthercloud.project;
+package br.com.gunthercloud.distributor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class DistributorApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -106,7 +106,6 @@ const Entrega = () => {
                         detail: error.response?.data?.message || 'Erro desconhecido',
                         life: 5000
                     });
-                    console.log(entrega)
                 });
         }
     
@@ -298,7 +297,7 @@ const Entrega = () => {
                             <label htmlFor="name">Nome</label>
                             <InputText
                                 id="name"
-                                value={entrega.name}
+                                value={entrega.id}
                                 onChange={(e) => onInputChange(e, 'name')}
                                 required
                                 autoFocus

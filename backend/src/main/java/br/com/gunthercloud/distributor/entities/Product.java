@@ -132,19 +132,6 @@ public class Product implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Product{" +
-				"id=" + id +
-				", barCode=" + barCode +
-				", name='" + name + '\'' +
-				", price=" + price +
-				", stock=" + stock +
-				", imgUrl='" + imgUrl + '\'' +
-				", supplier=" + supplier +
-				'}';
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

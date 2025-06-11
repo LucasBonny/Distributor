@@ -1,10 +1,7 @@
 package br.com.gunthercloud.distributor.resources;
 
 import java.util.List;
-import java.util.Map;
 
-import br.com.gunthercloud.distributor.entities.Supplier;
-import br.com.gunthercloud.distributor.entities.dto.SupplierDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.beans.BeanUtils;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.gunthercloud.distributor.entities.dto.EmployeeDTO;
