@@ -51,7 +51,7 @@ public class ProductService {
 
 	@Transactional
 	public ProductDTO update(Long id, ProductDTO obj) {
-		repository.findById(id).orElseThrow(() -> 
+		repository.findById(id).orElseThrow(() ->
 			new NotFoundException("O id " + id +  " não existe!"));
 		Product entity = new Product(obj);
 		entity.setId(id);
@@ -63,12 +63,13 @@ public class ProductService {
 	@Transactional
 	public void delete(Long id) {
 		try {
-			Product entity = repository.findById(id).orElseThrow(() -> 
-				new NotFoundException("O id " + id + " não existe!"));
-			repository.delete(entity);
+			repository.deleteById(id);
 		}
 		catch(DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
+		}
+		catch(RuntimeException e) {
+			throw new RuntimeException(e.getMessage());
 		}
 		
 	}
