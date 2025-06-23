@@ -197,7 +197,6 @@ const Produto = () => {
           _produto[nome] = val as Projeto.Produto[typeof nome];
         }
       
-        _produto.supplier = fornecedor;
         setProduto(_produto);
         console.log(_produto);
       };
@@ -386,7 +385,10 @@ const Produto = () => {
                             <label htmlFor="supplier">Fornecedor</label>
                             <ListBox
                                 value={produto.supplier}
-                                onChange={(e) => setFornecedor(e.value)}
+                                onChange={(e) => {
+                                    const updatedProduto = { ...produto, supplier: e.value };
+                                    setProduto(updatedProduto);
+                                }}
                                 options={fornecedores}
                                 filter
                             />
