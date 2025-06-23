@@ -131,7 +131,7 @@ const EntregaPage = () => {
         <div className="card">
           <Toast ref={toast} />
           <Toolbar className="mb-4" left={leftToolbarTemplate} />
-          <DataTable value={entregas} selection={selectedEntregas} onSelectionChange={(e) => setSelectedEntregas(e.value)} dataKey="id" paginator rows={10} responsiveLayout="scroll">
+          <DataTable value={entregas} selection={selectedEntregas} onSelectionChange={(e) => setSelectedEntregas(e.value)} dataKey="id" paginator rows={10} responsiveLayout="scroll" selectionMode="multiple">
             <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
             <Column field="fornecedor" header="Fornecedor" sortable />
             <Column field="dataHora" header="Data/Hora" body={(row) => row.dataHora?.toLocaleString()} sortable />

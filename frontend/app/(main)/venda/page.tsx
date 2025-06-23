@@ -14,8 +14,8 @@ type Venda = {
   id: string;
   cliente: string;
   produto: string;
-  quantidade: number;
-  valor: number;
+  quantidade: string;
+  valor: string;
   data: Date | null;
 };
 
@@ -25,8 +25,8 @@ const VendaPage = () => {
     id: '',
     cliente: '',
     produto: '',
-    quantidade: 0,
-    valor: 0,
+    quantidade: '',
+    valor: '',
     data: null,
   };
 
@@ -128,7 +128,7 @@ const VendaPage = () => {
           <Toast ref={toast} />
           <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
 
-          <DataTable value={vendas} selection={selectedVendas} onSelectionChange={(e) => setSelectedVendas(e.value)} dataKey="id" paginator rows={10} emptyMessage="Nenhuma venda registrada." responsiveLayout="scroll">
+          <DataTable value={vendas} selection={selectedVendas} onSelectionChange={(e) => setSelectedVendas(e.value)} dataKey="id" paginator rows={10} emptyMessage="Nenhuma venda registrada." responsiveLayout="scroll" selectionMode="multiple">
             <Column field="cliente" header="Cliente" sortable></Column>
             <Column field="produto" header="Produto" sortable></Column>
             <Column field="quantidade" header="Qtd" sortable></Column>
