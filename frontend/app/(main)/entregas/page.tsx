@@ -4,19 +4,17 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import { Calendar } from 'primereact/calendar';
+import { Dropdown } from 'primereact/dropdown';
 
 type Entrega = {
   id: string;
   fornecedor: string;
   dataHora: Date | null;
-  endereco: string;
-  produtos: string; // texto livre ou JSON
+  produtos: string;
 };
 
 const EntregaPage = () => {
@@ -26,7 +24,6 @@ const EntregaPage = () => {
     id: '',
     fornecedor: '',
     dataHora: null,
-    endereco: '',
     produtos: '',
   };
 
@@ -36,6 +33,20 @@ const EntregaPage = () => {
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [selectedEntregas, setSelectedEntregas] = useState<Entrega[]>([]);
   const [submitted, setSubmitted] = useState(false);
+
+  const fornecedores = [
+    { name: 'Ambev', code: 'AMBEV' },
+    { name: 'Nestlé', code: 'NESTLE' },
+    { name: 'Coca-Cola', code: 'COCA' },
+    { name: 'PepsiCo', code: 'PEPSI' },
+  ];
+
+  const produtos = [
+    { name: 'Coca-Cola 2L', code: 'COCA2L' },
+    { name: 'Guaraná Antarctica 1L', code: 'GUARA1L' },
+    { name: 'Água Mineral', code: 'AGUA' },
+    { name: 'Cerveja Skol', code: 'SKOL' },
+  ];
 
   const openNew = () => {
     setEntrega(entregaVazia);
@@ -50,7 +61,7 @@ const EntregaPage = () => {
 
   const saveEntrega = () => {
     setSubmitted(true);
-    if (!entrega.fornecedor || !entrega.dataHora || !entrega.endereco) return;
+    if (!entrega.fornecedor || !entrega.dataHora || !entrega.produtos) return;
 
     let _entregas = [...entregas];
     if (entrega.id) {
@@ -82,11 +93,6 @@ const EntregaPage = () => {
     setEntregas(entregas.filter((e) => e.id !== entrega.id));
     setDeleteDialog(false);
     toast.current?.show({ severity: 'success', summary: 'Excluída', detail: 'Entrega removida', life: 3000 });
-  };
-
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Entrega) => {
-    const val = e.target.value;
-    setEntrega({ ...entrega, [field]: val });
   };
 
   const onDateChange = (e: any) => {
@@ -131,19 +137,45 @@ const EntregaPage = () => {
         <div className="card">
           <Toast ref={toast} />
           <Toolbar className="mb-4" left={leftToolbarTemplate} />
-          <DataTable value={entregas} selection={selectedEntregas} onSelectionChange={(e) => setSelectedEntregas(e.value)} dataKey="id" paginator rows={10} responsiveLayout="scroll" selectionMode="multiple">
-            <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
-            <Column field="fornecedor" header="Fornecedor" sortable />
-            <Column field="dataHora" header="Data/Hora" body={(row) => row.dataHora?.toLocaleString()} sortable />
-            <Column field="endereco" header="Endereço" sortable />
-            <Column field="produtos" header="Produtos" />
-            <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }} />
-          </DataTable>
+          <DataTable
+  value={entregas}
+  selection={selectedEntregas}
+  onSelectionChange={(e) => setSelectedEntregas(e.value)}
+  dataKey="id"
+  paginator
+  rows={10}
+  responsiveLayout="scroll"
+  selectionMode="multiple"  // move selectionMode para o DataTable, não para a Column
+>
+  <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
+  <Column field="fornecedor" header="Fornecedor" sortable />
+  <Column
+    field="dataHora"
+    header="Data/Hora"
+    body={(row) => {
+      const date = new Date(row.dataHora);
+      return date.toLocaleString();
+    }}
+    sortable
+  />
+  <Column field="produtos" header="Produtos" />
+  <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }} />
+</DataTable>
 
-          <Dialog visible={entregaDialog} style={{ width: '450px' }} header="Entrega" modal className="p-fluid" footer={entregaDialogFooter} onHide={hideDialog}>
+
+          <Dialog visible={entregaDialog} style={{ width: '450px' }} header="Nova Entrega" modal className="p-fluid" footer={entregaDialogFooter} onHide={hideDialog}>
             <div className="field">
               <label htmlFor="fornecedor">Fornecedor</label>
-              <InputText id="fornecedor" value={entrega.fornecedor} onChange={(e) => onInputChange(e, 'fornecedor')} required className={classNames({ 'p-invalid': submitted && !entrega.fornecedor })} />
+              <Dropdown
+                id="fornecedor"
+                value={fornecedores.find(f => f.name === entrega.fornecedor)}
+                onChange={(e) => setEntrega({ ...entrega, fornecedor: e.value.name })}
+                options={fornecedores}
+                optionLabel="name"
+                placeholder="Selecione um Fornecedor"
+                filter
+                className={classNames('w-full', { 'p-invalid': submitted && !entrega.fornecedor })}
+              />
               {submitted && !entrega.fornecedor && <small className="p-invalid">Fornecedor é obrigatório.</small>}
             </div>
 
@@ -154,14 +186,18 @@ const EntregaPage = () => {
             </div>
 
             <div className="field">
-              <label htmlFor="endereco">Endereço</label>
-              <InputText id="endereco" value={entrega.endereco} onChange={(e) => onInputChange(e, 'endereco')} required className={classNames({ 'p-invalid': submitted && !entrega.endereco })} />
-              {submitted && !entrega.endereco && <small className="p-invalid">Endereço é obrigatório.</small>}
-            </div>
-
-            <div className="field">
               <label htmlFor="produtos">Produtos</label>
-              <InputTextarea id="produtos" value={entrega.produtos} onChange={(e) => onInputChange(e, 'produtos')} rows={4} />
+              <Dropdown
+                id="produtos"
+                value={produtos.find(p => p.name === entrega.produtos)}
+                onChange={(e) => setEntrega({ ...entrega, produtos: e.value.name })}
+                options={produtos}
+                optionLabel="name"
+                placeholder="Selecione um Produto"
+                filter
+                className={classNames('w-full', { 'p-invalid': submitted && !entrega.produtos })}
+              />
+              {submitted && !entrega.produtos && <small className="p-invalid">Produto é obrigatório.</small>}
             </div>
           </Dialog>
 

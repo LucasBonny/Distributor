@@ -9,24 +9,34 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { classNames } from 'primereact/utils';
 import { Calendar } from 'primereact/calendar';
+import { Dropdown } from 'primereact/dropdown';
+import { InputNumber } from 'primereact/inputnumber';
 
 type Venda = {
   id: string;
   cliente: string;
   produto: string;
-  quantidade: string;
-  valor: string;
+  quantidade: number;
+  valor: number;
   data: Date | null;
 };
 
 const VendaPage = () => {
   const toast = useRef<Toast>(null);
+
+  const produtosDisponiveis = [
+    { name: 'Coca-Cola 2L', code: 'COCA2L' },
+    { name: 'Guaraná Antarctica 1L', code: 'GUARA1L' },
+    { name: 'Água Mineral', code: 'AGUA' },
+    { name: 'Cerveja Skol', code: 'SKOL' },
+  ];
+
   const emptyVenda: Venda = {
     id: '',
     cliente: '',
     produto: '',
-    quantidade: '',
-    valor: '',
+    quantidade: 0,
+    valor: 0,
     data: null,
   };
 
@@ -87,7 +97,7 @@ const VendaPage = () => {
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Venda) => {
     const val = (e.target && e.target.value) || '';
-    setVenda({ ...venda, [field]: field === 'quantidade' || field === 'valor' ? +val : val });
+    setVenda({ ...venda, [field]: field === 'quantidade' ? +val : val });
   };
 
   const onDateChange = (e: any) => {
@@ -128,14 +138,38 @@ const VendaPage = () => {
           <Toast ref={toast} />
           <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
 
-          <DataTable value={vendas} selection={selectedVendas} onSelectionChange={(e) => setSelectedVendas(e.value)} dataKey="id" paginator rows={10} emptyMessage="Nenhuma venda registrada." responsiveLayout="scroll" selectionMode="multiple">
+          <DataTable
+            value={vendas}
+            selection={selectedVendas}
+            onSelectionChange={(e) => setSelectedVendas(e.value)}
+            dataKey="id"
+            selectionMode="multiple"
+            paginator
+            rows={10}
+            emptyMessage="Nenhuma venda registrada."
+            responsiveLayout="scroll"
+          >
+            <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
             <Column field="cliente" header="Cliente" sortable></Column>
             <Column field="produto" header="Produto" sortable></Column>
             <Column field="quantidade" header="Qtd" sortable></Column>
-            <Column field="valor" header="Valor" sortable body={(rowData) => `R$ ${rowData.valor.toFixed(2)}`}></Column>
-            <Column field="data" header="Data" sortable body={(rowData) => rowData.data?.toLocaleDateString()}></Column>
+            <Column
+              field="valor"
+              header="Valor"
+              sortable
+              body={(rowData) => `R$ ${rowData.valor.toFixed(2)}`}
+            ></Column>
+            <Column
+              field="data"
+              header="Data"
+              sortable
+              body={(rowData) =>
+                rowData.data ? rowData.data.toLocaleString('pt-BR') : ''
+              }
+            ></Column>
             <Column body={actionBodyTemplate}></Column>
           </DataTable>
+
 
           <Dialog visible={vendaDialog} style={{ width: '450px' }} header="Detalhes da venda" modal className="p-fluid" footer={vendaDialogFooter} onHide={hideDialog}>
             <div className="field">
@@ -146,23 +180,53 @@ const VendaPage = () => {
 
             <div className="field">
               <label htmlFor="produto">Produto</label>
-              <InputText id="produto" value={venda.produto} onChange={(e) => onInputChange(e, 'produto')} required className={classNames({ 'p-invalid': submitted && !venda.produto })} />
+              <Dropdown
+                id="produto"
+                value={produtosDisponiveis.find(p => p.name === venda.produto)}
+                onChange={(e) => setVenda({ ...venda, produto: e.value.name })}
+                options={produtosDisponiveis}
+                optionLabel="name"
+                placeholder="Selecione um Produto"
+                filter
+                className={classNames('w-full', { 'p-invalid': submitted && !venda.produto })}
+              />
               {submitted && !venda.produto && <small className="p-invalid">Produto é obrigatório.</small>}
             </div>
 
             <div className="field">
               <label htmlFor="quantidade">Quantidade</label>
-              <InputText id="quantidade" type="number" value={venda.quantidade} onChange={(e) => onInputChange(e, 'quantidade')} />
+              <InputText
+              id="quantidade"
+              type="number"
+              value={venda.quantidade.toString()}
+              onChange={(e) => onInputChange(e, 'quantidade')}
+            />
             </div>
 
             <div className="field">
               <label htmlFor="valor">Valor Total</label>
-              <InputText id="valor" type="number" value={venda.valor} onChange={(e) => onInputChange(e, 'valor')} />
+              <InputNumber
+                id="valor"
+                value={venda.valor}
+                onValueChange={(e) => setVenda({ ...venda, valor: e.value || 0 })}
+                mode="currency"
+                currency="BRL"
+                locale="pt-BR"
+                className="w-full"
+              />
             </div>
 
             <div className="field">
               <label htmlFor="data">Data</label>
-              <Calendar id="data" value={venda.data} onChange={onDateChange} showIcon dateFormat="dd/mm/yy" />
+              <Calendar
+              id="data"
+              value={venda.data}
+              onChange={onDateChange}
+              showIcon
+              showTime
+              hourFormat="24"
+              dateFormat="dd/mm/yy"
+              />
               {submitted && !venda.data && <small className="p-invalid">Data é obrigatória.</small>}
             </div>
           </Dialog>
