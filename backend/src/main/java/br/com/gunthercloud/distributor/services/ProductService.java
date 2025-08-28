@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gunthercloud.distributor.entities.Product;
 import br.com.gunthercloud.distributor.entities.dto.ProductDTO;
+import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 import br.com.gunthercloud.distributor.services.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.services.exceptions.NotFoundException;
@@ -30,34 +31,34 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public List<ProductDTO> findAll(){
 		List<Product> list =  repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
-		return list.stream().map(ProductDTO::new).toList();
+		return list.stream().map(ProductMapper::toDTO).toList();
 	}
 	
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
 		Product entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe!"));
-		return new ProductDTO(entity);
+		return ProductMapper.toDTO(entity);
 	}
 	
 	@Transactional
 	public ProductDTO create(ProductDTO obj) {
-		Product entity = new Product(obj);
-		entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
+		Product entity = ProductMapper.toEntity(obj);
+		// entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
 		entity.setId(null);
 		entity = repository.save(entity);
-		return new ProductDTO(entity);
+		return ProductMapper.toDTO(entity);
 	}
 
 	@Transactional
 	public ProductDTO update(Long id, ProductDTO obj) {
 		repository.findById(id).orElseThrow(() ->
 			new NotFoundException("O id " + id +  " não existe!"));
-		Product entity = new Product(obj);
+		Product entity = ProductMapper.toEntity(obj);
 		entity.setId(id);
-		entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
+		// entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
 		entity = repository.save(entity);
-		return new ProductDTO(entity);
+		return ProductMapper.toDTO(entity);
 	}
 
 	@Transactional

@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gunthercloud.distributor.entities.dto.SupplierDTO;
+import br.com.gunthercloud.distributor.entities.dto.SupplierWithProductsDTO;
 import br.com.gunthercloud.distributor.services.SupplierService;
 
 @RestController
-@RequestMapping(value = "/suppliers")
+@RequestMapping(value = "/supplier")
 @CrossOrigin
 public class SupplierResource {
 
@@ -35,7 +36,7 @@ public class SupplierResource {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<SupplierDTO> findById(@PathVariable UUID id) {
+	public ResponseEntity<SupplierWithProductsDTO> findById(@PathVariable UUID id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
@@ -53,6 +54,12 @@ public class SupplierResource {
 	public ResponseEntity<Void> delete(@PathVariable UUID id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/products")
+	public ResponseEntity<SupplierWithProductsDTO> createWithProducts(@RequestBody SupplierWithProductsDTO supplier) {
+		supplier.getProducts().forEach(System.out::println);
+		return ResponseEntity.ok().body(service.createWithProducts(supplier));
 	}
 	
 //	// Buscar todos os produtos entregues pela empresa

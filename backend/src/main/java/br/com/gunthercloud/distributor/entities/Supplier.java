@@ -7,9 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
-
-import br.com.gunthercloud.distributor.entities.dto.SupplierDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +39,7 @@ public class Supplier implements Serializable {
 	@OneToMany(mappedBy = "supplier")
 	private Set<Delivery> deliveries = new HashSet<>();
 
-	@OneToMany(mappedBy = "supplier")
+	@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
 	private Set<Product> products = new HashSet<>();
 	
 	public Supplier(){
@@ -55,10 +53,6 @@ public class Supplier implements Serializable {
 		this.address = address;
 		this.cep = cep;
 		this.phoneNumber = phoneNumber;
-	}
-
-	public Supplier(SupplierDTO obj) {
-		BeanUtils.copyProperties(obj, this);
 	}
 
 	public UUID getId() {
@@ -114,6 +108,12 @@ public class Supplier implements Serializable {
 	}
 	public Set<Product> getProducts() {
 		return products;
+	}
+
+	@Override
+	public String toString() {
+		return "Supplier [id=" + id + ", cnpj=" + cnpj + ", name=" + name + ", address=" + address + ", cep=" + cep
+				+ ", phoneNumber=" + phoneNumber + ", deliveries=" + deliveries + ", products=" + products + "]";
 	}
 
 	@Override

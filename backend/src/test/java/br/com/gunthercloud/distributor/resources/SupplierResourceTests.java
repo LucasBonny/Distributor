@@ -59,7 +59,7 @@ public class SupplierResourceTests {
         supplierList = List.of(supplierDTO);
         when(service.findAll()).thenReturn(supplierList);
 
-        when(service.findById(existingId)).thenReturn(supplierDTO);
+//        when(service.findById(existingId)).thenReturn(supplierDTO);
         when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
 
         when(service.create(any())).thenReturn(supplierDTO);

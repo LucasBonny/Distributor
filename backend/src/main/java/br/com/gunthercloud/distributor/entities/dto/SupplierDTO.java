@@ -2,8 +2,6 @@ package br.com.gunthercloud.distributor.entities.dto;
 
 import java.util.UUID;
 
-import br.com.gunthercloud.distributor.entities.Supplier;
-
 public class SupplierDTO {
 
 	private UUID id;
@@ -16,38 +14,53 @@ public class SupplierDTO {
 	public SupplierDTO() {
 		super();
 	}
-	
-	public SupplierDTO(Supplier entity) {
-        this.id = entity.getId();
-        this.cnpj = entity.getCnpj();
-        this.name = entity.getName();
-        this.address = entity.getAddress();
-        this.cep = entity.getCep();
-        this.phoneNumber = entity.getPhoneNumber();
-    }
-	
+
 	public UUID getId() {
 		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	public Long getCnpj() {
 		return cnpj;
 	}
 
+	public void setCnpj(Long cnpj) {
+		this.cnpj = cnpj;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAddress() {
 		return address;
 	}
-	
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public int getCep() {
 		return cep;
 	}
-	
+
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
+
 	public Long getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public void setPhoneNumber(Long phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 }

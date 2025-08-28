@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.com.gunthercloud.distributor.entities.Delivery;
 import br.com.gunthercloud.distributor.entities.Product;
+import br.com.gunthercloud.distributor.mapper.ProductMapper;
 
 public class DeliveryDTO {
 	
@@ -19,7 +20,8 @@ public class DeliveryDTO {
 		id = object.getId();
 		dateTimeDelivery = object.getDateTimeDelivery();
 		supplier = object.getSupplier().getName();
-		for(Product e : object.getProducts()) products.add(new ProductDTO(e));
+		for(Product e : object.getProducts()) 
+			products.add(ProductMapper.toDTO(e));
 	}
 
 	public Long getId() {

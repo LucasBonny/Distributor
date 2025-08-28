@@ -6,10 +6,16 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.*;
-import org.springframework.beans.BeanUtils;
-
-import br.com.gunthercloud.distributor.entities.dto.ProductDTO;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_product")
@@ -42,7 +48,7 @@ public class Product implements Serializable {
 	private Set<Delivery> delivery = new HashSet<>();
 
 	@ManyToOne
-	@JoinColumn(name = "supplier_id", nullable = false)
+	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
 
 	public Product() {
@@ -57,10 +63,6 @@ public class Product implements Serializable {
 		this.stock = stock;
 		this.imgUrl = imgUrl;
 		this.supplier = supplier;
-	}
-	
-	public Product(ProductDTO obj) {
-		BeanUtils.copyProperties(obj, this);
 	}
 
 	public Long getId() {
@@ -124,6 +126,12 @@ public class Product implements Serializable {
 
 	public Supplier getSupplier() {
 		return supplier;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", barCode=" + barCode + ", name=" + name + ", price=" + price + ", stock=" + stock
+				+ ", imgUrl=" + imgUrl + ", delivery=" + delivery + ", supplier=" + supplier + "]";
 	}
 
 	@Override

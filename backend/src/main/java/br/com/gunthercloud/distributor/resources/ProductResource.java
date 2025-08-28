@@ -18,9 +18,8 @@ public class ProductResource {
 	private ProductService service;
 
 	@GetMapping
-	public ResponseEntity<List<ProductDTO>> findAll(){
+	public ResponseEntity<List<ProductDTO>> findAll() {
 		List<ProductDTO> list = service.findAll();
-		for(ProductDTO e : list) System.out.println(e.getName());
 		return ResponseEntity.ok().body(list);
 	}
 
