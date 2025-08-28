@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
-import br.com.gunthercloud.distributor.services.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.gunthercloud.distributor.entities.dto.ProductDTO;
-import br.com.gunthercloud.distributor.services.ProductService;
-import br.com.gunthercloud.distributor.services.exceptions.DatabaseException;
+import br.com.gunthercloud.distributor.controller.ProductResource;
+import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.service.ProductService;
+import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
+import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
 @WebMvcTest(ProductResource.class)
 public class ProductResourceTests {

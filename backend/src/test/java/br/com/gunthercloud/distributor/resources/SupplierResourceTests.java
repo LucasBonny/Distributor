@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import java.util.UUID;
 
-import br.com.gunthercloud.distributor.services.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.gunthercloud.distributor.entities.dto.SupplierDTO;
-import br.com.gunthercloud.distributor.services.SupplierService;
-import br.com.gunthercloud.distributor.services.exceptions.DatabaseException;
+import br.com.gunthercloud.distributor.controller.SupplierResource;
+import br.com.gunthercloud.distributor.entity.dto.SupplierDTO;
+import br.com.gunthercloud.distributor.service.SupplierService;
+import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
+import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
 @WebMvcTest(SupplierResource.class)
 public class SupplierResourceTests {

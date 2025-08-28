@@ -2,10 +2,10 @@ package br.com.gunthercloud.distributor.resources;
 
 import java.util.UUID;
 
-import br.com.gunthercloud.distributor.entities.Product;
-import br.com.gunthercloud.distributor.entities.Supplier;
-import br.com.gunthercloud.distributor.entities.dto.ProductDTO;
-import br.com.gunthercloud.distributor.entities.dto.SupplierDTO;
+import br.com.gunthercloud.distributor.entity.Product;
+import br.com.gunthercloud.distributor.entity.Supplier;
+import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.entity.dto.SupplierDTO;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.mapper.SupplierMapper;
 

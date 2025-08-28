@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import br.com.gunthercloud.distributor.DistributorApplication;
-import br.com.gunthercloud.distributor.entities.Product;
+import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 import br.com.gunthercloud.distributor.resources.Factory;
 

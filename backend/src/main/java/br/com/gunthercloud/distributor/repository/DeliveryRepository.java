@@ -2,7 +2,7 @@ package br.com.gunthercloud.distributor.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.gunthercloud.distributor.entities.Delivery;
+import br.com.gunthercloud.distributor.entity.Delivery;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long>{
 

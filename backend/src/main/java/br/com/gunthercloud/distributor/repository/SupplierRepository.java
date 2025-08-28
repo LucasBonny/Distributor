@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.gunthercloud.distributor.entities.Supplier;
+import br.com.gunthercloud.distributor.entity.Supplier;
 
 public interface SupplierRepository extends JpaRepository<Supplier, UUID>{
 	

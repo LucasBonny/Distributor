@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.gunthercloud.distributor.entities.Sale;
+import br.com.gunthercloud.distributor.entity.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 	

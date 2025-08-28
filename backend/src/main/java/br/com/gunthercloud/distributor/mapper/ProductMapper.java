@@ -2,8 +2,8 @@ package br.com.gunthercloud.distributor.mapper;
 
 import org.springframework.beans.BeanUtils;
 
-import br.com.gunthercloud.distributor.entities.Product;
-import br.com.gunthercloud.distributor.entities.dto.ProductDTO;
+import br.com.gunthercloud.distributor.entity.Product;
+import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
 
 public class ProductMapper {
 	

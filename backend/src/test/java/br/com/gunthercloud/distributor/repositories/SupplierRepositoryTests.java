@@ -1,7 +1,7 @@
 package br.com.gunthercloud.distributor.repositories;
 
 import br.com.gunthercloud.distributor.DistributorApplication;
-import br.com.gunthercloud.distributor.entities.Supplier;
+import br.com.gunthercloud.distributor.entity.Supplier;
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
