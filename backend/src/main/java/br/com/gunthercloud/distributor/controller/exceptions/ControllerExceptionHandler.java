@@ -12,7 +12,7 @@ import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class ResourceExceptionHandler {
+public class ControllerExceptionHandler {
 
 	@ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<StandardError> findById(NotFoundException e, HttpServletRequest request) {
@@ -35,4 +35,16 @@ public class ResourceExceptionHandler {
 		standard.setMessage(e.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standard);
 	}
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<StandardError> runtime(RuntimeException e, HttpServletRequest req) {
+        StandardError standard = new StandardError();
+        standard.setPath(req.getRequestURI());
+        String[] parts = e.getMessage().split(":");
+        standard.setError(parts[0] + "!");
+        standard.setTimestamp(Instant.now());
+        standard.setStatus(HttpStatus.BAD_REQUEST.value());
+        standard.setMessage("Não foi possível realizar essa operação!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standard);
+    }
 }

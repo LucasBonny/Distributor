@@ -19,9 +19,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_product")
-public class Product implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

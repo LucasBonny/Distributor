@@ -44,9 +44,10 @@ public class ProductService {
 	
 	@Transactional
 	public ProductDTO create(ProductDTO obj) {
-		Product entity = ProductMapper.toEntity(obj);
-		// entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
-		entity.setId(null);
+        System.out.println(obj.getPrice());
+        Product entity = ProductMapper.toEntity(obj);
+        System.out.println(entity.getPrice());
+        entity.setId(null);
 		entity = repository.save(entity);
 		return ProductMapper.toDTO(entity);
 	}
