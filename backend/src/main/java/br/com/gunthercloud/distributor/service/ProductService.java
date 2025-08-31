@@ -9,6 +9,8 @@ import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +32,9 @@ public class ProductService {
 	private SupplierRepository supplierRepository;
 
 	@Transactional(readOnly = true)
-	public List<ProductDTO> findAll(){
-		List<Product> list =  repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
-		return list.stream().map(ProductMapper::toDTO).toList();
+	public Page<ProductDTO> findAll(Pageable pageable){
+        Page<Product> list =  repository.findAll(pageable);
+		return list.map(ProductMapper::toDTO);
 	}
 	
 	@Transactional(readOnly = true)
@@ -43,7 +45,7 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public ProductDTO create(ProductDTO obj) {
+	public ProductDTO createProduct(ProductDTO obj) {
         System.out.println(obj.getPrice());
         Product entity = ProductMapper.toEntity(obj);
         System.out.println(entity.getPrice());
@@ -53,7 +55,7 @@ public class ProductService {
 	}
 
 	@Transactional
-	public ProductDTO update(Long id, ProductDTO obj) {
+	public ProductDTO updateProduct(Long id, ProductDTO obj) {
 		repository.findById(id).orElseThrow(() ->
 			new NotFoundException("O id " + id +  " não existe!"));
 		Product entity = ProductMapper.toEntity(obj);
@@ -64,7 +66,7 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void delete(Long id) {
+	public void deleteProduct(Long id) {
 		try {
 			repository.deleteById(id);
 		}

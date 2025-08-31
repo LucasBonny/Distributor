@@ -2,8 +2,15 @@ package br.com.gunthercloud.distributor.controller;
 
 import java.util.List;
 
+import br.com.gunthercloud.distributor.controller.model.PageModel;
+import br.com.gunthercloud.distributor.controller.model.PageableModel;
+import br.com.gunthercloud.distributor.controller.model.PagedResponse;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +26,13 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 
+    @Autowired
+    private PagedResponse<ProductDTO> response;
+
 	@GetMapping
-	public ResponseEntity<List<ProductDTO>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<PageModel<ProductDTO>> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        Page<ProductDTO> paged = service.findAll(pageable);
+        return ResponseEntity.ok().body(response.request(paged));
 	}
 
 	@GetMapping(value = "/{id}")
@@ -37,7 +48,7 @@ public class ProductController {
 	@PostMapping
 	public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO obj) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.create(obj));
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.createProduct(obj));
         }
         catch (RuntimeException e) {
             throw new RuntimeException("Houve um erro ao criar o usuário");
@@ -46,12 +57,12 @@ public class ProductController {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO obj) {
-		return ResponseEntity.ok().body(service.update(id, obj));
+		return ResponseEntity.ok().body(service.updateProduct(id, obj));
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-		service.delete(id);
+		service.deleteProduct(id);
 		return ResponseEntity.status(204).build();
 	}
 

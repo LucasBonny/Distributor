@@ -62,13 +62,13 @@ public class ProductControllerTests {
         when(service.findById(existingId)).thenReturn(productDTO);
         when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
 
-        when(service.create(any())).thenReturn(productDTO);
+        when(service.createProduct(any())).thenReturn(productDTO);
 
-        when(service.update(eq(existingId), any())).thenReturn(productDTO);
-        when(service.update(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
+        when(service.updateProduct(eq(existingId), any())).thenReturn(productDTO);
+        when(service.updateProduct(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
 
-        doThrow(DatabaseException.class).when(service).delete(any());
-        doNothing().when(service).delete(existingId);
+        doThrow(DatabaseException.class).when(service).deleteProduct(any());
+        doNothing().when(service).deleteProduct(existingId);
     }
 
     @Test
