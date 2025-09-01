@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.distributor.entity.dto.PaymentDTO;
-import br.com.gunthercloud.distributor.service.PaymentService;
+import br.com.gunthercloud.distributor.entity.dto.SaleItemDTO;
+import br.com.gunthercloud.distributor.service.SaleItemService;
 
 @RestController
-@RequestMapping(value = "/payments")
+@RequestMapping(value = "/sales/items")
 @CrossOrigin
-public class PaymentResource {
+public class SaleItemController {
 	
 	@Autowired
-	private PaymentService paymentService;
+	private SaleItemService saleItemService;
 	
 	@GetMapping
-	public List<PaymentDTO> findAll(){
-		return paymentService.findAll();
+	public List<SaleItemDTO> findAll(){
+		return saleItemService.findAll();
 	}
 	@GetMapping(value = "/{id}")
-	public PaymentDTO findById(@PathVariable Long id) {
-		return paymentService.findById(id);
+	public List<SaleItemDTO> findBySale(@PathVariable Long id) {
+		return saleItemService.findBySale(id);
 	}
 
 }

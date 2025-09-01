@@ -20,7 +20,7 @@ import br.com.gunthercloud.distributor.service.DeliveryService;
 @RestController
 @RequestMapping(value = "/deliveries")
 @CrossOrigin
-public class DeliveryResource {
+public class DeliveryController {
 	
 	@Autowired
 	private DeliveryService service;
