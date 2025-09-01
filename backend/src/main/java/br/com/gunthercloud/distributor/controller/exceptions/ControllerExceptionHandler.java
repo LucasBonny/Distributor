@@ -1,6 +1,8 @@
 package br.com.gunthercloud.distributor.controller.exceptions;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -87,6 +89,20 @@ public class ControllerExceptionHandler {
         String[] parts = e.getLocalizedMessage().split(":");
         standard.setMessage(parts[0] + "!");
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(standard);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationError> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
+        ValidationError standard = new ValidationError();
+        standard.setTimestamp(Instant.now());
+        standard.setStatus(HttpStatus.BAD_REQUEST.value());
+        standard.setError("MethodArgumentNotValidException error");
+        standard.setMessage("Validation failed in these fields below");
+        standard.setPath(request.getRequestURI());
+        for(FieldError f : e.getBindingResult().getFieldErrors()) {
+            standard.addError(f.getField(), f.getDefaultMessage());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standard);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
