@@ -15,7 +15,7 @@ import br.com.gunthercloud.distributor.service.SaleService;
 @RestController
 @RequestMapping(value = "/sales")
 @CrossOrigin
-public class SaleResource {
+public class SaleController {
 	
 	@Autowired
 	private SaleService saleService;

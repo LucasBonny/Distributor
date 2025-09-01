@@ -22,7 +22,7 @@ import br.com.gunthercloud.distributor.service.SupplierService;
 @RestController
 @RequestMapping(value = "/supplier")
 @CrossOrigin
-public class SupplierResource {
+public class SupplierController {
 
 	@Autowired
 	private SupplierService service;

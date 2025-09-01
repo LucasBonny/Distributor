@@ -26,14 +26,14 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.gunthercloud.distributor.controller.SupplierResource;
+import br.com.gunthercloud.distributor.controller.SupplierController;
 import br.com.gunthercloud.distributor.entity.dto.SupplierDTO;
 import br.com.gunthercloud.distributor.service.SupplierService;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
-@WebMvcTest(SupplierResource.class)
-public class SupplierResourceTests {
+@WebMvcTest(SupplierController.class)
+public class SupplierControllerTests {
 
     @Autowired
     private MockMvc mockMvc;

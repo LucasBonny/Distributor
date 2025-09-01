@@ -23,7 +23,7 @@ import br.com.gunthercloud.distributor.service.SaleService;
 @RestController
 @RequestMapping(value = "/employees")
 @CrossOrigin
-public class EmployeeResource {
+public class EmployeeController {
 	
 	@Autowired
 	private EmployeeService service;
