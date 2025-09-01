@@ -6,17 +6,22 @@ import br.com.gunthercloud.distributor.controller.model.PageModel;
 import br.com.gunthercloud.distributor.controller.model.PageableModel;
 import br.com.gunthercloud.distributor.controller.model.PagedResponse;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
 import br.com.gunthercloud.distributor.service.ProductService;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -42,17 +47,14 @@ public class ProductController {
         }
         catch (NotFoundException e) {
             throw new NotFoundException("Id " + id + " doesn't exist!");
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Houve um erro ao executar essa função.");
         }
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO obj) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.createProduct(obj));
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("Houve um erro ao criar o usuário");
-        }
+	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO obj) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createProduct(obj));
 	}
 
 	@PutMapping(value = "/{id}")

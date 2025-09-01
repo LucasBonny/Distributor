@@ -2,6 +2,7 @@ package br.com.gunthercloud.distributor.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
@@ -46,10 +47,10 @@ public class ProductService {
 	
 	@Transactional
 	public ProductDTO createProduct(ProductDTO obj) {
-        System.out.println(obj.getPrice());
         Product entity = ProductMapper.toEntity(obj);
-        System.out.println(entity.getPrice());
         entity.setId(null);
+        Optional<Supplier> sup = supplierRepository.findById(obj.getSupplier());
+        entity.setSupplier(sup.orElseThrow());
 		entity = repository.save(entity);
 		return ProductMapper.toDTO(entity);
 	}
