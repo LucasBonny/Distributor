@@ -1,70 +1,37 @@
 package br.com.gunthercloud.distributor.entity.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+import java.util.UUID;
+
+@Data
 public class ProductDTO {
-	
-	private Long id;
-	private Long barCode;
-	private String name;
-	private double price;
-	private int stock;
-	private String imgUrl;
-	
-	public ProductDTO() {
-		super();
-	}
 
-	public Long getId() {
-		return id;
-	}
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotNull(message = "O código de barras é obrigatório.")
+    private Long barCode;
 
-	public Long getBarCode() {
-		return barCode;
-	}
+    @NotBlank(message = "O nome do produto não pode ser vazio.")
+    @Size(min = 8, max = 50, message = "O nome do produto deve ter entre 8 e 50 caracteres.")
+    private String name;
 
-	public void setBarCode(Long barCode) {
-		this.barCode = barCode;
-	}
+    @NotNull(message = "O preço do produto não pode ser nulo.")
+    @Positive(message = "O preço do produto deve ser um valor positivo.")
+    private Double price;
 
-	public String getName() {
-		return name;
-	}
+    @NotNull(message = "A quantidade em estoque é obrigatória.")
+    @Positive(message = "A quantidade em estoque tem que ser maior que 0.")
+    private Integer stock;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @NotBlank(message = "A URL da imagem é obrigatória.")
+    private String imgUrl;
 
-	public double getPrice() {
-		return price;
-	}
+    @NotNull(message = "O ID do fornecedor é obrigatório.")
+    private UUID supplier;
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductDTO [id=" + id + ", barCode=" + barCode + ", name=" + name + ", price=" + price + ", stock="
-				+ stock + ", imgUrl=" + imgUrl + "]";
-	}
-	
 }

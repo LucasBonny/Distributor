@@ -2,6 +2,7 @@ package br.com.gunthercloud.distributor.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
@@ -9,6 +10,8 @@ import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +33,9 @@ public class ProductService {
 	private SupplierRepository supplierRepository;
 
 	@Transactional(readOnly = true)
-	public List<ProductDTO> findAll(){
-		List<Product> list =  repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
-		return list.stream().map(ProductMapper::toDTO).toList();
+	public Page<ProductDTO> findAll(Pageable pageable){
+        Page<Product> list =  repository.findAll(pageable);
+		return list.map(ProductMapper::toDTO);
 	}
 	
 	@Transactional(readOnly = true)
@@ -43,16 +46,17 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public ProductDTO create(ProductDTO obj) {
-		Product entity = ProductMapper.toEntity(obj);
-		// entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
-		entity.setId(null);
+	public ProductDTO createProduct(ProductDTO obj) {
+        Product entity = ProductMapper.toEntity(obj);
+        entity.setId(null);
+        Optional<Supplier> sup = supplierRepository.findById(obj.getSupplier());
+        entity.setSupplier(sup.orElseThrow());
 		entity = repository.save(entity);
 		return ProductMapper.toDTO(entity);
 	}
 
 	@Transactional
-	public ProductDTO update(Long id, ProductDTO obj) {
+	public ProductDTO updateProduct(Long id, ProductDTO obj) {
 		repository.findById(id).orElseThrow(() ->
 			new NotFoundException("O id " + id +  " não existe!"));
 		Product entity = ProductMapper.toEntity(obj);
@@ -63,7 +67,7 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void delete(Long id) {
+	public void deleteProduct(Long id) {
 		try {
 			repository.deleteById(id);
 		}

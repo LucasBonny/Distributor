@@ -25,14 +25,14 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.gunthercloud.distributor.controller.ProductResource;
+import br.com.gunthercloud.distributor.controller.ProductController;
 import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
 import br.com.gunthercloud.distributor.service.ProductService;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
-@WebMvcTest(ProductResource.class)
-public class ProductResourceTests {
+@WebMvcTest(ProductController.class)
+public class ProductControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -62,13 +62,13 @@ public class ProductResourceTests {
         when(service.findById(existingId)).thenReturn(productDTO);
         when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
 
-        when(service.create(any())).thenReturn(productDTO);
+        when(service.createProduct(any())).thenReturn(productDTO);
 
-        when(service.update(eq(existingId), any())).thenReturn(productDTO);
-        when(service.update(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
+        when(service.updateProduct(eq(existingId), any())).thenReturn(productDTO);
+        when(service.updateProduct(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
 
-        doThrow(DatabaseException.class).when(service).delete(any());
-        doNothing().when(service).delete(existingId);
+        doThrow(DatabaseException.class).when(service).deleteProduct(any());
+        doNothing().when(service).deleteProduct(existingId);
     }
 
     @Test
