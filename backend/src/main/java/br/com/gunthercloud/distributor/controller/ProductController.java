@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.gunthercloud.distributor.controller.model.PageModel;
 import br.com.gunthercloud.distributor.controller.model.PageableModel;
 import br.com.gunthercloud.distributor.controller.model.PagedResponse;
+import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
@@ -58,19 +59,19 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO obj) {
+	public ResponseEntity<ProductDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDTO obj) {
 		return ResponseEntity.ok().body(service.updateProduct(id, obj));
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-		service.deleteProduct(id);
-		return ResponseEntity.status(204).build();
-	}
+        try{
+            service.deleteProduct(id);
+            return ResponseEntity.status(204).build();
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Você não pode remover esse id.");
+        }
 
-	@GetMapping(value = "/suppliers")
-	public ResponseEntity<List<String>> findAllSupplier() {
-		return ResponseEntity.ok().body(service.findAllSupplier());
 	}
 
 }

@@ -41,26 +41,30 @@ public class SupplierController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<SupplierDTO> create(@RequestBody SupplierDTO supplier) {
-		return ResponseEntity.status(201).body(service.create(supplier));
+	public ResponseEntity<SupplierDTO> createSupplier(@RequestBody SupplierDTO supplier) {
+		return ResponseEntity.status(201).body(service.createSupplier(supplier));
 	}
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<SupplierDTO> update(@PathVariable UUID id, @RequestBody SupplierDTO obj){
-		return ResponseEntity.ok().body(service.update(id, obj));
+    @PostMapping(value = "/product")
+    public ResponseEntity<SupplierWithProductsDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsDTO supplier) {
+        return ResponseEntity.ok().body(service.createSupplierWithProducts(supplier));
+    }
+
+    @PutMapping(value = "/{id}")
+	public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable UUID id, @RequestBody SupplierDTO obj){
+		return ResponseEntity.ok().body(service.updateSupplier(id, obj));
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable UUID id) {
-		service.delete(id);
+	public ResponseEntity<Void> deleteSupplier(@PathVariable UUID id) {
+		service.deleteSupplier(id);
 		return ResponseEntity.noContent().build();
 	}
-	
-	@PostMapping(value = "/products")
-	public ResponseEntity<SupplierWithProductsDTO> createWithProducts(@RequestBody SupplierWithProductsDTO supplier) {
-		supplier.getProducts().forEach(System.out::println);
-		return ResponseEntity.ok().body(service.createWithProducts(supplier));
-	}
+
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> findAllSupplierByName() {
+        return ResponseEntity.ok().body(service.findAllSupplierByName());
+    }
 	
 //	// Buscar todos os produtos entregues pela empresa
 //	@GetMapping(value = "/{id}/products")

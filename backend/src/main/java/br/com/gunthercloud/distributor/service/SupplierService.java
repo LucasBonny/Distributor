@@ -1,8 +1,9 @@
 package br.com.gunthercloud.distributor.service;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,46 +27,56 @@ public class SupplierService {
 
 	@Autowired
 	private SupplierRepository repository;
-	
+
+    @Autowired
+    private SupplierMapper mapper;
+
+    @Autowired
+    private ProductMapper pMapper;
+
 	@Autowired
 	private ProductRepository pRepository;
 	
 	@Transactional(readOnly = true)
 	public List<SupplierDTO> findAll(){
 		List<Supplier> emp = repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
-		return emp.stream().map(SupplierMapper::toDTO).toList();
+		return emp.stream().map(mapper::supplierToDTO).toList();
 	}
 	
 	@Transactional(readOnly = true)
 	public SupplierWithProductsDTO findById(UUID id) {
 		Supplier entity = repository.findById(id).orElseThrow(() -> 
-			new NotFoundException("O id " + id + " não existe."));
-		List<Product> products = pRepository.findAll();
-		for(Product p : products) 
-			if(p.getSupplier().getId() == entity.getId()) entity.getProducts().add(p);
-		return SupplierMapper.toDTOWithProducts(entity);
+			new NotFoundException("O id informado " + id + " não existe."));
+
+		List<Product> products = pRepository.findBySupplier(entity);
+
+        SupplierWithProductsDTO response = new SupplierWithProductsDTO();
+        BeanUtils.copyProperties(entity, response);
+
+        products.stream().map(pMapper::productToDTO).forEach(response.getProducts()::add);
+		return response;
 	}
 
 	@Transactional
-	public SupplierDTO create(SupplierDTO obj) {
-		Supplier entity = SupplierMapper.toEntity(obj);
+	public SupplierDTO createSupplier(SupplierDTO obj) {
+		Supplier entity = mapper.supplierToEntity(obj);
 		entity.setId(null);
 		entity = repository.save(entity);
-		return SupplierMapper.toDTO(entity);
+		return mapper.supplierToDTO(entity);
 	}
 	
 	@Transactional
-	public SupplierDTO update(UUID id, SupplierDTO obj) {
+	public SupplierDTO updateSupplier(UUID id, SupplierDTO obj) {
 		repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe."));
-		Supplier entity = SupplierMapper.toEntity(obj);
+		Supplier entity = mapper.supplierToEntity(obj);
 		entity.setId(id);
 		entity = repository.save(entity);
-		return SupplierMapper.toDTO(entity);
+		return mapper.supplierToDTO(entity);
 	}
 
 	@Transactional
-	public void delete(UUID id) {
+	public void deleteSupplier(UUID id) {
 		try {
 			repository.findById(id).orElseThrow(() -> 
 				new NotFoundException("O id " + id + " não existe."));
@@ -78,18 +89,45 @@ public class SupplierService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-	
-	@Transactional
-	public SupplierWithProductsDTO createWithProducts(SupplierWithProductsDTO supplier) {
-		Supplier entity = SupplierMapper.toEntityWithProducts(supplier);
+
+    @Transactional
+	public SupplierWithProductsDTO createSupplierWithProducts(SupplierWithProductsDTO supplier) {
+		Supplier entity = mapper.supplierToEntity(supplier);
 		entity.setId(null);
-		
-		entity.getProducts().forEach(System.out::println);
-		
-		entity = repository.save(entity);
-		
-		entity.getProducts().forEach(System.out::println);
-		return SupplierMapper.toDTOWithProducts(entity);
+
+        entity = repository.save(entity);
+
+        for(ProductDTO p : supplier.getProducts()) {
+            Product prod = pMapper.productToEntity(p);
+            prod.setSupplier(entity);
+            prod = pRepository.save(prod);
+            entity.getProducts().add(prod);
+        }
+
+        entity = repository.save(entity);
+
+        final UUID uuid = entity.getId();
+
+        SupplierWithProductsDTO supWith = new SupplierWithProductsDTO();
+        BeanUtils.copyProperties(entity, supWith);
+        Set<ProductDTO> prodDto = entity.getProducts().stream().map(x -> {
+            var bag = pMapper.productToDTO(x);
+            bag.setSupplier(uuid);
+            return bag;
+
+        }).collect(Collectors.toSet());
+        supWith.setProducts(prodDto);
+		return supWith;
 	}
+
+    @Transactional
+    public List<String> findAllSupplierByName() {
+        List<Supplier> supplier = repository.findAll();
+        List<String> list = new ArrayList<>();
+        for(Supplier e : supplier) {
+            list.add(e.getName());
+        }
+        return list.stream().sorted().toList();
+    }
 	
 }
