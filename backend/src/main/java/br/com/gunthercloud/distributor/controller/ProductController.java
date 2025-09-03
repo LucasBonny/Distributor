@@ -49,9 +49,7 @@ public class ProductController {
             return ResponseEntity.ok().body(service.findById(id));
         }
         catch (NotFoundException e) {
-            throw new NotFoundException("Id " + id + " doesn't exist!");
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new NotFoundException(e.getMessage());
         }catch (RuntimeException e) {
             throw new RuntimeException("Houve um erro ao executar essa função.");
         }

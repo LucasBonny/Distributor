@@ -54,7 +54,7 @@ public class ProductService {
 		Product entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe!"));
 
-        if(!entity.isActive()) throw new IllegalArgumentException("Esse produto foi deletado!");
+        if(!entity.isActive()) throw new NotFoundException("Esse produto foi deletado!");
 
         ProductDTO dto = mapper.productToDTO(entity);
         dto.setSupplier(entity.getSupplier().getId());
