@@ -8,6 +8,7 @@ import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable){
 
-        Page<Product> list =  repository.findAll(pageable);
+        Page<Product> list =  repository.findByIsActiveTrue(pageable);
 
 		return list.map(x -> {
             ProductDTO dto = mapper.productToDTO(x);
@@ -52,6 +53,9 @@ public class ProductService {
 
 		Product entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe!"));
+
+        if(!entity.isActive()) throw new IllegalArgumentException("Esse produto foi deletado!");
+
         ProductDTO dto = mapper.productToDTO(entity);
         dto.setSupplier(entity.getSupplier().getId());
 		return dto;
@@ -96,10 +100,9 @@ public class ProductService {
 	@Transactional
 	public void deleteProduct(Long id) {
 		try {
-			repository.deleteById(id);
-		}
-		catch(DataIntegrityViolationException e) {
-			throw new DatabaseException(e.getMessage());
+            Product prod = repository.findById(id).orElseThrow(() -> new NotFoundException("O id " + id + " não existe!"));
+            prod.setActive(false);
+			repository.save(prod);
 		}
 		catch(RuntimeException e) {
 			throw new RuntimeException(e.getMessage());

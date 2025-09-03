@@ -50,7 +50,9 @@ public class ProductController {
         }
         catch (NotFoundException e) {
             throw new NotFoundException("Id " + id + " doesn't exist!");
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }catch (RuntimeException e) {
             throw new RuntimeException("Houve um erro ao executar essa função.");
         }
 	}
