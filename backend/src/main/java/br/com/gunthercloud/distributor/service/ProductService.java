@@ -87,7 +87,10 @@ public class ProductService {
 		entity.setSupplier(supFind.get());
 
 		entity = repository.save(entity);
-		return mapper.productToDTO(entity);
+
+        ProductDTO productDTO = mapper.productToDTO(entity);
+        productDTO.setSupplier(entity.getSupplier().getId());
+		return productDTO;
 	}
 
 	@Transactional

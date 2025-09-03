@@ -11,6 +11,8 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -60,7 +62,15 @@ public class ProductController {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDTO obj) {
-		return ResponseEntity.ok().body(service.updateProduct(id, obj));
+        try {
+            return ResponseEntity.ok().body(service.updateProduct(id, obj));
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Há alguns parâmetros no body ausentes.");
+        }
+        catch (InvalidDataAccessApiUsageException e) {
+            throw new InvalidDataAccessApiUsageException("o supplier.id não pode ficar ausente.");
+        }
 	}
 
 	@DeleteMapping(value = "/{id}")
