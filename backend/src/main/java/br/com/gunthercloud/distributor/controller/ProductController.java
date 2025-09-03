@@ -5,11 +5,14 @@ import java.util.List;
 import br.com.gunthercloud.distributor.controller.model.PageModel;
 import br.com.gunthercloud.distributor.controller.model.PageableModel;
 import br.com.gunthercloud.distributor.controller.model.PagedResponse;
+import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -47,7 +50,9 @@ public class ProductController {
         }
         catch (NotFoundException e) {
             throw new NotFoundException("Id " + id + " doesn't exist!");
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }catch (RuntimeException e) {
             throw new RuntimeException("Houve um erro ao executar essa função.");
         }
 	}
@@ -58,19 +63,27 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO obj) {
-		return ResponseEntity.ok().body(service.updateProduct(id, obj));
+	public ResponseEntity<ProductDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDTO obj) {
+        try {
+            return ResponseEntity.ok().body(service.updateProduct(id, obj));
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Há alguns parâmetros no body ausentes.");
+        }
+        catch (InvalidDataAccessApiUsageException e) {
+            throw new InvalidDataAccessApiUsageException("o supplier.id não pode ficar ausente.");
+        }
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-		service.deleteProduct(id);
-		return ResponseEntity.status(204).build();
-	}
+        try{
+            service.deleteProduct(id);
+            return ResponseEntity.status(204).build();
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Você não pode remover esse id.");
+        }
 
-	@GetMapping(value = "/suppliers")
-	public ResponseEntity<List<String>> findAllSupplier() {
-		return ResponseEntity.ok().body(service.findAllSupplier());
 	}
 
 }

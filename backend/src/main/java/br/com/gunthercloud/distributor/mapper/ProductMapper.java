@@ -4,17 +4,18 @@ import org.springframework.beans.BeanUtils;
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductMapper {
-	
-	public static ProductDTO toDTO(Product entity) {
+
+	public ProductDTO productToDTO(Product entity) {
 		ProductDTO dto = new ProductDTO();
 		BeanUtils.copyProperties(entity, dto);
-        dto.setSupplier(entity.getSupplier().getId());
 		return dto;
 	}
 	
-	public static Product toEntity(ProductDTO dto) {
+	public Product productToEntity(ProductDTO dto) {
 		Product entity = new Product();
 		BeanUtils.copyProperties(dto, entity);
 		return entity;

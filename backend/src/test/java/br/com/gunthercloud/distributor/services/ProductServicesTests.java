@@ -15,6 +15,8 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -63,7 +65,7 @@ public class ProductServicesTests {
     public void updateShouldThrowNotFoundExceptionWhenIdDoesNotExist() {
 
         Assertions.assertThrows(NotFoundException.class, () -> {
-            service.update(nonExistingId, Factory.createProductDTO());
+            service.updateProduct(nonExistingId, Factory.createProductDTO());
         });
     }
 
@@ -72,7 +74,7 @@ public class ProductServicesTests {
 
 
         Assertions.assertDoesNotThrow(() -> {
-            service.delete(existingId);
+            service.deleteProduct(existingId);
         });
 
         verify(repository, Mockito.times(1)).deleteById(existingId);
@@ -81,12 +83,12 @@ public class ProductServicesTests {
 
     @Test
     public void findAllShouldReturnList() {
-        List<ProductDTO> product = service.findAll();
+        Page<ProductDTO> product = service.findAll(PageRequest.of(0,10));
 
         verify(repository, times(1)).findAll(Sort.by(Sort.Direction.ASC,"name"));
         Assertions.assertNotNull(product);
         Assertions.assertFalse(product.isEmpty());
-        Assertions.assertEquals(1, product.size());
+        Assertions.assertEquals(1, product.getSize());
     }
 
     @Test

@@ -8,6 +8,7 @@ import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -29,65 +30,84 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
+    @Autowired
+    private ProductMapper mapper;
+
 	@Autowired
 	private SupplierRepository supplierRepository;
 
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable){
-        Page<Product> list =  repository.findAll(pageable);
-		return list.map(ProductMapper::toDTO);
+
+        Page<Product> list =  repository.findByIsActiveTrue(pageable);
+
+		return list.map(x -> {
+            ProductDTO dto = mapper.productToDTO(x);
+            dto.setSupplier(x.getSupplier().getId());
+            return dto;
+        });
 	}
 	
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
+
 		Product entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe!"));
-		return ProductMapper.toDTO(entity);
+
+        if(!entity.isActive()) throw new IllegalArgumentException("Esse produto foi deletado!");
+
+        ProductDTO dto = mapper.productToDTO(entity);
+        dto.setSupplier(entity.getSupplier().getId());
+		return dto;
 	}
 	
 	@Transactional
-	public ProductDTO createProduct(ProductDTO obj) {
-        Product entity = ProductMapper.toEntity(obj);
+	public ProductDTO createProduct(ProductDTO dto) {
+
+        Product entity = mapper.productToEntity(dto);
         entity.setId(null);
-        Optional<Supplier> sup = supplierRepository.findById(obj.getSupplier());
-        entity.setSupplier(sup.orElseThrow());
+
+        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier());
+        if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o id " + dto.getSupplier() + ".");
+
+        entity.setSupplier(supFind.get());
 		entity = repository.save(entity);
-		return ProductMapper.toDTO(entity);
+
+        ProductDTO result = mapper.productToDTO(entity);
+        result.setSupplier(dto.getSupplier());
+
+		return result;
 	}
 
 	@Transactional
-	public ProductDTO updateProduct(Long id, ProductDTO obj) {
-		repository.findById(id).orElseThrow(() ->
-			new NotFoundException("O id " + id +  " não existe!"));
-		Product entity = ProductMapper.toEntity(obj);
+	public ProductDTO updateProduct(Long id, ProductDTO dto) {
+
+		repository.findById(id).orElseThrow(() -> new NotFoundException("O produto com o id " + id +  " não existe!"));
+		Product entity = mapper.productToEntity(dto);
 		entity.setId(id);
-		// entity.setSupplier(supplierRepository.findByName(obj.getSupplier()));
+
+        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier());
+        if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o fornecedor com o id " + dto.getSupplier() + ".");
+		entity.setSupplier(supFind.get());
+
 		entity = repository.save(entity);
-		return ProductMapper.toDTO(entity);
+
+        ProductDTO productDTO = mapper.productToDTO(entity);
+        productDTO.setSupplier(entity.getSupplier().getId());
+		return productDTO;
 	}
 
 	@Transactional
 	public void deleteProduct(Long id) {
 		try {
-			repository.deleteById(id);
-		}
-		catch(DataIntegrityViolationException e) {
-			throw new DatabaseException(e.getMessage());
+            Product prod = repository.findById(id).orElseThrow(() -> new NotFoundException("O id " + id + " não existe!"));
+            prod.setActive(false);
+			repository.save(prod);
 		}
 		catch(RuntimeException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 		
-	}
-
-	@Transactional
-	public List<String> findAllSupplier() {
-		List<Supplier> supplier = supplierRepository.findAll();
-		List<String> list = new ArrayList<>();
-		for(Supplier e : supplier) {
-			list.add(e.getName());
-		}
-		return list;
 	}
 
 	//Busca todos os produtos da empresa X
