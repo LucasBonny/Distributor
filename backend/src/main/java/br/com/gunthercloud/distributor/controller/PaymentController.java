@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.distributor.entity.dto.PaymentDTO;
+import br.com.gunthercloud.distributor.dto.response.PaymentDTO;
 import br.com.gunthercloud.distributor.service.PaymentService;
 
 @RestController

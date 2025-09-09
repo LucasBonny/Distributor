@@ -4,12 +4,9 @@ import java.util.UUID;
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
-import br.com.gunthercloud.distributor.entity.dto.SupplierDTO;
-import br.com.gunthercloud.distributor.mapper.ProductMapper;
-import br.com.gunthercloud.distributor.mapper.SupplierMapper;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
 
 public class Factory {
 

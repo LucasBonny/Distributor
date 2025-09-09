@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.controller.exceptions;
+package br.com.gunthercloud.distributor.exceptions;
 
 public class FieldMessage {
 

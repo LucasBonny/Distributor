@@ -1,11 +1,11 @@
 package br.com.gunthercloud.distributor.services;
 
 import br.com.gunthercloud.distributor.entity.Product;
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 import br.com.gunthercloud.distributor.resources.Factory;
 import br.com.gunthercloud.distributor.service.ProductService;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.gunthercloud.distributor.entity.dto.EmployeeDTO;
+import br.com.gunthercloud.distributor.dto.response.EmployeeDTO;
 import br.com.gunthercloud.distributor.entity.enums.EmployeeStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

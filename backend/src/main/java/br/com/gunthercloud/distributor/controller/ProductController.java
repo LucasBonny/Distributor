@@ -1,30 +1,22 @@
 package br.com.gunthercloud.distributor.controller;
 
-import java.util.List;
-
-import br.com.gunthercloud.distributor.controller.model.PageModel;
-import br.com.gunthercloud.distributor.controller.model.PageableModel;
-import br.com.gunthercloud.distributor.controller.model.PagedResponse;
-import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
-import jakarta.validation.ConstraintViolationException;
+import br.com.gunthercloud.distributor.controller.pageable.PageModel;
+import br.com.gunthercloud.distributor.controller.pageable.PagedResponse;
+import br.com.gunthercloud.distributor.exceptions.DatabaseException;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
 import br.com.gunthercloud.distributor.service.ProductService;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -49,9 +41,7 @@ public class ProductController {
             return ResponseEntity.ok().body(service.findById(id));
         }
         catch (NotFoundException e) {
-            throw new NotFoundException("Id " + id + " doesn't exist!");
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new NotFoundException(e.getMessage());
         }catch (RuntimeException e) {
             throw new RuntimeException("Houve um erro ao executar essa função.");
         }

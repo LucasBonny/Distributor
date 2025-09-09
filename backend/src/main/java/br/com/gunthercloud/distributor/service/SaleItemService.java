@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gunthercloud.distributor.entity.SaleItem;
-import br.com.gunthercloud.distributor.entity.dto.SaleItemDTO;
+import br.com.gunthercloud.distributor.dto.response.SaleItemDTO;
 import br.com.gunthercloud.distributor.repository.SaleItemRepository;
 
 @Service

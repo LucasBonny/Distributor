@@ -14,6 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
     List<Product> findBySupplier(Supplier supplier);
 
-    Page<Product> findByIsActiveTrue(Pageable pageable);
+    Page<Product> findByActiveTrue(Pageable pageable);
 
 }

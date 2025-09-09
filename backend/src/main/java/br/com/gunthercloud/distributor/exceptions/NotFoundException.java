@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.service.exceptions;
+package br.com.gunthercloud.distributor.exceptions;
 
 public class NotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

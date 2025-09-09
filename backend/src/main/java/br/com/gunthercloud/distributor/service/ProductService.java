@@ -1,25 +1,20 @@
 package br.com.gunthercloud.distributor.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+import br.com.gunthercloud.distributor.mapper.SupplierMapper;
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
-import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
 
-import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 
@@ -36,14 +31,17 @@ public class ProductService {
 	@Autowired
 	private SupplierRepository supplierRepository;
 
+    @Autowired
+    private SupplierMapper sMapper;
+
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable){
 
-        Page<Product> list =  repository.findByIsActiveTrue(pageable);
+        Page<Product> list =  repository.findByActiveTrue(pageable);
 
 		return list.map(x -> {
             ProductDTO dto = mapper.productToDTO(x);
-            dto.setSupplier(x.getSupplier().getId());
+            dto.setSupplier(sMapper.supplierToDTO(x.getSupplier()));
             return dto;
         });
 	}
@@ -54,10 +52,10 @@ public class ProductService {
 		Product entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe!"));
 
-        if(!entity.isActive()) throw new IllegalArgumentException("Esse produto foi deletado!");
+        if(!entity.isActive()) throw new NotFoundException("Esse produto foi deletado!");
 
         ProductDTO dto = mapper.productToDTO(entity);
-        dto.setSupplier(entity.getSupplier().getId());
+        dto.setSupplier(sMapper.supplierToDTO(entity.getSupplier()));
 		return dto;
 	}
 	
@@ -67,7 +65,7 @@ public class ProductService {
         Product entity = mapper.productToEntity(dto);
         entity.setId(null);
 
-        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier());
+        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier().getId());
         if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o id " + dto.getSupplier() + ".");
 
         entity.setSupplier(supFind.get());
@@ -86,14 +84,14 @@ public class ProductService {
 		Product entity = mapper.productToEntity(dto);
 		entity.setId(id);
 
-        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier());
+        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier().getId());
         if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o fornecedor com o id " + dto.getSupplier() + ".");
 		entity.setSupplier(supFind.get());
 
 		entity = repository.save(entity);
 
         ProductDTO productDTO = mapper.productToDTO(entity);
-        productDTO.setSupplier(entity.getSupplier().getId());
+        productDTO.setSupplier(sMapper.supplierToDTO(entity.getSupplier()));
 		return productDTO;
 	}
 
