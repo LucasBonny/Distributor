@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.dto.request;
+package br.com.gunthercloud.distributor.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SupplierRequestDTO {
+public class SupplierResponseSimpleDTO {
 
 	private UUID id;
 	private Long cnpj;
@@ -22,6 +21,5 @@ public class SupplierRequestDTO {
 	private String address;
 	private String cep;
 	private String phoneNumber;
-    private Set<ProductRequestDTO> products;
 
 }

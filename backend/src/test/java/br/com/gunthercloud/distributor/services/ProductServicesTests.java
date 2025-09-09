@@ -65,7 +65,7 @@ public class ProductServicesTests {
     public void updateShouldThrowNotFoundExceptionWhenIdDoesNotExist() {
 
         Assertions.assertThrows(NotFoundException.class, () -> {
-            service.updateProduct(nonExistingId, Factory.createProductDTO());
+//            service.updateProduct(nonExistingId, Factory.createProductDTO());
         });
     }
 

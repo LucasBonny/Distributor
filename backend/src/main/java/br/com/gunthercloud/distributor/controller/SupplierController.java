@@ -1,23 +1,20 @@
 package br.com.gunthercloud.distributor.controller;
 
+import br.com.gunthercloud.distributor.controller.pageable.PageModel;
+import br.com.gunthercloud.distributor.controller.pageable.PagedResponse;
+import br.com.gunthercloud.distributor.dto.request.SupplierRequestDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseSimpleDTO;
+import br.com.gunthercloud.distributor.service.SupplierService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
-import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsResponseDTO;
-import br.com.gunthercloud.distributor.service.SupplierService;
 
 @RestController
 @RequestMapping(value = "/supplier")
@@ -27,32 +24,34 @@ public class SupplierController {
 	@Autowired
 	private SupplierService service;
 
-//	@Autowired
-//	private ProductService productService;
+    @Autowired
+    private PagedResponse<SupplierResponseSimpleDTO> response;
 
 	@GetMapping
-	public ResponseEntity<List<SupplierResponseDTO>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<PageModel<SupplierResponseSimpleDTO>> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        Page<SupplierResponseSimpleDTO> responseDTO = service.findAll(pageable);
+        return ResponseEntity.ok().body(response.request(responseDTO));
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<SupplierWithProductsResponseDTO> findById(@PathVariable UUID id) {
+	public ResponseEntity<SupplierResponseDTO> findById(@PathVariable UUID id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
 	@PostMapping
-	public ResponseEntity<SupplierResponseDTO> createSupplier(@RequestBody SupplierResponseDTO supplier) {
+	public ResponseEntity<SupplierResponseDTO> createSupplier(@RequestBody SupplierRequestDTO supplier) {
 		return ResponseEntity.status(201).body(service.createSupplier(supplier));
 	}
 
-    @PostMapping(value = "/product")
-    public ResponseEntity<SupplierWithProductsResponseDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsResponseDTO supplier) {
-        return ResponseEntity.ok().body(service.createSupplierWithProducts(supplier));
-    }
+    // todo buscar produtos entregues por uma empresa
+//    @PostMapping(value = "/product")
+//    public ResponseEntity<SupplierWithProductsResponseDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsResponseDTO supplier) {
+//        return ResponseEntity.ok().body(service.createSupplier(supplier));
+//    }
 
     @PutMapping(value = "/{id}")
-	public ResponseEntity<SupplierResponseDTO> updateSupplier(@PathVariable UUID id, @RequestBody SupplierResponseDTO obj){
-		return ResponseEntity.ok().body(service.updateSupplier(id, obj));
+	public ResponseEntity<SupplierResponseDTO> updateSupplier(@PathVariable UUID id, @RequestBody SupplierRequestDTO requestDTO){
+		return ResponseEntity.ok().body(service.updateSupplier(id, requestDTO));
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -61,20 +60,9 @@ public class SupplierController {
 		return ResponseEntity.noContent().build();
 	}
 
-    @GetMapping("/names")
-    public ResponseEntity<List<String>> findAllSupplierByName() {
-        return ResponseEntity.ok().body(service.findAllSupplierByName());
-    }
-	
-//	// Buscar todos os produtos entregues pela empresa
-//	@GetMapping(value = "/{id}/products")
-//	public List<ProductSearchDTO> findAllProductsBySupplierId(@PathVariable UUID id) {
-//		return productService.findAllProductsBySupplierId(id);
-//	}
-//
-//	// Buscar todas as entregas feita pela empresa tal
-//	@GetMapping(value = "/{id}/deliveries")
-//	public List<ProductDeliveryDTO> findDeliveriesBySupplierId(@PathVariable UUID id) {
-//		return productService.findDeliveriesBySupplierId(id);
-//	}
+//    @GetMapping("/names")
+//    public ResponseEntity<List<String>> findAllSupplierByName() {
+//        return ResponseEntity.ok().body(service.findAllSupplierByName());
+//    }
+
 }

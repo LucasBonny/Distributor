@@ -1,5 +1,6 @@
 package br.com.gunthercloud.distributor.mapper;
 
+import br.com.gunthercloud.distributor.dto.request.ProductRequestDTO;
 import org.springframework.beans.BeanUtils;
 
 import br.com.gunthercloud.distributor.entity.Product;
@@ -15,7 +16,7 @@ public class ProductMapper {
 		return dto;
 	}
 	
-	public Product productToEntity(ProductResponseDTO dto) {
+	public Product productToEntity(ProductRequestDTO dto) {
 		Product entity = new Product();
 		BeanUtils.copyProperties(dto, entity);
 		return entity;

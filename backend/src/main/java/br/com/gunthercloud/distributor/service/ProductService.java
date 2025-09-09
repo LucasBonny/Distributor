@@ -1,22 +1,21 @@
 package br.com.gunthercloud.distributor.service;
 
-import java.util.Optional;
-
-import br.com.gunthercloud.distributor.mapper.SupplierMapper;
-import br.com.gunthercloud.distributor.repository.SupplierRepository;
+import br.com.gunthercloud.distributor.dto.request.ProductRequestDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
+import br.com.gunthercloud.distributor.entity.Product;
+import br.com.gunthercloud.distributor.entity.Supplier;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
-
+import br.com.gunthercloud.distributor.mapper.ProductMapper;
+import br.com.gunthercloud.distributor.mapper.SupplierMapper;
+import br.com.gunthercloud.distributor.repository.ProductRepository;
+import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.gunthercloud.distributor.entity.Product;
-import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
-import br.com.gunthercloud.distributor.mapper.ProductMapper;
-import br.com.gunthercloud.distributor.repository.ProductRepository;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -60,32 +59,33 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public ProductResponseDTO createProduct(ProductResponseDTO dto) {
+	public ProductResponseDTO createProduct(ProductRequestDTO requestDTO) {
 
-        Product entity = mapper.productToEntity(dto);
+        Product entity = mapper.productToEntity(requestDTO);
         entity.setId(null);
 
-        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier().getId());
-        if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o id " + dto.getSupplier() + ".");
+        Optional<Supplier> supFind = supplierRepository.findById(requestDTO.getSupplier());
+        if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o id " + requestDTO.getSupplier() + ".");
 
         entity.setSupplier(supFind.get());
 		entity = repository.save(entity);
 
         ProductResponseDTO result = mapper.productToDTO(entity);
-        result.setSupplier(dto.getSupplier());
+        Supplier supplier = supplierRepository.findById(requestDTO.getSupplier()).orElseThrow(() -> new RuntimeException("Houve um erro ao buscar esse supplier_id."));
+        result.setSupplier(sMapper.supplierToDTO(supplier));
 
 		return result;
 	}
 
 	@Transactional
-	public ProductResponseDTO updateProduct(Long id, ProductResponseDTO dto) {
+	public ProductResponseDTO updateProduct(Long id, ProductRequestDTO requestDTO) {
 
 		repository.findById(id).orElseThrow(() -> new NotFoundException("O produto com o id " + id +  " não existe!"));
-		Product entity = mapper.productToEntity(dto);
+		Product entity = mapper.productToEntity(requestDTO);
 		entity.setId(id);
 
-        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier().getId());
-        if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o fornecedor com o id " + dto.getSupplier() + ".");
+        Optional<Supplier> supFind = supplierRepository.findById(requestDTO.getSupplier());
+        if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o fornecedor com o id " + requestDTO.getSupplier() + ".");
 		entity.setSupplier(supFind.get());
 
 		entity = repository.save(entity);

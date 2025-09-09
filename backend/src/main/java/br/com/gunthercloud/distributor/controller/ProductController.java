@@ -2,8 +2,11 @@ package br.com.gunthercloud.distributor.controller;
 
 import br.com.gunthercloud.distributor.controller.pageable.PageModel;
 import br.com.gunthercloud.distributor.controller.pageable.PagedResponse;
+import br.com.gunthercloud.distributor.dto.request.ProductRequestDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,9 +17,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
-import br.com.gunthercloud.distributor.service.ProductService;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -31,8 +31,8 @@ public class ProductController {
 
 	@GetMapping
 	public ResponseEntity<PageModel<ProductResponseDTO>> findAll(@PageableDefault(sort = "name") Pageable pageable) {
-        Page<ProductResponseDTO> paged = service.findAll(pageable);
-        return ResponseEntity.ok().body(response.request(paged));
+        Page<ProductResponseDTO> responseDTO = service.findAll(pageable);
+        return ResponseEntity.ok().body(response.request(responseDTO));
 	}
 
 	@GetMapping(value = "/{id}")
@@ -48,14 +48,14 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductResponseDTO obj) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createProduct(obj));
+	public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO requestDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createProduct(requestDTO));
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductResponseDTO obj) {
+	public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductRequestDTO requestDTO) {
         try {
-            return ResponseEntity.ok().body(service.updateProduct(id, obj));
+            return ResponseEntity.ok().body(service.updateProduct(id, requestDTO));
         }
         catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("Há alguns parâmetros no body ausentes.");
