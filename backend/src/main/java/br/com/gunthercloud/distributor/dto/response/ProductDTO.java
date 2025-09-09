@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.entity.dto;
+package br.com.gunthercloud.distributor.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.util.UUID;
 
 @Getter
 @Setter

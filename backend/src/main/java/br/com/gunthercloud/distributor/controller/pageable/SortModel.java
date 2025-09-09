@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.controller.model;
+package br.com.gunthercloud.distributor.controller.pageable;
 
 public class SortModel {
     private boolean sorted;

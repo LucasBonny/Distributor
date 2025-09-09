@@ -1,8 +1,8 @@
 package br.com.gunthercloud.distributor.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -12,15 +12,14 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
-import br.com.gunthercloud.distributor.entity.dto.SupplierDTO;
-import br.com.gunthercloud.distributor.entity.dto.SupplierWithProductsDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsDTO;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.mapper.SupplierMapper;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
-import br.com.gunthercloud.distributor.service.exceptions.DatabaseExecption;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
 
 @Service
 public class SupplierService {
@@ -83,7 +82,7 @@ public class SupplierService {
 			repository.deleteById(id);			
 		}
 		catch(MethodArgumentTypeMismatchException e) {
-			throw new DatabaseExecption("Essa empresa tem produtos vinculados a ela.");
+			throw new DatabaseException("Essa empresa tem produtos vinculados a ela.");
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e.getMessage());

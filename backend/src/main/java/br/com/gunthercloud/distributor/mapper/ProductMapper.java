@@ -3,7 +3,7 @@ package br.com.gunthercloud.distributor.mapper;
 import org.springframework.beans.BeanUtils;
 
 import br.com.gunthercloud.distributor.entity.Product;
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
 import org.springframework.stereotype.Component;
 
 @Component

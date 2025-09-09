@@ -1,9 +1,6 @@
-package br.com.gunthercloud.distributor.controller.model;
-
-import org.springframework.data.domain.PageImpl;
+package br.com.gunthercloud.distributor.controller.pageable;
 
 import java.util.List;
-import java.util.Map;
 
 public class PageModel<T> {
 

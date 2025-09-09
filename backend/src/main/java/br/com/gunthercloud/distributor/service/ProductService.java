@@ -1,26 +1,20 @@
 package br.com.gunthercloud.distributor.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import br.com.gunthercloud.distributor.mapper.SupplierMapper;
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
-import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
 
-import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.entity.dto.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductDTO;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 

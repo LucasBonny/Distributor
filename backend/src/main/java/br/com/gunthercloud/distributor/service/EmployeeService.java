@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gunthercloud.distributor.entity.Employee;
-import br.com.gunthercloud.distributor.entity.dto.EmployeeDTO;
+import br.com.gunthercloud.distributor.dto.response.EmployeeDTO;
 import br.com.gunthercloud.distributor.entity.enums.EmployeeStatus;
 import br.com.gunthercloud.distributor.repository.EmployeeRepository;
-import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.exceptions.DatabaseException;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
 
 @Service
 @Transactional

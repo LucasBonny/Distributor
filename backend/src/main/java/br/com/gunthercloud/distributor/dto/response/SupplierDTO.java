@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.entity.dto;
+package br.com.gunthercloud.distributor.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

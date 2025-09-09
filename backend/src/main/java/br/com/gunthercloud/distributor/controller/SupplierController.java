@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.distributor.entity.dto.SupplierDTO;
-import br.com.gunthercloud.distributor.entity.dto.SupplierWithProductsDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsDTO;
 import br.com.gunthercloud.distributor.service.SupplierService;
 
 @RestController

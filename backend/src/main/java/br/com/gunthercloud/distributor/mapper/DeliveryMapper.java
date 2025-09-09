@@ -1,7 +1,7 @@
 package br.com.gunthercloud.distributor.mapper;
 
 import br.com.gunthercloud.distributor.entity.Delivery;
-import br.com.gunthercloud.distributor.entity.dto.DeliveryDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryDTO;
 import org.springframework.stereotype.Component;
 
 @Component

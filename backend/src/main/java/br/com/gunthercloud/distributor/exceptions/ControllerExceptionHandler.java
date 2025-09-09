@@ -1,8 +1,6 @@
-package br.com.gunthercloud.distributor.controller.exceptions;
+package br.com.gunthercloud.distributor.exceptions;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
-import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice

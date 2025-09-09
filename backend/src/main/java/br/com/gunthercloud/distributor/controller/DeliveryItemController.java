@@ -1,10 +1,7 @@
 package br.com.gunthercloud.distributor.controller;
 
-import br.com.gunthercloud.distributor.entity.DeliveryItem;
-import br.com.gunthercloud.distributor.entity.dto.DeliveryDTO;
-import br.com.gunthercloud.distributor.entity.dto.DeliveryItemDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemDTO;
 import br.com.gunthercloud.distributor.service.DeliveryItemService;
-import br.com.gunthercloud.distributor.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

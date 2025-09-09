@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.gunthercloud.distributor.entity.Payment;
-import br.com.gunthercloud.distributor.entity.dto.PaymentDTO;
+import br.com.gunthercloud.distributor.dto.response.PaymentDTO;
 import br.com.gunthercloud.distributor.repository.PaymentRepository;
 
 @Service

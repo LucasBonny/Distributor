@@ -1,7 +1,5 @@
-package br.com.gunthercloud.distributor.entity.dto;
+package br.com.gunthercloud.distributor.dto.response;
 
-import br.com.gunthercloud.distributor.entity.Delivery;
-import br.com.gunthercloud.distributor.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

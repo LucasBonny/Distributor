@@ -1,15 +1,10 @@
 package br.com.gunthercloud.distributor.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.BeanUtils;
-
-import br.com.gunthercloud.distributor.entity.dto.DeliveryDTO;
 
 @Entity
 @Table(name = "tb_delivery")

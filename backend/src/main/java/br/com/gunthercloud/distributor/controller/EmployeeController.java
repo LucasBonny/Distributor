@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.distributor.entity.dto.EmployeeDTO;
-import br.com.gunthercloud.distributor.entity.dto.SaleDTO;
+import br.com.gunthercloud.distributor.dto.response.EmployeeDTO;
+import br.com.gunthercloud.distributor.dto.response.SaleDTO;
 import br.com.gunthercloud.distributor.entity.enums.EmployeeStatus;
 import br.com.gunthercloud.distributor.service.EmployeeService;
 import br.com.gunthercloud.distributor.service.SaleService;

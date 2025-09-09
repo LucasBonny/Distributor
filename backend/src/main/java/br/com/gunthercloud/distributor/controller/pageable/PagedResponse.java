@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.controller.model;
+package br.com.gunthercloud.distributor.controller.pageable;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
