@@ -34,7 +34,7 @@ public class SupplierController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<SupplierResponseDTO> findById(@PathVariable UUID id) {
+	public ResponseEntity<SupplierResponseSimpleDTO> findById(@PathVariable UUID id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
@@ -43,7 +43,7 @@ public class SupplierController {
 		return ResponseEntity.status(201).body(service.createSupplier(supplier));
 	}
 
-    // todo buscar produtos entregues por uma empresa
+    // todo buscar produtos de uma empresa
 //    @PostMapping(value = "/product")
 //    public ResponseEntity<SupplierWithProductsResponseDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsResponseDTO supplier) {
 //        return ResponseEntity.ok().body(service.createSupplier(supplier));

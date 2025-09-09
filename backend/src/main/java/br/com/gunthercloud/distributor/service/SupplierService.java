@@ -43,7 +43,7 @@ public class SupplierService {
 	}
 	
 	@Transactional(readOnly = true)
-	public SupplierResponseDTO findById(UUID id) {
+	public SupplierResponseSimpleDTO findById(UUID id) {
 		Supplier entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id informado " + id + " não existe."));
 
@@ -53,7 +53,7 @@ public class SupplierService {
 //      BeanUtils.copyProperties(entity, response);
 //      products.stream().map(pMapper::productToDTO).forEach(response.getProducts()::add);
 //		return response;
-        return mapper.supplierToDTO(entity);
+        return mapper.supplierToDTOSimple(entity);
 	}
 
 	@Transactional
