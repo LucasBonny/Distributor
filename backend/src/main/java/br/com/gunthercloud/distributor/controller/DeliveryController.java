@@ -20,7 +20,7 @@ import br.com.gunthercloud.distributor.entity.dto.DeliveryDTO;
 import br.com.gunthercloud.distributor.service.DeliveryService;
 
 @RestController
-@RequestMapping(value = "/deliveries")
+@RequestMapping(value = "/delivery")
 @CrossOrigin
 public class DeliveryController {
 	

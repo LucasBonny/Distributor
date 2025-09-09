@@ -1,15 +1,15 @@
 package br.com.gunthercloud.distributor.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 @Entity
 @Table(name = "tb_supplier")
 @Getter

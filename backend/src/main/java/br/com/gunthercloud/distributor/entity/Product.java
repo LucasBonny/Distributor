@@ -1,10 +1,13 @@
 package br.com.gunthercloud.distributor.entity;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "tb_product")

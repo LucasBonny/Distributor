@@ -25,7 +25,7 @@ public class DeliveryMapper {
 //           dto.getProducts().add(productMapper.productToDTO(x).getId());
 //        });
 
-        dto.setSupplier(entity.getSupplier().getId());
+//        dto.setSupplier(entity.getSupplier().getId());
 
         return dto;
     }

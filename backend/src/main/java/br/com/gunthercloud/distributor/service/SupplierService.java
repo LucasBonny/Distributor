@@ -90,6 +90,7 @@ public class SupplierService {
 		}
 	}
 
+    // todo mudar a lógica do modo de salvar refatorar com o novo metodo do Supplier
     @Transactional
 	public SupplierWithProductsDTO createSupplierWithProducts(SupplierWithProductsDTO supplier) {
 		Supplier entity = mapper.supplierToEntity(supplier);
@@ -106,17 +107,13 @@ public class SupplierService {
 
         entity = repository.save(entity);
 
-        final UUID uuid = entity.getId();
-
         SupplierWithProductsDTO supWith = new SupplierWithProductsDTO();
         BeanUtils.copyProperties(entity, supWith);
-        Set<ProductDTO> prodDto = entity.getProducts().stream().map(x -> {
-            var bag = pMapper.productToDTO(x);
-            bag.setSupplier(uuid);
-            return bag;
 
-        }).collect(Collectors.toSet());
-        supWith.setProducts(prodDto);
+        Set<ProductDTO> prodDTOs = new HashSet<>();
+        for(Product dto : entity.getProducts())
+            prodDTOs.add(pMapper.productToDTO(dto));
+        supWith.setProducts(prodDTOs);
 		return supWith;
 	}
 

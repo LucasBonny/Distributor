@@ -1,19 +1,23 @@
 package br.com.gunthercloud.distributor.entity.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
-import br.com.gunthercloud.distributor.entity.Delivery;
-import lombok.*;
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DeliveryDTO {
 
     private Long id;
     private Instant dateTimeDelivery;
-	private UUID supplier;
-	private List<Long> products;
+	private SupplierDTO supplier;
+    private Set<DeliveryItemDTO> items = new HashSet<>();
 
 }

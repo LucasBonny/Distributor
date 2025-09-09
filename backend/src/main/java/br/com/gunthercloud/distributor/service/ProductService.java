@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.gunthercloud.distributor.mapper.SupplierMapper;
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import br.com.gunthercloud.distributor.service.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.service.exceptions.NotFoundException;
@@ -36,6 +37,9 @@ public class ProductService {
 	@Autowired
 	private SupplierRepository supplierRepository;
 
+    @Autowired
+    private SupplierMapper sMapper;
+
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable){
 
@@ -43,7 +47,7 @@ public class ProductService {
 
 		return list.map(x -> {
             ProductDTO dto = mapper.productToDTO(x);
-            dto.setSupplier(x.getSupplier().getId());
+            dto.setSupplier(sMapper.supplierToDTO(x.getSupplier()));
             return dto;
         });
 	}
@@ -57,7 +61,7 @@ public class ProductService {
         if(!entity.isActive()) throw new NotFoundException("Esse produto foi deletado!");
 
         ProductDTO dto = mapper.productToDTO(entity);
-        dto.setSupplier(entity.getSupplier().getId());
+        dto.setSupplier(sMapper.supplierToDTO(entity.getSupplier()));
 		return dto;
 	}
 	
@@ -67,7 +71,7 @@ public class ProductService {
         Product entity = mapper.productToEntity(dto);
         entity.setId(null);
 
-        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier());
+        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier().getId());
         if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o id " + dto.getSupplier() + ".");
 
         entity.setSupplier(supFind.get());
@@ -86,14 +90,14 @@ public class ProductService {
 		Product entity = mapper.productToEntity(dto);
 		entity.setId(id);
 
-        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier());
+        Optional<Supplier> supFind = supplierRepository.findById(dto.getSupplier().getId());
         if(supFind.isEmpty()) throw new NotFoundException("Não foi possivel encontrar o fornecedor com o id " + dto.getSupplier() + ".");
 		entity.setSupplier(supFind.get());
 
 		entity = repository.save(entity);
 
         ProductDTO productDTO = mapper.productToDTO(entity);
-        productDTO.setSupplier(entity.getSupplier().getId());
+        productDTO.setSupplier(sMapper.supplierToDTO(entity.getSupplier()));
 		return productDTO;
 	}
 
