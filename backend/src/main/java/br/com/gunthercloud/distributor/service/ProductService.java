@@ -39,7 +39,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable){
 
-        Page<Product> list =  repository.findByIsActiveTrue(pageable);
+        Page<Product> list =  repository.findByActiveTrue(pageable);
 
 		return list.map(x -> {
             ProductDTO dto = mapper.productToDTO(x);

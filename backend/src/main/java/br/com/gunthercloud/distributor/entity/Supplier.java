@@ -7,46 +7,63 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 @Entity
 @Table(name = "tb_supplier")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Supplier {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	@Column(unique = true, nullable = false)
-	private Long cnpj;
+    @Column(unique = true, nullable = false)
+    private Long cnpj;
 
-	@Column(unique = true,nullable = false)
-	private String name;
+    @Column(unique = true, nullable = false)
+    private String name;
 
-	@Column(nullable = false)
-	private String address;
+    @Column(nullable = false)
+    private String address;
 
-	@Column(nullable = false)
-	private int cep;
+    @Column(nullable = false)
+    private String cep;
 
-	@Column(nullable = false)
-	private Long phoneNumber;
-	
-	@OneToMany(mappedBy = "supplier")
-	private Set<Delivery> deliveries = new HashSet<>();
+    @Column(nullable = false)
+    private String phoneNumber;
 
-	@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Delivery> deliveries = new HashSet<>();
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Product> products = new HashSet<>();
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setSupplier(this);
+    }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+        product.setSupplier(null);
+    }
+
+    public void addDelivery(Delivery delivery) {
+        deliveries.add(delivery);
+        delivery.setSupplier(this);
+    }
+
+    public void removeDelivery(Delivery delivery) {
+        deliveries.remove(delivery);
+        delivery.setSupplier(null);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -21,9 +21,9 @@ public class DeliveryMapper {
         dto.setDateTimeDelivery(entity.getDateTimeDelivery());
         dto.setId(entity.getId());
 
-        entity.getProducts().forEach(x -> {
-           dto.getProducts().add(productMapper.productToDTO(x).getId());
-        });
+//        entity.getProducts().forEach(x -> {
+//           dto.getProducts().add(productMapper.productToDTO(x).getId());
+//        });
 
         dto.setSupplier(entity.getSupplier().getId());
 
