@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SupplierDTO {
+public class SupplierResponseDTO {
 
 	private UUID id;
 	private Long cnpj;

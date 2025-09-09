@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.dto.response;
+package br.com.gunthercloud.distributor.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryItemDTO {
+public class DeliveryItemRequestDTO {
 
     private Long id;
     private int quantity;
     private double unitPrice;
-    private ProductDTO product;
-    private DeliveryDTO delivery;
+    private ProductRequestDTO product;
+    private DeliveryRequestDTO delivery;
 
 }

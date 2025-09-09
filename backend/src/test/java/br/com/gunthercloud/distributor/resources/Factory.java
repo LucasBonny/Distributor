@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.dto.response.ProductDTO;
-import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 public class Factory {
@@ -36,14 +36,14 @@ public class Factory {
         return new Product();
     }
 
-    public static ProductDTO createProductDTO() {
-        ProductDTO dto = new ProductDTO();
+    public static ProductResponseDTO createProductDTO() {
+        ProductResponseDTO dto = new ProductResponseDTO();
         BeanUtils.copyProperties(createProduct(), dto);
         return dto;
     }
     
-    public static SupplierDTO createSupplierDTO() {
-        SupplierDTO dto = new SupplierDTO();
+    public static SupplierResponseDTO createSupplierDTO() {
+        SupplierResponseDTO dto = new SupplierResponseDTO();
         BeanUtils.copyProperties(createSupplier(), dto);
         return dto;
     }

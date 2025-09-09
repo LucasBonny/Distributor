@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.gunthercloud.distributor.dto.response.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.service.ProductService;
 
 @RestController
@@ -27,16 +27,16 @@ public class ProductController {
 	private ProductService service;
 
     @Autowired
-    private PagedResponse<ProductDTO> response;
+    private PagedResponse<ProductResponseDTO> response;
 
 	@GetMapping
-	public ResponseEntity<PageModel<ProductDTO>> findAll(@PageableDefault(sort = "name") Pageable pageable) {
-        Page<ProductDTO> paged = service.findAll(pageable);
+	public ResponseEntity<PageModel<ProductResponseDTO>> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        Page<ProductResponseDTO> paged = service.findAll(pageable);
         return ResponseEntity.ok().body(response.request(paged));
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+	public ResponseEntity<ProductResponseDTO> findById(@PathVariable Long id) {
         try{
             return ResponseEntity.ok().body(service.findById(id));
         }
@@ -48,12 +48,12 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO obj) {
+	public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductResponseDTO obj) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createProduct(obj));
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDTO obj) {
+	public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductResponseDTO obj) {
         try {
             return ResponseEntity.ok().body(service.updateProduct(id, obj));
         }

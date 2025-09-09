@@ -1,17 +1,21 @@
-package br.com.gunthercloud.distributor.dto.response;
+package br.com.gunthercloud.distributor.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductRequestDTO {
 
     private Long id;
 
@@ -33,8 +37,7 @@ public class ProductDTO {
     @NotBlank(message = "A URL da imagem é obrigatória.")
     private String imgUrl;
 
-    @NotNull(message = "O fornecedor é obrigatório.")
-    @JsonIgnore
-    private SupplierDTO supplier;
+    @NotNull(message = "O id do fornecedor é obrigatório.")
+    private UUID supplier;
 
 }

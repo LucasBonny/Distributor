@@ -1,8 +1,8 @@
 package br.com.gunthercloud.distributor.service;
 
 import br.com.gunthercloud.distributor.entity.DeliveryItem;
-import br.com.gunthercloud.distributor.dto.response.DeliveryDTO;
-import br.com.gunthercloud.distributor.dto.response.DeliveryItemDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseDTO;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.repository.DeliveryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class DeliveryItemService {
     private ProductMapper pMapper;
 	
 	@Transactional(readOnly = true)
-	public Page<DeliveryItemDTO> findAll(Pageable pageable){
+	public Page<DeliveryItemResponseDTO> findAll(Pageable pageable){
 		Page<DeliveryItem> emp = repository.findAll(pageable);
 		return emp.map(x -> {
-            return new DeliveryItemDTO(x.getId(), x.getQuantity(), x.getUnitPrice(), pMapper.productToDTO(x.getProduct()),new DeliveryDTO());
+            return new DeliveryItemResponseDTO(x.getId(), x.getQuantity(), x.getUnitPrice(), pMapper.productToDTO(x.getProduct()),new DeliveryResponseDTO());
         });
 	}
 	

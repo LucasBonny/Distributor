@@ -1,7 +1,7 @@
 package br.com.gunthercloud.distributor.services;
 
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
 import br.com.gunthercloud.distributor.repository.SupplierRepository;
 import br.com.gunthercloud.distributor.resources.Factory;
 import br.com.gunthercloud.distributor.service.SupplierService;
@@ -82,7 +82,7 @@ public class SupplierServicesTests {
 
     @Test
     public void findAllShouldReturnList() {
-        List<SupplierDTO> supplier = service.findAll();
+        List<SupplierResponseDTO> supplier = service.findAll();
 
         verify(repository, times(1)).findAll(Sort.by(Sort.Direction.ASC,"name"));
         Assertions.assertNotNull(supplier);
@@ -93,7 +93,7 @@ public class SupplierServicesTests {
     @Test
     public void findByIdShouldReturnObjectWhenIdExists() {
 
-        SupplierDTO result = service.findById(existingId);
+        SupplierResponseDTO result = service.findById(existingId);
         verify(repository).findById(existingId);
         Assertions.assertEquals(supplier.getName(), result.getName());
 

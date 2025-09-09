@@ -1,4 +1,4 @@
-package br.com.gunthercloud.distributor.dto.response;
+package br.com.gunthercloud.distributor.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,11 +13,11 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryDTO {
+public class DeliveryRequestDTO {
 
     private Long id;
     private Instant dateTimeDelivery;
-	private SupplierDTO supplier;
-    private Set<DeliveryItemDTO> items = new HashSet<>();
+	private SupplierRequestDTO supplier;
+    private Set<DeliveryItemRequestDTO> items = new HashSet<>();
 
 }

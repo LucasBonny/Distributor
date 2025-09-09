@@ -1,6 +1,6 @@
 package br.com.gunthercloud.distributor.controller;
 
-import br.com.gunthercloud.distributor.dto.response.DeliveryItemDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseDTO;
 import br.com.gunthercloud.distributor.service.DeliveryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ public class DeliveryItemController {
 	private DeliveryItemService service;
 
 	@GetMapping
-	public ResponseEntity<Page<DeliveryItemDTO>> findAll(Pageable pageable){
+	public ResponseEntity<Page<DeliveryItemResponseDTO>> findAll(Pageable pageable){
 		return ResponseEntity.ok().body(service.findAll(pageable));
 	}
 

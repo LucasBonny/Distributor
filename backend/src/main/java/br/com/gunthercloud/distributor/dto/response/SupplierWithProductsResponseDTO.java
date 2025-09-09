@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class SupplierWithProductsDTO extends SupplierDTO {
+public class SupplierWithProductsResponseDTO extends SupplierResponseDTO {
 
-	private Set<ProductDTO> products = new HashSet<>();
+	private Set<ProductResponseDTO> products = new HashSet<>();
 
 }

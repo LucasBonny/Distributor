@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
-import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsResponseDTO;
 import br.com.gunthercloud.distributor.service.SupplierService;
 
 @RestController
@@ -31,27 +31,27 @@ public class SupplierController {
 //	private ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<List<SupplierDTO>> findAll() {
+	public ResponseEntity<List<SupplierResponseDTO>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<SupplierWithProductsDTO> findById(@PathVariable UUID id) {
+	public ResponseEntity<SupplierWithProductsResponseDTO> findById(@PathVariable UUID id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
 	@PostMapping
-	public ResponseEntity<SupplierDTO> createSupplier(@RequestBody SupplierDTO supplier) {
+	public ResponseEntity<SupplierResponseDTO> createSupplier(@RequestBody SupplierResponseDTO supplier) {
 		return ResponseEntity.status(201).body(service.createSupplier(supplier));
 	}
 
     @PostMapping(value = "/product")
-    public ResponseEntity<SupplierWithProductsDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsDTO supplier) {
+    public ResponseEntity<SupplierWithProductsResponseDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsResponseDTO supplier) {
         return ResponseEntity.ok().body(service.createSupplierWithProducts(supplier));
     }
 
     @PutMapping(value = "/{id}")
-	public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable UUID id, @RequestBody SupplierDTO obj){
+	public ResponseEntity<SupplierResponseDTO> updateSupplier(@PathVariable UUID id, @RequestBody SupplierResponseDTO obj){
 		return ResponseEntity.ok().body(service.updateSupplier(id, obj));
 	}
 	

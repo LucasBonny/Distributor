@@ -12,9 +12,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.entity.Supplier;
-import br.com.gunthercloud.distributor.dto.response.ProductDTO;
-import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
-import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierWithProductsResponseDTO;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.mapper.SupplierMapper;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
@@ -37,19 +37,19 @@ public class SupplierService {
 	private ProductRepository pRepository;
 	
 	@Transactional(readOnly = true)
-	public List<SupplierDTO> findAll(){
+	public List<SupplierResponseDTO> findAll(){
 		List<Supplier> emp = repository.findAll(Sort.by(Sort.Direction.ASC,"name"));
 		return emp.stream().map(mapper::supplierToDTO).toList();
 	}
 	
 	@Transactional(readOnly = true)
-	public SupplierWithProductsDTO findById(UUID id) {
+	public SupplierWithProductsResponseDTO findById(UUID id) {
 		Supplier entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id informado " + id + " não existe."));
 
 		List<Product> products = pRepository.findBySupplier(entity);
 
-        SupplierWithProductsDTO response = new SupplierWithProductsDTO();
+        SupplierWithProductsResponseDTO response = new SupplierWithProductsResponseDTO();
         BeanUtils.copyProperties(entity, response);
 
         products.stream().map(pMapper::productToDTO).forEach(response.getProducts()::add);
@@ -57,7 +57,7 @@ public class SupplierService {
 	}
 
 	@Transactional
-	public SupplierDTO createSupplier(SupplierDTO obj) {
+	public SupplierResponseDTO createSupplier(SupplierResponseDTO obj) {
 		Supplier entity = mapper.supplierToEntity(obj);
 		entity.setId(null);
 		entity = repository.save(entity);
@@ -65,7 +65,7 @@ public class SupplierService {
 	}
 	
 	@Transactional
-	public SupplierDTO updateSupplier(UUID id, SupplierDTO obj) {
+	public SupplierResponseDTO updateSupplier(UUID id, SupplierResponseDTO obj) {
 		repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe."));
 		Supplier entity = mapper.supplierToEntity(obj);
@@ -91,13 +91,13 @@ public class SupplierService {
 
     // todo mudar a lógica do modo de salvar refatorar com o novo metodo do Supplier
     @Transactional
-	public SupplierWithProductsDTO createSupplierWithProducts(SupplierWithProductsDTO supplier) {
+	public SupplierWithProductsResponseDTO createSupplierWithProducts(SupplierWithProductsResponseDTO supplier) {
 		Supplier entity = mapper.supplierToEntity(supplier);
 		entity.setId(null);
 
         entity = repository.save(entity);
 
-        for(ProductDTO p : supplier.getProducts()) {
+        for(ProductResponseDTO p : supplier.getProducts()) {
             Product prod = pMapper.productToEntity(p);
             prod.setSupplier(entity);
             prod = pRepository.save(prod);
@@ -106,10 +106,10 @@ public class SupplierService {
 
         entity = repository.save(entity);
 
-        SupplierWithProductsDTO supWith = new SupplierWithProductsDTO();
+        SupplierWithProductsResponseDTO supWith = new SupplierWithProductsResponseDTO();
         BeanUtils.copyProperties(entity, supWith);
 
-        Set<ProductDTO> prodDTOs = new HashSet<>();
+        Set<ProductResponseDTO> prodDTOs = new HashSet<>();
         for(Product dto : entity.getProducts())
             prodDTOs.add(pMapper.productToDTO(dto));
         supWith.setProducts(prodDTOs);

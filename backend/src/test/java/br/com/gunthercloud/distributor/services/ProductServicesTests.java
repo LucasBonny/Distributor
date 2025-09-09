@@ -1,7 +1,7 @@
 package br.com.gunthercloud.distributor.services;
 
 import br.com.gunthercloud.distributor.entity.Product;
-import br.com.gunthercloud.distributor.dto.response.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.repository.ProductRepository;
 import br.com.gunthercloud.distributor.resources.Factory;
 import br.com.gunthercloud.distributor.service.ProductService;
@@ -83,7 +83,7 @@ public class ProductServicesTests {
 
     @Test
     public void findAllShouldReturnList() {
-        Page<ProductDTO> product = service.findAll(PageRequest.of(0,10));
+        Page<ProductResponseDTO> product = service.findAll(PageRequest.of(0,10));
 
         verify(repository, times(1)).findAll(Sort.by(Sort.Direction.ASC,"name"));
         Assertions.assertNotNull(product);
@@ -94,7 +94,7 @@ public class ProductServicesTests {
     @Test
     public void findByIdShouldReturnObjectWhenIdExists() {
 
-        ProductDTO result = service.findById(existingId);
+        ProductResponseDTO result = service.findById(existingId);
         verify(repository).findById(existingId);
         Assertions.assertEquals(product.getName(), result.getName());
 

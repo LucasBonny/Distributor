@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gunthercloud.distributor.dto.response.DeliveryDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
 import br.com.gunthercloud.distributor.service.DeliveryService;
 
 @RestController
@@ -26,22 +26,22 @@ public class DeliveryController {
 	private DeliveryService service;
 
 	@GetMapping
-	public ResponseEntity<Page<DeliveryDTO>> findAll(Pageable pageable){
+	public ResponseEntity<Page<DeliveryResponseDTO>> findAll(Pageable pageable){
 		return ResponseEntity.ok().body(service.findAll(pageable));
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<DeliveryDTO> findById(@PathVariable Long id) {
+	public ResponseEntity<DeliveryResponseDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<DeliveryDTO> create(@RequestBody DeliveryDTO obj) {
+	public ResponseEntity<DeliveryResponseDTO> create(@RequestBody DeliveryResponseDTO obj) {
 		return ResponseEntity.status(201).body(service.create(obj));
 	}
 
 	@PutMapping
-	public ResponseEntity<DeliveryDTO> update(Long id, DeliveryDTO obj) {
+	public ResponseEntity<DeliveryResponseDTO> update(Long id, DeliveryResponseDTO obj) {
 		return ResponseEntity.status(200).body(service.update(id, obj));
 	}
 

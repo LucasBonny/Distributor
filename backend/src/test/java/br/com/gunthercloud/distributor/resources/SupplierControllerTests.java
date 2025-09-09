@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.gunthercloud.distributor.controller.SupplierController;
-import br.com.gunthercloud.distributor.dto.response.SupplierDTO;
+import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
 import br.com.gunthercloud.distributor.service.SupplierService;
 import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
@@ -44,8 +44,8 @@ public class SupplierControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private SupplierDTO supplierDTO;
-    private List<SupplierDTO> supplierList;
+    private SupplierResponseDTO supplierResponseDTO;
+    private List<SupplierResponseDTO> supplierList;
 
     private UUID existingId;
     private UUID nonExistingId;
@@ -55,17 +55,17 @@ public class SupplierControllerTests {
         existingId = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
         nonExistingId = UUID.fromString("550e8400-e29b-41d4-a716-446655440022");
 
-        supplierDTO = Factory.createSupplierDTO();
+        supplierResponseDTO = Factory.createSupplierDTO();
 
-        supplierList = List.of(supplierDTO);
+        supplierList = List.of(supplierResponseDTO);
         when(service.findAll()).thenReturn(supplierList);
 
 //        when(service.findById(existingId)).thenReturn(supplierDTO);
         when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
 
-        when(service.create(any())).thenReturn(supplierDTO);
+        when(service.create(any())).thenReturn(supplierResponseDTO);
 
-        when(service.update(eq(existingId), any())).thenReturn(supplierDTO);
+        when(service.update(eq(existingId), any())).thenReturn(supplierResponseDTO);
         when(service.update(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
 
         doThrow(DatabaseException.class).when(service).delete(any());
@@ -74,7 +74,7 @@ public class SupplierControllerTests {
 
     @Test
     void insertShouldReturnCreated() throws Exception {
-        String json = objectMapper.writeValueAsString(supplierDTO);
+        String json = objectMapper.writeValueAsString(supplierResponseDTO);
 
         ResultActions result = mockMvc.perform(post("/suppliers")
                 .content(json)
@@ -92,7 +92,7 @@ public class SupplierControllerTests {
 
     @Test
     void updateShouldReturnSupplierDTOWhenIdExists() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(supplierDTO);
+        String jsonBody = objectMapper.writeValueAsString(supplierResponseDTO);
 
         mockMvc.perform(put("/suppliers/{id}", existingId)
                         .content(jsonBody)
@@ -104,7 +104,7 @@ public class SupplierControllerTests {
 
     @Test
     void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(supplierDTO);
+        String jsonBody = objectMapper.writeValueAsString(supplierResponseDTO);
 
         mockMvc.perform(put("/suppliers/{id}", nonExistingId)
                         .content(jsonBody)

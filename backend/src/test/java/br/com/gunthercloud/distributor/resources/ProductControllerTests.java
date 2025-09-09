@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.gunthercloud.distributor.controller.ProductController;
-import br.com.gunthercloud.distributor.dto.response.ProductDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.service.ProductService;
 import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
@@ -43,8 +43,8 @@ public class ProductControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private ProductDTO productDTO;
-    private List<ProductDTO> productList;
+    private ProductResponseDTO productResponseDTO;
+    private List<ProductResponseDTO> productList;
 
     private Long existingId;
     private Long nonExistingId;
@@ -54,17 +54,17 @@ public class ProductControllerTests {
         existingId = 1L;
         nonExistingId = 111L;
 
-        productDTO = Factory.createProductDTO();
+        productResponseDTO = Factory.createProductDTO();
 
-        productList = List.of(productDTO);
+        productList = List.of(productResponseDTO);
         when(service.findAll()).thenReturn(productList);
 
-        when(service.findById(existingId)).thenReturn(productDTO);
+        when(service.findById(existingId)).thenReturn(productResponseDTO);
         when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
 
-        when(service.createProduct(any())).thenReturn(productDTO);
+        when(service.createProduct(any())).thenReturn(productResponseDTO);
 
-        when(service.updateProduct(eq(existingId), any())).thenReturn(productDTO);
+        when(service.updateProduct(eq(existingId), any())).thenReturn(productResponseDTO);
         when(service.updateProduct(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
 
         doThrow(DatabaseException.class).when(service).deleteProduct(any());
@@ -73,7 +73,7 @@ public class ProductControllerTests {
 
     @Test
     void insertShouldReturnCreated() throws Exception {
-        String json = objectMapper.writeValueAsString(productDTO);
+        String json = objectMapper.writeValueAsString(productResponseDTO);
 
         ResultActions result = mockMvc.perform(post("/products")
                 .content(json)
@@ -91,7 +91,7 @@ public class ProductControllerTests {
 
     @Test
     void updateShouldReturnProductDTOWhenIdExists() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(productDTO);
+        String jsonBody = objectMapper.writeValueAsString(productResponseDTO);
 
         mockMvc.perform(put("/products/{id}", existingId)
                         .content(jsonBody)
@@ -103,7 +103,7 @@ public class ProductControllerTests {
 
     @Test
     void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(productDTO);
+        String jsonBody = objectMapper.writeValueAsString(productResponseDTO);
 
         mockMvc.perform(put("/products/{id}", nonExistingId)
                         .content(jsonBody)

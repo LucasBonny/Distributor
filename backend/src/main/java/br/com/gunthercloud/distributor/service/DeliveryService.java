@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gunthercloud.distributor.entity.Delivery;
-import br.com.gunthercloud.distributor.dto.response.DeliveryDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
 import br.com.gunthercloud.distributor.repository.DeliveryRepository;
 import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
@@ -25,27 +25,27 @@ public class DeliveryService {
     private DeliveryMapper mapper;
 	
 	@Transactional(readOnly = true)
-	public Page<DeliveryDTO> findAll(Pageable pageable){
+	public Page<DeliveryResponseDTO> findAll(Pageable pageable){
 		Page<Delivery> emp = repository.findAll(pageable);
 		return emp.map(mapper::deliveryToDTO);
 	}
 	
 	@Transactional(readOnly = true)
-	public DeliveryDTO findById(Long id) {
+	public DeliveryResponseDTO findById(Long id) {
 		Delivery emp = repository.findById(id).orElseThrow(() 
 				-> new NotFoundException("O id " + id + " não existe."));
 		return mapper.deliveryToDTO(emp);
 	}
 	
 	@Transactional
-	public DeliveryDTO create(DeliveryDTO obj) {
+	public DeliveryResponseDTO create(DeliveryResponseDTO obj) {
 		Delivery entity = mapper.deliveryToEntity(obj);
 		entity.setId(null);
 		entity = repository.save(entity);
 		return mapper.deliveryToDTO(entity);
 	}
 	@Transactional
-	public DeliveryDTO update(Long id, DeliveryDTO obj) {
+	public DeliveryResponseDTO update(Long id, DeliveryResponseDTO obj) {
 		repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe."));
 		Delivery entity = mapper.deliveryToEntity(obj);
