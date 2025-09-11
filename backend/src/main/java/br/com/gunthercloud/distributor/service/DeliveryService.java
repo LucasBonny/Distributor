@@ -32,20 +32,20 @@ public class DeliveryService {
 	
 	@Transactional(readOnly = true)
 	public DeliveryResponseDTO findById(Long id) {
-		Delivery emp = repository.findById(id).orElseThrow(() 
+		Delivery delivery = repository.findById(id).orElseThrow(()
 				-> new NotFoundException("O id " + id + " não existe."));
-		return mapper.deliveryToDTO(emp);
+		return mapper.deliveryToDTO(delivery);
 	}
 	
 	@Transactional
-	public DeliveryResponseDTO create(DeliveryResponseDTO obj) {
+	public DeliveryResponseDTO createDelivery(DeliveryResponseDTO obj) {
 		Delivery entity = mapper.deliveryToEntity(obj);
 		entity.setId(null);
 		entity = repository.save(entity);
 		return mapper.deliveryToDTO(entity);
 	}
 	@Transactional
-	public DeliveryResponseDTO update(Long id, DeliveryResponseDTO obj) {
+	public DeliveryResponseDTO updateDelivery(Long id, DeliveryResponseDTO obj) {
 		repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id " + id + " não existe."));
 		Delivery entity = mapper.deliveryToEntity(obj);
@@ -54,7 +54,7 @@ public class DeliveryService {
         return mapper.deliveryToDTO(entity);
 	}
 	@Transactional
-	public void delete(Long id) {
+	public void deleteDelivery(Long id) {
 		try {
 			Delivery entity = repository.findById(id).orElseThrow(() -> 
 				new NotFoundException("O id " + id + " não existe!"));

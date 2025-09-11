@@ -23,7 +23,7 @@ public class DeliveryMapper {
 
         DeliveryResponseSimpleDTO dto = new DeliveryResponseSimpleDTO();
 
-        dto.setDateTimeDelivery(entity.getDeliveryDate());
+        dto.setDeliveryDate(entity.getDeliveryDate());
         dto.setId(entity.getId());
         dto.setSupplier(entity.getSupplier().getId());
 
@@ -33,7 +33,7 @@ public class DeliveryMapper {
 
         DeliveryResponseDTO dto = new DeliveryResponseDTO();
 
-        dto.setDateTimeDelivery(entity.getDeliveryDate());
+        dto.setDeliveryDate(entity.getDeliveryDate());
         dto.setId(entity.getId());
         dto.setSupplier(entity.getSupplier().getId());
 
@@ -48,7 +48,7 @@ public class DeliveryMapper {
         Delivery entity = new Delivery();
 
         entity.setId(dto.getId());
-        entity.setDeliveryDate(dto.getDateTimeDelivery());
+        entity.setDeliveryDate(dto.getDeliveryDate());
 
         return entity;
     }

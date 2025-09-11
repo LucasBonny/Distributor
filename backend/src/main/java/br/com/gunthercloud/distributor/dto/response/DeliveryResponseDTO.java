@@ -12,6 +12,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class DeliveryResponseDTO extends DeliveryResponseSimpleDTO {
 
-    private Set<DeliveryItemResponseDTO> items = new HashSet<>();
+    private Set<DeliveryItemResponseSimpleDTO> items = new HashSet<>();
 
 }

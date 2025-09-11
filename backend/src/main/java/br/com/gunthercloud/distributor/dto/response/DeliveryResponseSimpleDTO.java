@@ -15,7 +15,7 @@ import java.util.UUID;
 public class DeliveryResponseSimpleDTO {
 
     private Long id;
-    private Instant dateTimeDelivery;
+    private Instant deliveryDate;
 	private UUID supplier;
 
 }

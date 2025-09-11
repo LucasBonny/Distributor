@@ -23,7 +23,7 @@ public class DeliveryItemController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<DeliveryItemResponseDTO> findById(@PathVariable Long id) {
+	public ResponseEntity<DeliveryItemResponseSimpleDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 

@@ -34,10 +34,10 @@ public class DeliveryItemService {
 	}
 	
 	@Transactional(readOnly = true)
-	public DeliveryItemResponseDTO findById(Long id) {
+	public DeliveryItemResponseSimpleDTO findById(Long id) {
 		DeliveryItem deliveryItem = repository.findById(id).orElseThrow(()
 				-> new NotFoundException("O id " + id + " não existe."));
-		return deliveryItemMapper.deliveryItemToDTO(deliveryItem);
+		return deliveryItemMapper.deliveryItemToSimpleDTO(deliveryItem);
 	}
 
 //	@Transactional

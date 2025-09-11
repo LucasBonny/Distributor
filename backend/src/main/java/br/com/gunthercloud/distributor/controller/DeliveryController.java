@@ -38,17 +38,17 @@ public class DeliveryController {
 
 	@PostMapping
 	public ResponseEntity<DeliveryResponseDTO> create(@RequestBody DeliveryResponseDTO obj) {
-		return ResponseEntity.status(201).body(service.create(obj));
+		return ResponseEntity.status(201).body(service.createDelivery(obj));
 	}
 
 	@PutMapping
 	public ResponseEntity<DeliveryResponseDTO> update(Long id, DeliveryResponseDTO obj) {
-		return ResponseEntity.status(200).body(service.update(id, obj));
+		return ResponseEntity.status(200).body(service.updateDelivery(id, obj));
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Void> delete(Long id) {
-		service.delete(id);
+		service.deleteDelivery(id);
 		return ResponseEntity.status(204).build();
 	}
 
