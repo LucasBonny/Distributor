@@ -1,8 +1,12 @@
 package br.com.gunthercloud.distributor.service;
 
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseSimpleDTO;
+import br.com.gunthercloud.distributor.entity.Delivery;
 import br.com.gunthercloud.distributor.entity.DeliveryItem;
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseDTO;
+import br.com.gunthercloud.distributor.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.mapper.DeliveryItemMapper;
 import br.com.gunthercloud.distributor.mapper.ProductMapper;
 import br.com.gunthercloud.distributor.repository.DeliveryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +23,23 @@ public class DeliveryItemService {
     private DeliveryItemRepository repository;
 
     @Autowired
+    private DeliveryItemMapper deliveryItemMapper;
+
+    @Autowired
     private ProductMapper pMapper;
 	
 	@Transactional(readOnly = true)
-	public Page<DeliveryItemResponseDTO> findAll(Pageable pageable){
-		Page<DeliveryItem> emp = repository.findAll(pageable);
-		return emp.map(x -> {
-            return new DeliveryItemResponseDTO(x.getId(), x.getQuantity(), x.getUnitPrice(), pMapper.productToDTO(x.getProduct()),new DeliveryResponseDTO());
-        });
+	public Page<DeliveryItemResponseSimpleDTO> findAll(Pageable pageable){
+		return repository.findAll(pageable).map(deliveryItemMapper::deliveryItemToSimpleDTO);
 	}
 	
-//	@Transactional(readOnly = true)
-//	public DeliveryDTO findById(Long id) {
-//		Delivery emp = repository.findById(id).orElseThrow(()
-//				-> new NotFoundException("O id " + id + " não existe."));
-//		return mapper.deliveryToDTO(emp);
-//	}
-//
+	@Transactional(readOnly = true)
+	public DeliveryItemResponseDTO findById(Long id) {
+		DeliveryItem deliveryItem = repository.findById(id).orElseThrow(()
+				-> new NotFoundException("O id " + id + " não existe."));
+		return deliveryItemMapper.deliveryItemToDTO(deliveryItem);
+	}
+
 //	@Transactional
 //	public DeliveryDTO create(DeliveryDTO obj) {
 //		Delivery entity = mapper.deliveryToEntity(obj);

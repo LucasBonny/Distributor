@@ -18,7 +18,7 @@ public class SupplierMapper {
     @Autowired
     private ProductMapper pMapper;
 
-    public SupplierResponseSimpleDTO supplierToDTOSimple(Supplier entity) {
+    public SupplierResponseSimpleDTO supplierToSimpleDTO(Supplier entity) {
         SupplierResponseSimpleDTO responseDTO = new SupplierResponseSimpleDTO();
         BeanUtils.copyProperties(entity, responseDTO);
         return responseDTO;

@@ -41,14 +41,14 @@ public class SupplierService {
 	public Page<SupplierResponseSimpleDTO> findAll(Pageable pageable){
 
         Page<Supplier> list = repository.findAll(pageable);
-		return list.map(mapper::supplierToDTOSimple);
+		return list.map(mapper::supplierToSimpleDTO);
 	}
 	
 	@Transactional(readOnly = true)
 	public SupplierResponseSimpleDTO findById(UUID id) {
 		Supplier entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id informado " + id + " não existe."));
-        return mapper.supplierToDTOSimple(entity);
+        return mapper.supplierToSimpleDTO(entity);
 
     }
 

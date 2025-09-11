@@ -1,5 +1,6 @@
 package br.com.gunthercloud.distributor.controller;
 
+import br.com.gunthercloud.distributor.dto.response.DeliveryResponseSimpleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
 import br.com.gunthercloud.distributor.service.DeliveryService;
 
 @RestController
-@RequestMapping(value = "/delivery")
+@RequestMapping(value = "/deliveries")
 @CrossOrigin
 public class DeliveryController {
 	
@@ -26,7 +27,7 @@ public class DeliveryController {
 	private DeliveryService service;
 
 	@GetMapping
-	public ResponseEntity<Page<DeliveryResponseDTO>> findAll(Pageable pageable){
+	public ResponseEntity<Page<DeliveryResponseSimpleDTO>> findAll(Pageable pageable){
 		return ResponseEntity.ok().body(service.findAll(pageable));
 	}
 

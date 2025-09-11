@@ -5,12 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.util.UUID;
+
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryItemResponseDTO extends DeliveryItemResponseSimpleDTO {
+@NoArgsConstructor
+public class DeliveryResponseSimpleDTO {
 
-    private DeliveryResponseDTO delivery;
+    private Long id;
+    private Instant dateTimeDelivery;
+	private UUID supplier;
 
 }

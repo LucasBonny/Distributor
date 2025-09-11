@@ -9,8 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryItemResponseDTO extends DeliveryItemResponseSimpleDTO {
+public class DeliveryItemResponseSimpleDTO {
 
-    private DeliveryResponseDTO delivery;
+    private Long id;
+    private int quantity;
+    private double unitPrice;
+    private ProductResponseDTO product;
 
 }

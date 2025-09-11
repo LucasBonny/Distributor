@@ -1,6 +1,7 @@
 package br.com.gunthercloud.distributor.controller;
 
 import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseSimpleDTO;
 import br.com.gunthercloud.distributor.service.DeliveryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/delivery/item")
+@RequestMapping(value = "/deliveries/items")
 @CrossOrigin
 public class DeliveryItemController {
 	
@@ -17,15 +18,15 @@ public class DeliveryItemController {
 	private DeliveryItemService service;
 
 	@GetMapping
-	public ResponseEntity<Page<DeliveryItemResponseDTO>> findAll(Pageable pageable){
+	public ResponseEntity<Page<DeliveryItemResponseSimpleDTO>> findAll(Pageable pageable){
 		return ResponseEntity.ok().body(service.findAll(pageable));
 	}
 
-//	@GetMapping(value = "/{id}")
-//	public ResponseEntity<DeliveryDTO> findById(@PathVariable Long id) {
-//		return ResponseEntity.ok().body(service.findById(id));
-//	}
-//
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<DeliveryItemResponseDTO> findById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(service.findById(id));
+	}
+
 //	@PostMapping
 //	public ResponseEntity<DeliveryDTO> create(@RequestBody DeliveryDTO obj) {
 //		return ResponseEntity.status(201).body(service.create(obj));

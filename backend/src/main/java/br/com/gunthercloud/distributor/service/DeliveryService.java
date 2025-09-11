@@ -1,6 +1,7 @@
 package br.com.gunthercloud.distributor.service;
 
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryResponseSimpleDTO;
 import br.com.gunthercloud.distributor.entity.Delivery;
 import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
@@ -24,9 +25,9 @@ public class DeliveryService {
     private DeliveryMapper mapper;
 	
 	@Transactional(readOnly = true)
-	public Page<DeliveryResponseDTO> findAll(Pageable pageable){
+	public Page<DeliveryResponseSimpleDTO> findAll(Pageable pageable){
 		Page<Delivery> emp = repository.findAll(pageable);
-		return emp.map(mapper::deliveryToDTO);
+		return emp.map(mapper::deliveryToSimpleDTO);
 	}
 	
 	@Transactional(readOnly = true)
