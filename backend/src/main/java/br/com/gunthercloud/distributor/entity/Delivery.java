@@ -18,7 +18,7 @@ public class Delivery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-    private Instant dateTimeDelivery;
+    private Instant deliveryDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "supplier_id")

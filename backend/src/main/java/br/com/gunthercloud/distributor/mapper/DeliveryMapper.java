@@ -18,7 +18,7 @@ public class DeliveryMapper {
     public DeliveryResponseDTO deliveryToDTO(Delivery entity) {
         DeliveryResponseDTO dto = new DeliveryResponseDTO();
 
-        dto.setDateTimeDelivery(entity.getDateTimeDelivery());
+        dto.setDateTimeDelivery(entity.getDeliveryDate());
         dto.setId(entity.getId());
 
 //        entity.getProducts().forEach(x -> {
@@ -35,7 +35,7 @@ public class DeliveryMapper {
         Delivery entity = new Delivery();
 
         entity.setId(dto.getId());
-        entity.setDateTimeDelivery(dto.getDateTimeDelivery());
+        entity.setDeliveryDate(dto.getDateTimeDelivery());
 
         return entity;
     }

@@ -1,6 +1,5 @@
 package br.com.gunthercloud.distributor.service;
 
-import br.com.gunthercloud.distributor.dto.request.ProductRequestDTO;
 import br.com.gunthercloud.distributor.dto.request.SupplierRequestDTO;
 import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
