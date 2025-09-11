@@ -13,6 +13,7 @@ public class ProductMapper {
 	public ProductResponseDTO productToDTO(Product entity) {
 		ProductResponseDTO dto = new ProductResponseDTO();
 		BeanUtils.copyProperties(entity, dto);
+        dto.setSupplier(entity.getSupplier().getId());
 		return dto;
 	}
 	

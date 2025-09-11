@@ -1,6 +1,8 @@
 package br.com.gunthercloud.distributor.service;
 
+import br.com.gunthercloud.distributor.dto.request.ProductRequestDTO;
 import br.com.gunthercloud.distributor.dto.request.SupplierRequestDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.SupplierResponseSimpleDTO;
 import br.com.gunthercloud.distributor.entity.Product;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,10 +34,10 @@ public class SupplierService {
     private SupplierMapper mapper;
 
     @Autowired
-    private ProductMapper pMapper;
+    private ProductRepository productRepository;
 
-	@Autowired
-	private ProductRepository pRepository;
+    @Autowired
+    private ProductMapper pMapper;
 	
 	@Transactional(readOnly = true)
 	public Page<SupplierResponseSimpleDTO> findAll(Pageable pageable){
@@ -46,15 +50,16 @@ public class SupplierService {
 	public SupplierResponseSimpleDTO findById(UUID id) {
 		Supplier entity = repository.findById(id).orElseThrow(() -> 
 			new NotFoundException("O id informado " + id + " não existe."));
-
-        // todo fazer outra forma de buscar os produtos de um fornecedor
-//		List<Product> products = pRepository.findBySupplier(entity);
-//      SupplierWithProductsResponseDTO response = new SupplierWithProductsResponseDTO();
-//      BeanUtils.copyProperties(entity, response);
-//      products.stream().map(pMapper::productToDTO).forEach(response.getProducts()::add);
-//		return response;
         return mapper.supplierToDTOSimple(entity);
-	}
+
+    }
+
+    public List<ProductResponseDTO> findProductsBySupplierId(UUID id) {
+
+        Supplier supplier = repository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possivel encontrar esse id!"));
+
+        return productRepository.findBySupplier(supplier).stream().map(pMapper::productToDTO).toList();
+    }
 
 	@Transactional
 	public SupplierResponseDTO createSupplier(SupplierRequestDTO requestDTO) {
@@ -91,6 +96,11 @@ public class SupplierService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+
+    public Supplier findBySupplierId(UUID supplierId) {
+        return repository.findById(supplierId).orElseThrow(() ->
+                new NotFoundException("Não foi possível encontrar o fornecedor com o ID: " + supplierId));
+    }
 
     // todo mudar a lógica do modo de salvar refatorar com o novo metodo do Supplier
 //    @Transactional

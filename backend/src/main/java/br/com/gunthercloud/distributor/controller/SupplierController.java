@@ -3,6 +3,7 @@ package br.com.gunthercloud.distributor.controller;
 import br.com.gunthercloud.distributor.controller.pageable.PageModel;
 import br.com.gunthercloud.distributor.controller.pageable.PagedResponse;
 import br.com.gunthercloud.distributor.dto.request.SupplierRequestDTO;
+import br.com.gunthercloud.distributor.dto.response.ProductResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.SupplierResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.SupplierResponseSimpleDTO;
 import br.com.gunthercloud.distributor.service.SupplierService;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/supplier")
+@RequestMapping(value = "/suppliers")
 @CrossOrigin
 public class SupplierController {
 
@@ -43,11 +44,10 @@ public class SupplierController {
 		return ResponseEntity.status(201).body(service.createSupplier(supplier));
 	}
 
-    // todo buscar produtos de uma empresa
-//    @PostMapping(value = "/product")
-//    public ResponseEntity<SupplierWithProductsResponseDTO> createSupplierWithProducts(@RequestBody SupplierWithProductsResponseDTO supplier) {
-//        return ResponseEntity.ok().body(service.createSupplier(supplier));
-//    }
+    @GetMapping(value = "{id}/products")
+    public ResponseEntity<List<ProductResponseDTO>> findProductsBySupplierId(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(service.findProductsBySupplierId(id));
+    }
 
     @PutMapping(value = "/{id}")
 	public ResponseEntity<SupplierResponseDTO> updateSupplier(@PathVariable UUID id, @RequestBody SupplierRequestDTO requestDTO){
@@ -60,9 +60,6 @@ public class SupplierController {
 		return ResponseEntity.noContent().build();
 	}
 
-//    @GetMapping("/names")
-//    public ResponseEntity<List<String>> findAllSupplierByName() {
-//        return ResponseEntity.ok().body(service.findAllSupplierByName());
-//    }
+    // todo consultar nos dados de um fornecedor
 
 }

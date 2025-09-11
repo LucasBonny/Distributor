@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,8 +35,8 @@ public class ProductResponseDTO {
     @NotBlank(message = "A URL da imagem é obrigatória.")
     private String imgUrl;
 
-    @NotNull(message = "O fornecedor é obrigatório.")
+    @NotNull(message = "O id do fornecedor é obrigatório.")
     @JsonIgnore
-    private SupplierResponseDTO supplier;
+    private UUID supplier;
 
 }
