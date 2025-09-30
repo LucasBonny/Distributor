@@ -14,6 +14,6 @@ public class DeliveryItemResponseSimpleDTO {
     private Long id;
     private int quantity;
     private double unitPrice;
-    private ProductResponseDTO product;
+    private Long product;
 
 }

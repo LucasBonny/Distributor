@@ -36,10 +36,8 @@ public class Product {
 	@Column(nullable = false, columnDefinition = "TEXT")
     private String imgUrl;
 
-    @ManyToMany
-    @JoinTable(name = "tb_product_delivery", joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "delivery_id"))
-    private Set<Delivery> delivery = new HashSet<>();
+    @OneToMany(mappedBy = "product")
+    private Set<DeliveryItem> items = new HashSet<>();
 
     @Column(nullable = false)
     private boolean active = true;

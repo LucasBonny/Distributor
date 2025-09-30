@@ -1,12 +1,21 @@
 package br.com.gunthercloud.distributor.service;
 
+import br.com.gunthercloud.distributor.dto.request.DeliveryItemRequestDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseDTO;
+import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseSimpleDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseSimpleDTO;
 import br.com.gunthercloud.distributor.entity.Delivery;
+import br.com.gunthercloud.distributor.entity.DeliveryItem;
+import br.com.gunthercloud.distributor.entity.Product;
 import br.com.gunthercloud.distributor.exceptions.DatabaseException;
 import br.com.gunthercloud.distributor.exceptions.NotFoundException;
+import br.com.gunthercloud.distributor.mapper.DeliveryItemMapper;
 import br.com.gunthercloud.distributor.mapper.DeliveryMapper;
+import br.com.gunthercloud.distributor.mapper.ProductMapper;
+import br.com.gunthercloud.distributor.repository.DeliveryItemRepository;
 import br.com.gunthercloud.distributor.repository.DeliveryRepository;
+import br.com.gunthercloud.distributor.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -14,15 +23,33 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+
 @Service
 @Transactional
 public class DeliveryService {
-	
-	@Autowired
-	private DeliveryRepository repository;
+
+    @Autowired
+    private DeliveryRepository repository;
+
+    @Autowired
+    private DeliveryItemRepository deliveryItemRepository;
 
     @Autowired
     private DeliveryMapper mapper;
+
+    @Autowired
+    private DeliveryItemMapper deliveryItemMapper;
+
+    @Autowired
+    private DeliveryItemService deliveryItemService;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ProductMapper pMapper;
 	
 	@Transactional(readOnly = true)
 	public Page<DeliveryResponseSimpleDTO> findAll(Pageable pageable){
@@ -65,6 +92,35 @@ public class DeliveryService {
 		}
 		
 	}
+
+    public List<DeliveryItemResponseSimpleDTO> showDeliveredItems(Double id) {
+        return deliveryItemService.findByDeliveryId(id);
+    }
+
+    @Transactional
+    public DeliveryItemResponseDTO addItemAtList(Long deliveryId, DeliveryItemRequestDTO itemRequest) {
+
+        Delivery delivery = repository.findById(deliveryId)
+                .orElseThrow(() -> new NotFoundException("Não existe uma entrega com o id " + deliveryId +"."));
+
+        Product product = productRepository.findById(itemRequest.getProduct())
+                .orElseThrow(() -> new NotFoundException("Não existe um produto com o id " + itemRequest.getProduct() +"."));
+
+        DeliveryItem di = new DeliveryItem();
+        di.setProduct(product);
+        di.setQuantity(itemRequest.getQuantity());
+        di.setUnitPrice(itemRequest.getUnitPrice());
+
+        delivery.addDeliveryItem(di);
+
+        delivery = repository.save(delivery);
+
+        DeliveryItem persistedItem = delivery.getItems().stream()
+                .max(Comparator.comparing(DeliveryItem::getId))
+                .orElseThrow(() -> new IllegalStateException("O item salvo não foi encontrado na entrega."));
+
+        return deliveryItemMapper.deliveryItemToDTO(persistedItem);
+    }
     // todo Buscar todas as entregas feita pela empresa tal
     // todo Buscar todos os produtos entregues pela empresa
 }
