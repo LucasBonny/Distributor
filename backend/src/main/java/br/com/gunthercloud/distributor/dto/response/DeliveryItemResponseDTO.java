@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DeliveryItemResponseDTO extends DeliveryItemResponseSimpleDTO {
 
-    private DeliveryResponseDTO delivery;
+    private Long deliveryId;
 
 }

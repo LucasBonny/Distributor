@@ -1,5 +1,6 @@
 package br.com.gunthercloud.distributor.mapper;
 
+import br.com.gunthercloud.distributor.dto.request.DeliveryRequestDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseSimpleDTO;
 import br.com.gunthercloud.distributor.entity.Delivery;
@@ -9,12 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeliveryMapper {
-
-    @Autowired
-    private SupplierMapper supplierMapper;
-
-    @Autowired
-    private ProductMapper productMapper;
 
     @Autowired
     private DeliveryItemMapper deliveryItemMapper;
@@ -43,7 +38,7 @@ public class DeliveryMapper {
         return dto;
     }
 
-    public Delivery deliveryToEntity(DeliveryResponseDTO dto) {
+    public Delivery deliveryRequestToEntity(DeliveryRequestDTO dto) {
 
         Delivery entity = new Delivery();
 

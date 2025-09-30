@@ -24,7 +24,7 @@ public class Delivery {
 	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
 
-    @OneToMany(mappedBy = "delivery")
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DeliveryItem> items = new HashSet<>();
 
     public void addDeliveryItem(DeliveryItem item) {

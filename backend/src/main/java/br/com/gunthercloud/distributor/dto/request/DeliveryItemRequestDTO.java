@@ -12,9 +12,8 @@ import lombok.Setter;
 public class DeliveryItemRequestDTO {
 
     private Long id;
-    private int quantity;
-    private double unitPrice;
-    private ProductRequestDTO product;
-    private DeliveryRequestDTO delivery;
+    private Integer quantity;
+    private Double unitPrice;
+    private Long product;
 
 }

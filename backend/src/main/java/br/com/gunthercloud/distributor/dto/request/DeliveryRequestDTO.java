@@ -16,8 +16,8 @@ import java.util.Set;
 public class DeliveryRequestDTO {
 
     private Long id;
-    private Instant dateTimeDelivery;
-	private SupplierRequestDTO supplier;
+    private Instant deliveryDate;
+	private String supplier;
     private Set<DeliveryItemRequestDTO> items = new HashSet<>();
 
 }

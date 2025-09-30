@@ -1,5 +1,6 @@
 package br.com.gunthercloud.distributor.mapper;
 
+import br.com.gunthercloud.distributor.dto.request.DeliveryItemRequestDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryItemResponseSimpleDTO;
 import br.com.gunthercloud.distributor.entity.DeliveryItem;
@@ -19,20 +20,21 @@ public class DeliveryItemMapper {
         dto.setId(entity.getId());
         dto.setQuantity(entity.getQuantity());
         dto.setUnitPrice(entity.getUnitPrice());
-        dto.setProduct(productMapper.productToDTO(entity.getProduct()));
+        dto.setProduct(entity.getProduct().getId());
         return dto;
     }
-    public DeliveryItemResponseSimpleDTO deliveryItemToDTO(DeliveryItem entity) {
-        DeliveryItemResponseSimpleDTO dto = new DeliveryItemResponseSimpleDTO();
+    public DeliveryItemResponseDTO deliveryItemToDTO(DeliveryItem entity) {
+        DeliveryItemResponseDTO dto = new DeliveryItemResponseDTO();
 
         dto.setId(entity.getId());
         dto.setQuantity(entity.getQuantity());
         dto.setUnitPrice(entity.getUnitPrice());
-        dto.setProduct(productMapper.productToDTO(entity.getProduct()));
+        dto.setProduct(entity.getProduct().getId());
+        dto.setDeliveryId(entity.getDelivery().getId());
         return dto;
     }
 
-    public DeliveryItem deliveryItemToEntity(DeliveryItemResponseDTO dto) {
+    public DeliveryItem deliveryItemToEntity(DeliveryItemRequestDTO dto) {
 
         DeliveryItem entity = new DeliveryItem();
 
