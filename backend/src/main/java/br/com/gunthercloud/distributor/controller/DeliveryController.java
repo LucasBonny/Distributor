@@ -1,5 +1,6 @@
 package br.com.gunthercloud.distributor.controller;
 
+import br.com.gunthercloud.distributor.dto.request.DeliveryRequestDTO;
 import br.com.gunthercloud.distributor.dto.response.DeliveryResponseSimpleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,12 +38,12 @@ public class DeliveryController {
 	}
 
 	@PostMapping
-	public ResponseEntity<DeliveryResponseDTO> create(@RequestBody DeliveryResponseDTO obj) {
+	public ResponseEntity<DeliveryResponseDTO> create(@RequestBody DeliveryRequestDTO obj) {
 		return ResponseEntity.status(201).body(service.createDelivery(obj));
 	}
 
 	@PutMapping
-	public ResponseEntity<DeliveryResponseDTO> update(Long id, DeliveryResponseDTO obj) {
+	public ResponseEntity<DeliveryResponseDTO> update(Long id, DeliveryRequestDTO obj) {
 		return ResponseEntity.status(200).body(service.updateDelivery(id, obj));
 	}
 

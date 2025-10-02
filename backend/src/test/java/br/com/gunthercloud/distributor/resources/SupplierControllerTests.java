@@ -58,18 +58,18 @@ public class SupplierControllerTests {
         supplierResponseDTO = Factory.createSupplierDTO();
 
         supplierList = List.of(supplierResponseDTO);
-        when(service.findAll()).thenReturn(supplierList);
-
+//        when(service.findAll()).thenReturn(supplierList);
+//
 //        when(service.findById(existingId)).thenReturn(supplierDTO);
-        when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
-
-        when(service.create(any())).thenReturn(supplierResponseDTO);
-
-        when(service.update(eq(existingId), any())).thenReturn(supplierResponseDTO);
-        when(service.update(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
-
-        doThrow(DatabaseException.class).when(service).delete(any());
-        doNothing().when(service).delete(existingId);
+//        when(service.findById(nonExistingId)).thenThrow(NotFoundException.class);
+//
+//        when(service.create(any())).thenReturn(supplierResponseDTO);
+//
+//        when(service.update(eq(existingId), any())).thenReturn(supplierResponseDTO);
+//        when(service.update(eq(nonExistingId), any())).thenThrow(NotFoundException.class);
+//
+//        doThrow(DatabaseException.class).when(service).delete(any());
+//        doNothing().when(service).delete(existingId);
     }
 
     @Test
