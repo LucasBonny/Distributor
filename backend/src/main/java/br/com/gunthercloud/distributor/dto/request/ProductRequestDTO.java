@@ -1,9 +1,6 @@
 package br.com.gunthercloud.distributor.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,9 +27,8 @@ public class ProductRequestDTO {
     @Positive(message = "O preço do produto deve ser um valor positivo.")
     private Double price;
 
-    @NotNull(message = "A quantidade em estoque é obrigatória.")
-    @Positive(message = "A quantidade em estoque tem que ser maior que 0.")
-    private Integer stock;
+    @PositiveOrZero(message = "A quantidade em estoque tem que ser maior ou igual a 0.")
+    private int stock;
 
     @NotBlank(message = "A URL da imagem é obrigatória.")
     private String imgUrl;

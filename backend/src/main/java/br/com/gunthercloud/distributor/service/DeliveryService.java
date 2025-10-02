@@ -44,24 +44,27 @@ public class DeliveryService {
     private DeliveryItemService deliveryItemService;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private SupplierRepository supplierRepository;
-	
+
 	@Transactional(readOnly = true)
 	public Page<DeliveryResponseSimpleDTO> findAll(Pageable pageable){
 		Page<Delivery> emp = repository.findAll(pageable);
 		return emp.map(mapper::deliveryToSimpleDTO);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public DeliveryResponseDTO findById(Long id) {
 		Delivery delivery = repository.findById(id).orElseThrow(()
 				-> new NotFoundException("O id " + id + " não existe."));
 		return mapper.deliveryToDTO(delivery);
 	}
-	
+
 	@Transactional
 	public DeliveryResponseDTO createDelivery(DeliveryRequestDTO obj) {
 		Delivery entity = mapper.deliveryRequestToEntity(obj);
@@ -74,12 +77,16 @@ public class DeliveryService {
 
         for(DeliveryItemRequestDTO diDTO : obj.getItems()) {
             DeliveryItem di = new DeliveryItem();
+
             di.setId(null);
             di.setQuantity(diDTO.getQuantity());
             di.setUnitPrice(diDTO.getUnitPrice());
             di.setProduct(productRepository.findById(diDTO.getProduct()).orElseThrow(()
                     -> new NotFoundException("O produto com o id " + diDTO.getProduct() + " não existe!")));
             di.setDelivery(entity);
+
+            productService.increaseNewStock(diDTO.getProduct(), diDTO.getQuantity());
+
             listItems.add(di);
         }
         entity.setItems(listItems);
@@ -88,7 +95,7 @@ public class DeliveryService {
 	}
 	@Transactional
 	public DeliveryResponseDTO updateDelivery(Long id, DeliveryRequestDTO obj) {
-		repository.findById(id).orElseThrow(() -> 
+		repository.findById(id).orElseThrow(() ->
 			new NotFoundException("O id " + id + " não existe."));
 		Delivery entity = mapper.deliveryRequestToEntity(obj);
 		entity.setId(id);
@@ -98,44 +105,20 @@ public class DeliveryService {
 	@Transactional
 	public void deleteDelivery(Long id) {
 		try {
-			Delivery entity = repository.findById(id).orElseThrow(() -> 
+			Delivery entity = repository.findById(id).orElseThrow(() ->
 				new NotFoundException("O id " + id + " não existe!"));
 			repository.delete(entity);
 		}
 		catch(DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-		
+
 	}
 
     public List<DeliveryItemResponseSimpleDTO> showDeliveredItems(Double id) {
         return deliveryItemService.findByDeliveryId(id);
     }
 
-    @Transactional
-    public DeliveryItemResponseDTO addItemAtList(Long deliveryId, DeliveryItemRequestDTO itemRequest) {
-
-        Delivery delivery = repository.findById(deliveryId)
-                .orElseThrow(() -> new NotFoundException("Não existe uma entrega com o id " + deliveryId +"."));
-
-        Product product = productRepository.findById(itemRequest.getProduct())
-                .orElseThrow(() -> new NotFoundException("Não existe um produto com o id " + itemRequest.getProduct() +"."));
-
-        DeliveryItem di = new DeliveryItem();
-        di.setProduct(product);
-        di.setQuantity(itemRequest.getQuantity());
-        di.setUnitPrice(itemRequest.getUnitPrice());
-
-        delivery.addDeliveryItem(di);
-
-        delivery = repository.save(delivery);
-
-        DeliveryItem persistedItem = delivery.getItems().stream()
-                .max(Comparator.comparing(DeliveryItem::getId))
-                .orElseThrow(() -> new IllegalStateException("O item salvo não foi encontrado na entrega."));
-
-        return deliveryItemMapper.deliveryItemToDTO(persistedItem);
-    }
     // todo Buscar todas as entregas feita pela empresa tal
     // todo Buscar todos os produtos entregues pela empresa
 }

@@ -31,7 +31,7 @@ public class Product {
     private Double price;
 	
 	@Column(nullable = false)
-    private Integer stock;
+    private int stock;
 	
 	@Column(nullable = false, columnDefinition = "TEXT")
     private String imgUrl;

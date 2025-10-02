@@ -51,6 +51,7 @@ public class ProductService {
 	@Transactional
 	public ProductResponseDTO createProduct(ProductRequestDTO requestDTO) {
 
+        requestDTO.setStock(0);
         Product entity = mapper.productToEntity(requestDTO);
         entity.setId(null);
 
@@ -87,6 +88,12 @@ public class ProductService {
 		}
 		
 	}
+
+    protected void increaseNewStock(Long idProduct, Integer quantity) {
+        Product product = repository.findById(idProduct).orElseThrow(() -> new NotFoundException("Esse produto não existe!"));
+        product.setStock(quantity + product.getStock());
+        repository.save(product);
+    }
 
     //Busca todos os produtos da empresa X
 //	public List<ProductDTO> findAllProductsBySupplierId(UUID id){

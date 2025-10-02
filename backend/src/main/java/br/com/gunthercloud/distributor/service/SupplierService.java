@@ -64,8 +64,10 @@ public class SupplierService {
 		Supplier entity = mapper.supplierToEntity(requestDTO);
 		entity.setId(null);
         if(!entity.getProducts().isEmpty())
-            for(Product product : entity.getProducts())
+            for(Product product : entity.getProducts()){
+                product.setStock(0);
                 entity.addProduct(product);
+            }
 		entity = repository.save(entity);
 		return mapper.supplierToDTO(entity);
 	}
