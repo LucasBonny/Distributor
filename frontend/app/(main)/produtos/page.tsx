@@ -20,15 +20,13 @@ const Produto = () => {
         barCode: '',
         price: 0,
         stock: 0,
-        imgUrl: '',
-        supplier: ''
+        imgUrl: ''
     };
 
     const [produtos, setProdutos] = useState<Projeto.Produto[]>([]);
     const [produtoDialog, setProdutoDialog] = useState(false);
     const [deleteProdutoDialog, setDeleteProdutoDialog] = useState(false);
     const [deleteProdutosDialog, setDeleteProdutosDialog] = useState(false);
-    const [fornecedor, setFornecedor] = useState('');
     const [fornecedores, setFornecedores] = useState([]);
     const [produto, setProduto] = useState<Projeto.Produto>(produtoVazio);
     const [selectedProdutos, setSelectedProdutos] = useState(null);
@@ -43,7 +41,7 @@ const Produto = () => {
             produtoService.listarTodos()
                 .then((response) => {
                     setShouldReloadResources(false); 
-                    setProdutos(response.data);
+                    setProdutos(response.data.content);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -59,21 +57,6 @@ const Produto = () => {
             loadData();
         }
     }, [produtoService, shouldReloadResources, produtos.length]);
-
-    useEffect(() =>{
-    produtoService.listarForncecedores()
-        .then((response) => {
-            setFornecedores(response.data);
-        }).catch((error) => {
-            console.log(error);
-            toast.current?.show({
-                severity: 'error',
-                summary: 'Erro',
-                detail: 'Falha ao carregar os fornecedores',
-                life: 5000
-            });
-        });
-    },[produtoService]);
 
     const formatCurrency = (value: number) => {
         return value.toLocaleString('pt-BR', {
@@ -113,7 +96,6 @@ const Produto = () => {
                 detail: 'Produto Atualizado',
                 life: 5000
             });
-            console.log(produto)
             setShouldReloadResources(true);
         } else {
             produtoService.inserir(produto)
@@ -253,15 +235,6 @@ const Produto = () => {
         );
     };
 
-    const supplierBodyTemplate = (rowData: Projeto.Produto) => {
-        return (
-            <>
-                <span className="p-column-title">Fornecedor</span>
-                {rowData.supplier}
-            </>
-        );
-    };
-
     const imgUrlBodyTemplate = (rowData: Projeto.Produto) => {
         return (
             <>
@@ -280,6 +253,15 @@ const Produto = () => {
         );
     };
 
+    const stockBodyTemplate = (rowData: Projeto.Produto) => {
+        return (
+            <>
+                <span className="p-column-title">Estoque</span>
+                {rowData.stock}
+            </>
+        );
+    };
+
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-2" style={{fontSize:25}}>Produtos Registrados</h5>
@@ -294,8 +276,6 @@ const Produto = () => {
             </>
         );
     };
-
-  
 
     const produtoDialogFooter = (
         <>
@@ -340,10 +320,10 @@ const Produto = () => {
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
                         <Column header="Produto" body={imgUrlBodyTemplate}></Column>
-                        <Column field="barCode" header="Código de barras" sortable body={barCodeBodyTemplate} headerStyle={{ minWidth: '3rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="supplier" header="Fornecedor" sortable body={supplierBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
+                        <Column field="barCode" header="Código de barras" body={barCodeBodyTemplate} headerStyle={{ minWidth: '3rem' }}></Column>
                         <Column field="price" header="Preço" body={priceBodyTemplate} sortable></Column>
+                        <Column field="stock" header="Estoque" body={stockBodyTemplate} headerStyle={{ minWidth: '3rem' }} sortable></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 
@@ -377,21 +357,10 @@ const Produto = () => {
                                 locale="pt-BR" 
                             />
                         </div>
+                        
                         <div className="field col">
                             <label htmlFor="imgUrl">Imagem do produto</label>
                             <InputTextarea id="imgUrl" value={produto.imgUrl} onChange={(e) => onInputChange(e, 'imgUrl')} rows={5} cols={30} />
-                        </div>
-                        <div className="field col">
-                            <label htmlFor="supplier">Fornecedor</label>
-                            <ListBox
-                                value={produto.supplier}
-                                onChange={(e) => {
-                                    const updatedProduto = { ...produto, supplier: e.value };
-                                    setProduto(updatedProduto);
-                                }}
-                                options={fornecedores}
-                                filter
-                            />
                         </div>
                     </Dialog>
 
